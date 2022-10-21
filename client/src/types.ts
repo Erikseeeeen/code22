@@ -1,5 +1,12 @@
+export enum ModuleType {
+  None,
+  Three,
+  Map,
+}
+
 export type Module = {
   id: number;
+  type: ModuleType;
 };
 
 export type Row = {

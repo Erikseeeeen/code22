@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import ModuleContent from '../components/ModuleContent';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
-import { Row, Module, Buoy } from '../types';
+import { Row, Module, Buoy, ModuleType } from '../types';
 import './Buoy.css';
 
 function BuoyPage() {
@@ -34,6 +34,7 @@ function BuoyPage() {
   const addModule = (row: Row) => {
     row.modules.push({
       id: getNewId(row.modules),
+      type: ModuleType.None,
     });
     forceUpdate();
   };
@@ -84,7 +85,7 @@ function BuoyPage() {
                     X module
                   </button>
                 )}
-                <ModuleContent />
+                <ModuleContent module={module} />
               </div>
             ))}
             {edit && <button onClick={() => addModule(row)}>Add module</button>}

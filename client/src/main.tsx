@@ -4,19 +4,22 @@ import BuoyPage from './pages/Buoy';
 import Overview from './pages/Overview';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Three from './pages/Three';
+import Three from './components/three/Three';
 import { AppContext } from './context';
-import { Row } from './types';
+import { ModuleType, Row } from './types';
 
 function App() {
   const [rows, setRows] = useState<Row[]>([
     {
       id: 0,
-      modules: [{ id: 0 }, { id: 1 }],
+      modules: [
+        { id: 0, type: ModuleType.None },
+        { id: 1, type: ModuleType.Three },
+      ],
     },
     {
       id: 1,
-      modules: [{ id: 0 }],
+      modules: [{ id: 0, type: ModuleType.None }],
     },
   ]);
 
