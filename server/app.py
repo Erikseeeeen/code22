@@ -45,3 +45,11 @@ def get_csv_file(file):
     if not os.path.isfile(csv_path):
         return "ERROR: %s is not a file!" % file
     return send_file(csv_path, mimetype="text/csv")
+
+
+@app.get("/data/video/<file>")
+def get_mp4_file(file):
+    mp4_path = os.path.join(data_mp4_folder, file + ".mp4")
+    if not os.path.isfile(mp4_path):
+        return "ERROR: %s is not a file!" % file
+    return send_file(mp4_path, mimetype="video/mp4")
