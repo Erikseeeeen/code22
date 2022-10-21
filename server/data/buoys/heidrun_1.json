@@ -1,0 +1,15 @@
+{
+    "name": "heidrun_1",
+    "sensors": [
+        {
+            "name": "heidrun_1_pressure",
+            "threshold_low": 2.0,
+            "threshold_high": 3.0
+        },
+        {
+            "name": "heidrun_1_temperature",
+            "threshold_low": 0.0,
+            "threshold_high": 27.0
+        }
+    ]
+}
