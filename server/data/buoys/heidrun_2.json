@@ -18,6 +18,10 @@
             "threshold_low": 2.0,
             "threshold_high": 5.0,
             "format": "csv"
+        },
+        {
+            "name": "heidrun_2_camera",
+            "format": "mp4"
         }
     ]
 }
