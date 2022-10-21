@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, send_file
 import os
 import json
+import science
 app = Flask(__name__)
 
 data_buoys_folder = "./data/buoys/"
@@ -53,3 +54,17 @@ def get_mp4_file(file):
     if not os.path.isfile(mp4_path):
         return "ERROR: %s is not a file!" % file
     return send_file(mp4_path, mimetype="video/mp4")
+    
+@app.get("/buoy/update/<name>")
+def update_buoy(name):
+    with open(os.path.join(data_buoys_folder, name + ".json")) as file:
+        buoy = json.load(file)
+    sensors = buoy["sensors"]
+    for sensor in sensors:
+        buoy["warnings"][sensor["name"]] = {}
+    for sensor in sensors:
+        buoy["warnings"][sensor["name"]]["rows"] = science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv"))
+        buoy["warnings"][sensor["name"]]["diffs"] = science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv"))
+        buoy["warnings"][sensor["name"]]["threshold"] = science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
+    response = jsonify(buoy)
+    return response

@@ -7,12 +7,11 @@ def get_suspicious_rows(file):
     Output: A tuple containing (row_name, [rows]) which lists rows which are suspicious
     """
     df = pd.read_csv(file, sep=";")
-    rows = []
-    for column in df.columns:
-        outlier_rows = df[(np.abs(stats.zscore(df[column])) > 3.0)]
-        if outlier_rows.index.size > 0:
-            rows.append((column, outlier_rows.index.tolist()))
-    return rows
+    data = df[df.columns[1]]
+    outlier_rows = data[(np.abs(stats.zscore(data, nan_policy="omit") ) > 3.0)]
+    if outlier_rows.index.size > 0:
+        return outlier_rows.index.tolist()
+    return []
 
 
 def get_suspicious_changes(file):
@@ -20,12 +19,17 @@ def get_suspicious_changes(file):
     Output: A tuple containing (row_name, [rows]) which lists rows where suspicious changes occured
     """
     df = pd.read_csv(file, sep=";")
-    pf = df.diff()
-    rows = []
-    for column in pf.columns:
-        outlier_rows = pf[(np.abs(stats.zscore(pf[column], nan_policy="omit") ) > 3.0)]
-        if outlier_rows.index.size > 0:
-            rows.append((column, outlier_rows.index.tolist()))
-    return rows
+    data = df[df.columns[1]].diff()
+    outlier_rows = data[(np.abs(stats.zscore(data, nan_policy="omit")) > 3.0)]
+    if outlier_rows.index.size > 0:
+        return outlier_rows.index.tolist()
+    return []
 
-print(get_suspicious_changes("data.csv"))
+def get_threshold_fails(file, t_low, t_high):
+    """File: filepath to csv file.
+    Output: A tuple containing (row_name, [rows]) which lists rows where values where outside thresholds
+    """
+    df = pd.read_csv(file, sep=";")
+    data = df.columns[1]
+    sus = df[df[data].gt(t_high) | df[data].lt(t_low)]
+    return sus.index.tolist()

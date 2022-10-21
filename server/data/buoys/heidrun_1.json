@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "heidrun_1",
   "status": 0,
   "warnings": [],
@@ -13,6 +14,15 @@
       "threshold_high": 3.0,
       "format": "csv",
       "timestamp": "1666353336.4543922"
+=======
+    "name": "heidrun_1",
+    "status": 0,
+    "warnings": {
+    },
+    "location": {
+        "lat": 65.325833,
+        "long": 7.3175
+>>>>>>> 0cfcf9f (Added warnings)
     },
     {
       "name": "heidrun_1_temperature",
