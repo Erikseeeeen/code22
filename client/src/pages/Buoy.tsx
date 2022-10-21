@@ -1,15 +1,18 @@
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import ModuleContent from '../components/ModuleContent';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
-import { Row, Module } from '../types';
+import { Row, Module, Buoy } from '../types';
 import './Buoy.css';
 
-function Buoy() {
+function BuoyPage() {
   const context = useContext(AppContext);
   const [edit, setEdit] = useState(false);
+  const [buoy, setBuoy] = useState<Buoy | null>(null);
   const forceUpdate = useForceUpdate();
+  const params = useParams();
 
   const removeRow = (id: number) => {
     context.rows.set((rows: Row[]) => rows.filter((row) => row.id !== id));
@@ -40,10 +43,21 @@ function Buoy() {
     forceUpdate();
   };
 
+  useEffect(() => {
+    if (!params.name) return;
+    axios
+      .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
+      .then((res) => setBuoy(res.data));
+  }, [params]);
+
   return (
     <div>
       <Link to="/">Overview</Link>
-      <h1>Buoy</h1>
+      <h1>Buoy: {buoy?.name}</h1>
+      <p>Status: {['Ok', 'Warning', 'Error'][buoy?.status ?? 0]}</p>
+      <p>Sensors: {buoy?.sensors.length}</p>
+      <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
+
       <button onClick={() => setEdit((edit) => !edit)}>
         {edit ? 'Save' : 'Edit'}
       </button>
@@ -82,4 +96,4 @@ function Buoy() {
   );
 }
 
-export default Buoy;
+export default BuoyPage;

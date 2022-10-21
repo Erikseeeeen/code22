@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import Buoy from './pages/Buoy';
+import BuoyPage from './pages/Buoy';
 import Overview from './pages/Overview';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -29,7 +29,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Overview />} />
-          <Route path="buoy/:name" element={<Buoy />} />
+          <Route path="buoy/:name" element={<BuoyPage />} />
           <Route path="three" element={<Three />} />
         </Routes>
       </BrowserRouter>
