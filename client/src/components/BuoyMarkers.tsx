@@ -45,7 +45,7 @@ function BuoyMarkers() {
         <Marker
           icon={icon(buoy.status)}
           position={[buoy.location.lat, buoy.location.long]}
-          key={buoy.id}
+          key={buoy.name}
         >
           <Popup>
             <h3>{buoy.name}</h3>
