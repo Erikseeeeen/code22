@@ -8,6 +8,7 @@ data_buoys_folder = "./data/buoys/"
 data_csv_folder = "./data/csv/"
 data_mp4_folder = "./data/video/"
 
+
 @app.after_request
 def add_response_headers(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -55,16 +56,21 @@ def get_mp4_file(file):
         return "ERROR: %s is not a file!" % file
     return send_file(mp4_path, mimetype="video/mp4")
 
+
 @app.get("/buoy/update/<name>")
 def update_buoy(name):
     with open(os.path.join(data_buoys_folder, name + ".json")) as file:
         buoy = json.load(file)
     sensors = buoy["sensors"]
+    buoy["warnings"] = []
     for sensor in sensors:
-        buoy["warnings"][sensor["name"]] = {}
-    for sensor in sensors:
-        buoy["warnings"][sensor["name"]]["rows"] = science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv"))
-        buoy["warnings"][sensor["name"]]["diffs"] = science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv"))
-        buoy["warnings"][sensor["name"]]["threshold"] = science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
+        obj = {
+            "name": sensor["name"],
+            "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
+            "diffs": science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
+            "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
+        }
+        buoy["warnings"].append(obj)
+
     response = jsonify(buoy)
     return response

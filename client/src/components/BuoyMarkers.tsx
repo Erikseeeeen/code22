@@ -1,7 +1,6 @@
 import { Marker, Popup, useMap } from "react-leaflet";
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { BuoySimple, Status } from "../types";
+import { useContext, useEffect } from "react";
+import { Status } from "../types";
 import * as L from "leaflet";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context";
@@ -22,7 +21,7 @@ function BuoyMarkers() {
     position: relative;
     border-radius: 3rem 3rem 0;
     transform: rotate(45deg);
-    border: 1px solid #FFFFFF`;
+    border: 1px solid #FFFFFF;`;
 
   const icon = (status: Status) =>
     L.divIcon({

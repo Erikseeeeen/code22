@@ -1,0 +1,16 @@
+ul {
+  margin: 0;
+  list-style: none;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.green {
+  background-color: green;
+}
+
+.red {
+  background-color: red;
+}

@@ -28,6 +28,13 @@ export type Sensor = {
   timestamp: string;
 };
 
+export type Warning = {
+  name: string;
+  rows: number[];
+  diff: number[];
+  threshold: number[];
+};
+
 export type BuoySimple = {
   name: string;
   status: Status;
@@ -45,7 +52,7 @@ export type Buoy = {
     lat: number;
     long: number;
   };
-  warnings: string[];
+  warnings: Warning[];
   sensors: Sensor[];
 };
 

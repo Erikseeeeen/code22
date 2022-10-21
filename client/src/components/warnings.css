@@ -1,0 +1,20 @@
+.warning-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 80%;
+}
+
+.warning-item {
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0rem;
+  border-radius: 10px;
+}
+
+.warning-item:hover {
+  cursor: pointer;
+  background-color: #ffc04a;
+}
