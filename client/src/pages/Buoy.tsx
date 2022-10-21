@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
+import ModuleContent from '../components/ModuleContent';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
 import { Row, Module } from '../types';
-import './Dashboard.css';
+import './Buoy.css';
 
-function Dashboard() {
+function Buoy() {
   const context = useContext(AppContext);
   const [edit, setEdit] = useState(false);
   const forceUpdate = useForceUpdate();
@@ -40,15 +41,14 @@ function Dashboard() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      <p>{JSON.stringify(context.rows.value)}</p>
+      <h1>Buoy</h1>
       <button onClick={() => setEdit((edit) => !edit)}>
         {edit ? 'Save' : 'Edit'}
       </button>
       <div className="col">
         {context.rows.value.map((row: Row) => (
           // Row
-          <div className="row">
+          <div className="row" key={row.id}>
             {edit && (
               <button
                 onClick={() => removeRow(row.id)}
@@ -59,7 +59,7 @@ function Dashboard() {
             )}
             {row.modules.map((module: Module) => (
               // Module
-              <div className="module">
+              <div className="module" key={module.id}>
                 {edit && (
                   <button
                     onClick={() => removeModule(row, module.id)}
@@ -68,6 +68,7 @@ function Dashboard() {
                     X module
                   </button>
                 )}
+                <ModuleContent />
               </div>
             ))}
             {edit && <button onClick={() => addModule(row)}>Add module</button>}
@@ -79,4 +80,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Buoy;

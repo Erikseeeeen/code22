@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import Dashboard from './pages/Dashboard';
+import Buoy from './pages/Buoy';
+import Overview from './pages/Overview';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Three from './pages/Three';
@@ -18,8 +19,8 @@ function App() {
     <AppContext.Provider value={defaultContext}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Overview />} />
+          <Route path="buoy" element={<Buoy />} />
           <Route path="three" element={<Three />} />
         </Routes>
       </BrowserRouter>

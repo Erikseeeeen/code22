@@ -7,7 +7,7 @@ import { OrbitControls, Sky } from '@react-three/drei';
 function Three() {
   return (
     <div className="App">
-      <h1>Havbouye</h1>
+      <h1>Havbuoye</h1>
       <Canvas
         style={{ height: '500px' }}
         camera={{ position: [0, 1, 10], fov: 55, near: 1, far: 20000 }}

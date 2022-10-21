@@ -4,7 +4,7 @@ import json
 
 app = Flask(__name__)
 
-data_bouys_folder = "data/buoys/"
+data_buoys_folder = "data/buoys/"
 data_csv_folder = "data/csv/"
 
 
@@ -13,7 +13,7 @@ def get_all_buoys():
     entries = os.scandir("data/buoys/")
     output = list()
     for entry in entries:
-        with open(data_bouys_folder + entry.name, "r") as file:
+        with open(data_buoys_folder + entry.name, "r") as file:
             current_buoy = json.load(file)
         buoy_short = {
             "name": current_buoy["name"],
