@@ -1,15 +1,14 @@
-import './App.css';
 import { Link } from 'react-router-dom';
 
-function App() {
+function Links() {
   return (
-    <div className="App">
+    <div>
       <h1>Hello world!</h1>
-      <Link to="/hello">Hello!</Link>
+      <Link to="/dashboard">Dashboard!</Link>
       <br />
       <Link to="/three">Three!</Link>
     </div>
   );
 }
 
-export default App;
+export default Links;

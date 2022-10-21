@@ -1,7 +1,7 @@
 import React, { Suspense, useRef, useState } from 'react';
 import { Canvas, MeshProps, useFrame } from '@react-three/fiber';
-import Box from '../components/Box';
-import Ocean from '../components/Ocean';
+import Box from '../components/three/Box';
+import Ocean from '../components/three/Ocean';
 import { OrbitControls, Sky } from '@react-three/drei';
 
 function Three() {
