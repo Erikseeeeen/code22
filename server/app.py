@@ -1,3 +1,4 @@
+from sqlite3 import DatabaseError
 from flask import Flask, request, jsonify
 import os
 import json
@@ -6,6 +7,12 @@ app = Flask(__name__)
 
 data_bouys_folder = "data/buoys/"
 data_csv_folder = "data/csv/"
+
+
+@app.after_request
+def add_response_headers(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
 
 @app.get("/buoys")
@@ -23,5 +30,12 @@ def get_all_buoys():
         }
         output.append(buoy_short)
     response = jsonify(output)
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+
+@app.get("/buoy/<name>")
+def get_buoy(name):
+    with open(data_bouys_folder + name + ".json") as file:
+        buoy = json.load(file)
+    response = jsonify(buoy)
     return response
