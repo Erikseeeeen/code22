@@ -9,7 +9,16 @@ import { AppContext } from './context';
 import { Row } from './types';
 
 function App() {
-  const [rows, setRows] = useState<Row[]>([]);
+  const [rows, setRows] = useState<Row[]>([
+    {
+      id: 0,
+      modules: [{ id: 0 }, { id: 1 }],
+    },
+    {
+      id: 1,
+      modules: [{ id: 0 }],
+    },
+  ]);
 
   const defaultContext = {
     rows: { value: rows, set: setRows },
@@ -20,7 +29,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Overview />} />
-          <Route path="buoy" element={<Buoy />} />
+          <Route path="buoy/:name" element={<Buoy />} />
           <Route path="three" element={<Three />} />
         </Routes>
       </BrowserRouter>

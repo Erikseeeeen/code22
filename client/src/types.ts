@@ -14,7 +14,7 @@ export enum Status {
 }
 
 export type BuoySimple = {
-  id: number;
+  name: string;
   status: Status;
   location: {
     lat: number;

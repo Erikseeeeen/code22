@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import ModuleContent from '../components/ModuleContent';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
@@ -41,6 +42,7 @@ function Buoy() {
 
   return (
     <div>
+      <Link to="/">Overview</Link>
       <h1>Buoy</h1>
       <button onClick={() => setEdit((edit) => !edit)}>
         {edit ? 'Save' : 'Edit'}
