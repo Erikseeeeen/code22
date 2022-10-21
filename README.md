@@ -1,3 +1,3 @@
 # code23
 Repository for START Code 2023
-![bilde](https://user-images.githubusercontent.com/93406022/197190087-abadee3f-65a5-4540-8869-f58ffbbc93c8.png)
+![Gangnam_Style_2015-06-21](https://user-images.githubusercontent.com/93406022/197190237-445f2706-8dbd-4ee2-b0c1-9ff08db76dbf.gif)
