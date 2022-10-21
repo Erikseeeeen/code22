@@ -25,7 +25,7 @@ def get_all_buoys():
             "name": current_buoy["name"],
             "status": current_buoy["status"],
             "location": current_buoy["location"],
-            "warnings": current_buoy["warnings"]
+            "warnings": str(current_buoy["warnings"])
         }
         output.append(buoy_short)
     response = jsonify(output)
@@ -54,7 +54,7 @@ def get_mp4_file(file):
     if not os.path.isfile(mp4_path):
         return "ERROR: %s is not a file!" % file
     return send_file(mp4_path, mimetype="video/mp4")
-    
+
 @app.get("/buoy/update/<name>")
 def update_buoy(name):
     with open(os.path.join(data_buoys_folder, name + ".json")) as file:
