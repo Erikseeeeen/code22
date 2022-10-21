@@ -11,13 +11,15 @@
             "name": "heidrun_1_pressure",
             "threshold_low": 2.0,
             "threshold_high": 3.0,
-            "format": "csv"
+            "format": "csv",
+            "timestamp": "1666353336.4543922"
         },
         {
             "name": "heidrun_1_temperature",
             "threshold_low": 0.0,
             "threshold_high": 27.0,
-            "format": "csv"
+            "format": "csv",
+            "timestamp": "1666353336.4543922"
         }
     ]
 }
