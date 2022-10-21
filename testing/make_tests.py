@@ -99,5 +99,24 @@ heidrun_1_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
     resolution
 ))
 
-export_csv('heidrun_1_pressure.csv', heidrun_1_pressure)
-export_csv('heidrun_1_temperature.csv', heidrun_1_temperature)
+def surprise(x):
+    if x < 0.7:
+        return 0.5 + 1/20 * math.sin(36*x)
+    else:
+        return x + -0.7 + 0.5 + 1/20 * math.sin(36*0.7)
+
+heidrun_2_pressure = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('temperature', (0, 3), 'function', resolution, func=surprise),
+    ],
+    resolution
+))
+
+heidrun_2_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('temperature', (7, 13), 'oscillate', resolution, periods=11),
+    ],
+    resolution
+))
+
+export_csv("heidrun_2_temperature.csv", heidrun_2_temperature)
