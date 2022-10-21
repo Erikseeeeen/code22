@@ -1,14 +1,11 @@
-from sqlite3 import DatabaseError
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, jsonify, send_file
 import os
 import json
-import science
 app = Flask(__name__)
 
 data_buoys_folder = "./data/buoys/"
 data_csv_folder = "./data/csv/"
 data_mp4_folder = "./data/video/"
-
 
 @app.after_request
 def add_response_headers(response):

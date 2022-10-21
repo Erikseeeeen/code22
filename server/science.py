@@ -1,11 +1,6 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.ensemble import IsolationForest
 from scipy import stats
-from typing import Union
-
 
 def get_suspicious_rows(file):
     """ File: filepath to csv file.
