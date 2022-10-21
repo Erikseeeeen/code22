@@ -14,8 +14,14 @@ def get_all_buoys():
     output = list()
     for entry in entries:
         with open(data_bouys_folder + entry.name, "r") as file:
-            output.append(json.load(file))
-    print(output)
+            current_buoy = json.load(file)
+        buoy_short = {
+            "name": current_buoy["name"],
+            "status": current_buoy["status"],
+            "location": current_buoy["location"],
+            "warnings": current_buoy["warnings"]
+        }
+        output.append(buoy_short)
     response = jsonify(output)
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
