@@ -1,15 +1,16 @@
-import { Marker, Popup, useMap } from 'react-leaflet';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { BuoySimple, Status } from '../types';
-import * as L from 'leaflet';
-import { useNavigate } from 'react-router-dom';
+import { Marker, Popup, useMap } from "react-leaflet";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { BuoySimple, Status } from "../types";
+import * as L from "leaflet";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context";
 
 function BuoyMarkers() {
+  const context = useContext(AppContext);
   const map = useMap();
-  const [buoys, setBuoys] = useState<BuoySimple[]>([]);
   const navigate = useNavigate();
-  const getStatusColor = (status: Status) => ['green', 'orange', 'red'][status];
+  const getStatusColor = (status: Status) => ["green", "orange", "red"][status];
 
   const markerHtmlStyles = (status: Status) => `
     background-color: ${getStatusColor(status)};
@@ -31,17 +32,20 @@ function BuoyMarkers() {
     });
 
   useEffect(() => {
-    axios.get(import.meta.env.VITE_API_URL + '/buoys').then((res) => {
-      setBuoys(res.data);
-      if (res.data.length > 0) {
-        map.setView([res.data[0].location.lat, res.data[0].location.long], 6);
-      }
-    });
+    if (context.buoys.value.length > 0) {
+      map.setView(
+        [
+          context.buoys.value[0].location.lat,
+          context.buoys.value[0].location.long,
+        ],
+        6
+      );
+    }
   }, []);
 
   return (
     <div>
-      {buoys.map((buoy) => (
+      {context.buoys.value.map((buoy) => (
         <Marker
           icon={icon(buoy.status)}
           position={[buoy.location.lat, buoy.location.long]}
@@ -52,7 +56,7 @@ function BuoyMarkers() {
             <p>
               {buoy.location.lat}, {buoy.location.long}
               <br />
-              Status: {['Ok', 'Warning', 'Error'][buoy.status]}
+              Status: {["Ok", "Warning", "Error"][buoy.status]}
             </p>
             <button onClick={() => navigate(`/buoy/${buoy.name}`)}>View</button>
           </Popup>

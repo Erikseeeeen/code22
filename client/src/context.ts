@@ -1,3 +1,6 @@
-import React from 'react';
+import React from "react";
+import { AppContextType } from "./types";
 
-export const AppContext = React.createContext({} as any);
+export const AppContext = React.createContext<AppContextType>(
+  {} as AppContextType
+);
