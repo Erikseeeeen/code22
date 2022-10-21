@@ -84,4 +84,20 @@ data = (generate_data((time.time() - 6 * 3600, time.time()),
     ],
     resolution
 ))
-export_csv('example_1.csv', data)
+
+heidrun_1_pressure = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('pressure', (2.6, 2.9), 'oscillate', resolution, periods=55),
+    ],
+    resolution
+))
+
+heidrun_1_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('temperature', (3, 7), 'oscillate', resolution, periods=11),
+    ],
+    resolution
+))
+
+export_csv('heidrun_1_pressure.csv', heidrun_1_pressure)
+export_csv('heidrun_1_temperature.csv', heidrun_1_temperature)
