@@ -1,10 +1,11 @@
 import time
 import math
 import csv
+import matplotlib as plt 
 
 class DataColumn:
     # name: Name of data column, range: Tuple of range of values
-    def __init__(self, name: str, data_range: tuple[float], variant: str, length: int, periods: float = 0, wave_offset: float = 0, function = lambda x: x):
+    def __init__(self, name: str, data_range: tuple[float], variant: str, length: int, periods: float = 0, wave_offset: float = 0, func = lambda x: x):
         self.name : str = name
         self.range : tuple[float] = data_range
         self.variant : str = variant
@@ -12,6 +13,7 @@ class DataColumn:
         self.length : int = length
         self.periods : float = periods
         self.wave_offset: float = wave_offset
+        self.func = func
     
     def get_next_cell(self):
         if self.variant == 'increment':
@@ -34,7 +36,10 @@ class DataColumn:
         return self.range[0] + (self.range[1] - self.range[0])/2 + (self.range[1] - self.range[0])/2  * math.sin(self.wave_offset + self.periods * (self.value-1)/self.length * 2 * math.pi)
     
     def function(self):
-        pass
+        if self.value > self.length:
+            return -1
+        self.value += 1
+        return self.range[0] + (self.range[1] - self.range[0])*self.func((self.value-1) / self.length)
         
         
 
@@ -62,12 +67,20 @@ def export_csv(filename, data):
         writer = csv.writer(f, delimiter =';')
         writer.writerows(data)
 
+def oscillate_then_surprise(x):
+    if x < 0.4:
+        return 0.1 *0.5*(1 + math.sin(100*x))
+    elif x > 0.5:
+        return 0.1 * 0.5 * (1 + math.sin(100*x))
+    else:
+        return 0.1 * math.sin(100*x) + 0.9 * math.sin(100*(x-0.9))
+
 resolution = 365
 data = (generate_data((time.time() - 6 * 3600, time.time()),
     [
         DataColumn('pressure', (2.0, 3.0), 'increment', resolution),
         DataColumn('altitude', (-25.0, -22.0), 'oscillate', resolution, periods=17.0),
-        # pressure, bølgehøyde, temperature, 
+        DataColumn('deadliness', (0, 10), 'function', resolution, func=oscillate_then_surprise) 
     ],
     resolution
 ))
