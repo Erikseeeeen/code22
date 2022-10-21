@@ -12,7 +12,7 @@ function ModuleContent({ module }: { module: Module }) {
   }
   return (
     <div className="moduleContent">
-      <h1>Module</h1>
+      <h1 style={{padding: 10}}>Module</h1>
     </div>
   );
 }

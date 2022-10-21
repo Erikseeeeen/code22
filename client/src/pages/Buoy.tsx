@@ -47,19 +47,19 @@ function BuoyPage() {
   useEffect(() => {
     if (!params.name) return;
     axios
-      .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
+      .get(import.meta.env.VITE_API_URL + '/buoy/update/' + params.name)
       .then((res) => setBuoy(res.data));
   }, [params]);
 
   return (
-    <div>
+    <div className="all">
       <Link to="/">Overview</Link>
       <h1>Buoy: {buoy?.name}</h1>
       <p>Status: {['Ok', 'Warning', 'Error'][buoy?.status ?? 0]}</p>
       <p>Sensors: {buoy?.sensors.length}</p>
       <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
 
-      <button onClick={() => setEdit((edit) => !edit)}>
+      <button className="button" onClick={() => setEdit((edit) => !edit)}>
         {edit ? 'Save' : 'Edit'}
       </button>
       <div className="col">
@@ -67,7 +67,7 @@ function BuoyPage() {
           // Row
           <div className="row" key={row.id}>
             {edit && (
-              <button
+              <button className="button"
                 onClick={() => removeRow(row.id)}
                 style={{ position: 'absolute', zIndex: 1 }}
               >
@@ -78,7 +78,7 @@ function BuoyPage() {
               // Module
               <div className="module" key={module.id}>
                 {edit && (
-                  <button
+                  <button className="button"
                     onClick={() => removeModule(row, module.id)}
                     style={{ position: 'absolute', right: 0 }}
                   >
@@ -96,5 +96,12 @@ function BuoyPage() {
     </div>
   );
 }
+
+const styles = {
+  all: {
+    padding: 10,
+    fontFamily: 'Arial'
+  }
+};
 
 export default BuoyPage;
