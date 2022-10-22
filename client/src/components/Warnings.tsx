@@ -56,7 +56,6 @@ function Warnings() {
   return (
     <div className="warning-container">
       {context.buoys.value
-        .sort((a, b) => b.status - a.status)
         .map((buoy, i) => {
           return <WarningItem key={i} buoy={buoy} />;
         })}

@@ -6,14 +6,9 @@ import axios from "axios";
 import "./Overview.css";
 import Loading from "../components/Loading";
 
-function Links() {
+function Overview() {
   const context = useContext(AppContext);
 
-  useEffect(() => {
-    axios.get(import.meta.env.VITE_API_URL + "/buoys").then((res) => {
-      context.buoys.set(res.data);
-    });
-  }, []);
 
   if (!context.buoys.value) return <Loading />;
   return (
@@ -25,4 +20,4 @@ function Links() {
   );
 }
 
-export default Links;
+export default Overview;

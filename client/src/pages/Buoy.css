@@ -41,3 +41,8 @@
 .module-edit:hover {
   opacity: 1;
 }
+
+.buoyName {
+  width: 250px;
+  text-align: center;
+}

@@ -1,9 +1,9 @@
-import { Buoy, Module, ModuleType, Plot } from "../types";
-import "./ModuleContent.css";
-import Three from "./three/Three";
-import GraphModule from "./GraphModule";
-import VideoModule from "./VideoModule";
-import MapModule from "./MapModule";
+import { Buoy, Module, ModuleType } from '../types';
+import './ModuleContent.css';
+import Three from './three/Three';
+import GraphModule from './GraphModule';
+import VideoModule from './VideoModule';
+import MapModule from './MapModule';
 
 function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
   if (module.type === ModuleType.Three) {

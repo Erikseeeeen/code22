@@ -21,7 +21,7 @@ function VideoModule({ module, buoy }: { module: Module; buoy: Buoy }) {
                 });
             }
         }
-    }, []);
+    }, [buoy.name]);
 
     return video ? (
         <div className="moduleContent">

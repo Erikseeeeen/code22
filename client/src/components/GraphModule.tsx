@@ -40,7 +40,7 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
     Promise.all(promises).then(() => {
       setPlots(newPlots);
     });
-  }, []);
+  }, [buoy.name]);
 
   return (
     <div className="moduleContent">

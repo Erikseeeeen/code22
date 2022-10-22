@@ -164,7 +164,7 @@ function BuoyPage() {
           <FaArrowLeft />
         </button>
         <ColoredCircle status={buoy.status} />
-        <h1>{formatName(buoy.name)}</h1>
+        <h1 className="buoyName">{formatName(buoy.name)}</h1>
         <button onClick={() => navigateBuoy(1)}>
           <FaArrowRight />
         </button>
