@@ -4,6 +4,7 @@ import Warnings from "../components/Warnings";
 import { AppContext } from "../context";
 import axios from "axios";
 import "./Overview.css";
+import Loading from "../components/Loading";
 
 function Links() {
   const context = useContext(AppContext);
@@ -14,6 +15,7 @@ function Links() {
     });
   }, []);
 
+  if (!context.buoys.value) return <Loading />;
   return (
     <div className="overview-container">
       <h1>Overview</h1>

@@ -8,6 +8,7 @@ import { Row, Module, Buoy, ModuleType } from "../types";
 import "./Buoy.css";
 import { FaPlus, FaTrash, FaEdit, FaSave } from "react-icons/fa";
 import { formatName } from "../utils";
+import Loading from "../components/Loading";
 
 function BuoyPage() {
   const context = useContext(AppContext);
@@ -47,6 +48,7 @@ function BuoyPage() {
   };
 
   useEffect(() => {
+    console.log(params.name);
     if (!params.name) return;
     axios
       .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
@@ -55,13 +57,14 @@ function BuoyPage() {
       });
   }, [params.name]);
 
+  if (!buoy) return <Loading />;
   return (
     <div className="pageContainer">
       <Link to="/">Overview</Link>
-      <h1>Buoy: {formatName(buoy!.name)}</h1>
-      <p>Status: {["Ok", "Warning", "Error"][buoy?.status ?? 0]}</p>
-      <p>Sensors: {buoy?.sensors.length}</p>
-      <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
+      <h1>Buoy: {formatName(buoy.name)}</h1>
+      <p>Status: {["Ok", "Warning", "Error"][buoy.status ?? 0]}</p>
+      <p>Sensors: {buoy.sensors.length}</p>
+      <p>Warnings: {JSON.stringify(buoy.warnings)}</p>
 
       <button className="button" onClick={() => setEdit((edit) => !edit)}>
         {edit ? <FaEdit /> : <FaSave />}
