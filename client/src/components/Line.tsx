@@ -7,6 +7,7 @@ export function LinePlot({ plots }: { plots: Plot[] }) {
   if (plots.length == 0) return <div></div>;
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top' as const,
@@ -50,7 +51,9 @@ export function LinePlot({ plots }: { plots: Plot[] }) {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      <b></b>
+      <b style={{ position: 'absolute', margin: '1em' }}>
+        {plots[0].x.map((value) => new Date(value * 1000).toDateString())[0]}
+      </b>
       {/* @ts-ignore */}
       <Line style={{ maxHeight: '100%' }} options={options} data={data} />
     </div>
