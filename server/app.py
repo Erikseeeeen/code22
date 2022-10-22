@@ -62,7 +62,7 @@ def get_mp4_file(file):
         return "ERROR: %s is not a file!" % file
     return send_file(mp4_path, mimetype="video/mp4")
 
-def process_update(name, csv, batch_id, file_name)
+def process_update(name, csv, batch_id, file_name):
     with open(os.path.join(data_buoys_folder, name + ".json"), "r") as file:
         buoy = json.load(file)
     sensors = buoy["sensors"]
