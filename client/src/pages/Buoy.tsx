@@ -6,6 +6,7 @@ import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
 import { Row, Module, Buoy, ModuleType } from '../types';
 import './Buoy.css';
+import { FaPlus, FaTrash, FaEdit, FaSave } from 'react-icons/fa';
 
 function BuoyPage() {
   const context = useContext(AppContext);
@@ -62,6 +63,7 @@ function BuoyPage() {
       <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
 
       <button className="button" onClick={() => setEdit((edit) => !edit)}>
+        {edit ? <FaEdit /> : <FaSave />}
         {edit ? 'Save' : 'Edit'}
       </button>
       <div className="col">
@@ -74,7 +76,7 @@ function BuoyPage() {
                 onClick={() => removeRow(row.id)}
                 style={{ position: 'absolute', zIndex: 1 }}
               >
-                X row
+                <FaTrash /> row
               </button>
             )}
             {row.modules.map((module: Module) => (
@@ -86,18 +88,24 @@ function BuoyPage() {
                     onClick={() => removeModule(row, module.id)}
                     style={{ position: 'absolute', right: 0 }}
                   >
-                    X module
+                    <FaTrash /> module
                   </button>
                 )}
                 {buoy && <ModuleContent module={module} buoy={buoy} />}
               </div>
             ))}
-            {edit && <button onClick={() => addModule(row)}>Add module</button>}
+            {edit && (
+              <button onClick={() => addModule(row)}>
+                {' '}
+                <FaPlus />
+                module
+              </button>
+            )}
           </div>
         ))}
         {edit && (
           <button className="add-row" onClick={addRow}>
-            + Add row
+            <FaPlus /> row
           </button>
         )}
       </div>

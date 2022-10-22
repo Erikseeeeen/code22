@@ -36,3 +36,10 @@ button:hover {
 button:active {
   background-color: rgb(238, 145, 39);
 }
+
+button > svg {
+  /* icons */
+  margin: 0;
+  margin-right: 0.3em;
+  transform: translateY(2px);
+}
