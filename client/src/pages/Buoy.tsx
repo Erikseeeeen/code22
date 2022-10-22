@@ -1,14 +1,14 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import ModuleContent from "../components/ModuleContent";
-import { AppContext } from "../context";
-import { useForceUpdate } from "../hooks/forceUpdate";
-import { Row, Module, Buoy, ModuleType } from "../types";
-import "./Buoy.css";
-import { FaPlus, FaTrash, FaEdit, FaSave } from "react-icons/fa";
-import { formatName } from "../utils";
-import Loading from "../components/Loading";
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import ModuleContent from '../components/ModuleContent';
+import { AppContext } from '../context';
+import { useForceUpdate } from '../hooks/forceUpdate';
+import { Row, Module, Buoy, ModuleType } from '../types';
+import './Buoy.css';
+import { FaPlus, FaTrash, FaEdit, FaSave } from 'react-icons/fa';
+import { formatName } from '../utils';
+import Loading from '../components/Loading';
 
 function BuoyPage() {
   const context = useContext(AppContext);
@@ -63,13 +63,13 @@ function BuoyPage() {
     <div className="pageContainer">
       <Link to="/">Overview</Link>
       <h1>Buoy: {buoy && formatName(buoy.name)}</h1>
-      <p>Status: {["Ok", "Warning", "Error"][buoy?.status ?? 0]}</p>
+      <p>Status: {['Ok', 'Warning', 'Error'][buoy?.status ?? 0]}</p>
       <p>Sensors: {buoy?.sensors.length}</p>
       <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
 
       <button className="button" onClick={() => setEdit((edit) => !edit)}>
         {edit ? <FaEdit /> : <FaSave />}
-        {edit ? "Save" : "Edit"}
+        {edit ? 'Save' : 'Edit'}
       </button>
       <div className="col">
         {context.rows.value.map((row: Row) => (
@@ -79,7 +79,7 @@ function BuoyPage() {
               <button
                 className="button"
                 onClick={() => removeRow(row.id)}
-                style={{ position: "absolute", zIndex: 1 }}
+                style={{ position: 'absolute', zIndex: 1 }}
               >
                 <FaTrash /> row
               </button>
@@ -88,20 +88,22 @@ function BuoyPage() {
               // Module
               <div className="module" key={module.id}>
                 {edit && (
-                  <button
-                    className="button"
-                    onClick={() => removeModule(row, module.id)}
-                    style={{ position: "absolute", right: 0 }}
-                  >
-                    <FaTrash /> module
-                  </button>
+                  <div className="module-edit">
+                    <button
+                      className="button"
+                      onClick={() => removeModule(row, module.id)}
+                      style={{ position: 'absolute', right: 0 }}
+                    >
+                      <FaTrash /> module
+                    </button>
+                  </div>
                 )}
-                {buoy && <ModuleContent module={module} buoy={buoy} />}
+                <ModuleContent module={module} buoy={buoy} />
               </div>
             ))}
             {edit && (
               <button onClick={() => addModule(row)}>
-                {" "}
+                {' '}
                 <FaPlus />
                 module
               </button>
