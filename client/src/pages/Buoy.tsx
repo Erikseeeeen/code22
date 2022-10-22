@@ -112,7 +112,7 @@ function BuoyPage() {
       </button>
       <button className="button" onClick={() => savePreset(prompt()??'name')}>Save preset</button>
       <select onChange={(e) => loadPreset(e.target.value)}>
-        {presets.map((preset: string) => <option label={preset}>{preset}</option>)}
+        {presets.map((preset: string) => <option key={preset} label={preset}>{preset}</option>)}
       </select>
       <div className="col">
         {context.rows.value.map((row: Row) => (
@@ -153,7 +153,7 @@ function BuoyPage() {
                     </button>
                   </div>
                 )}
-                <ModuleContent module={module} buoy={buoy} />
+                <ModuleContent module={module} key={module.type} buoy={buoy} />
               </div>
             ))}
             {edit && (
