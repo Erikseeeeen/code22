@@ -48,11 +48,13 @@ function BuoyPage() {
     if (!params.name) return;
     axios
       .get(import.meta.env.VITE_API_URL + '/buoy/update/' + params.name)
-      .then((res) => setBuoy(res.data));
-  }, [params]);
+      .then((res) => {
+        setBuoy(res.data);
+      });
+  }, [params.name]);
 
   return (
-    <div className="all">
+    <div className="pageContainer">
       <Link to="/">Overview</Link>
       <h1>Buoy: {buoy?.name}</h1>
       <p>Status: {['Ok', 'Warning', 'Error'][buoy?.status ?? 0]}</p>
@@ -67,7 +69,8 @@ function BuoyPage() {
           // Row
           <div className="row" key={row.id}>
             {edit && (
-              <button className="button"
+              <button
+                className="button"
                 onClick={() => removeRow(row.id)}
                 style={{ position: 'absolute', zIndex: 1 }}
               >
@@ -78,7 +81,8 @@ function BuoyPage() {
               // Module
               <div className="module" key={module.id}>
                 {edit && (
-                  <button className="button"
+                  <button
+                    className="button"
                     onClick={() => removeModule(row, module.id)}
                     style={{ position: 'absolute', right: 0 }}
                   >
@@ -91,17 +95,14 @@ function BuoyPage() {
             {edit && <button onClick={() => addModule(row)}>Add module</button>}
           </div>
         ))}
-        {edit && <button onClick={addRow}>Add row</button>}
+        {edit && (
+          <button className="add-row" onClick={addRow}>
+            + Add row
+          </button>
+        )}
       </div>
     </div>
   );
 }
-
-const styles = {
-  all: {
-    padding: 10,
-    fontFamily: 'Arial'
-  }
-};
 
 export default BuoyPage;

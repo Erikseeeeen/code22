@@ -1,15 +1,15 @@
-import { Marker, Popup, useMap } from "react-leaflet";
-import { useContext, useEffect } from "react";
-import { Status } from "../types";
-import * as L from "leaflet";
-import { useNavigate } from "react-router-dom";
-import { AppContext } from "../context";
+import { Marker, Popup, useMap } from 'react-leaflet';
+import { useContext, useEffect } from 'react';
+import { Status } from '../types';
+import * as L from 'leaflet';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../context';
 
 function BuoyMarkers() {
   const context = useContext(AppContext);
   const map = useMap();
   const navigate = useNavigate();
-  const getStatusColor = (status: Status) => ["green", "orange", "red"][status];
+  const getStatusColor = (status: Status) => ['green', 'orange', 'red'][status];
 
   const markerHtmlStyles = (status: Status) => `
     background-color: ${getStatusColor(status)};
@@ -40,7 +40,7 @@ function BuoyMarkers() {
         6
       );
     }
-  }, []);
+  }, [context.buoys.value]);
 
   return (
     <div>
@@ -55,7 +55,7 @@ function BuoyMarkers() {
             <p>
               {buoy.location.lat}, {buoy.location.long}
               <br />
-              Status: {["Ok", "Warning", "Error"][buoy.status]}
+              Status: {['Ok', 'Warning', 'Error'][buoy.status]}
             </p>
             <button onClick={() => navigate(`/buoy/${buoy.name}`)}>View</button>
           </Popup>

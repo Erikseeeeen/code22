@@ -7,7 +7,7 @@ import { OrbitControls, Sky } from '@react-three/drei';
 function Three() {
   return (
     <Canvas
-      style={{ height: '100%' }}
+      style={{ height: '100%', borderRadius: '0.5em' }}
       camera={{ position: [0, 1, 10], fov: 55, near: 1, far: 20000 }}
     >
       <pointLight position={[100, 100, 100]} />
@@ -17,7 +17,7 @@ function Three() {
         <Box />
       </Suspense>
       <Sky sunPosition={[500, 150, -1000]} turbidity={0.1} />
-      <OrbitControls />
+      {/* <OrbitControls /> */}
     </Canvas>
   );
 }

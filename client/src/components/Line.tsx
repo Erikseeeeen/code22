@@ -55,5 +55,5 @@ export const data = {
 };
 
 export function LinePlot() {
-  return <Line options={options} data={data} />;
+  return <Line style={{ maxHeight: '100%' }} options={options} data={data} />;
 }
