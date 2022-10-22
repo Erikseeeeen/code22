@@ -21,7 +21,7 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
   } else {
     return (
       <div className="moduleContent">
-        <h2 style={{ textAlign: 'center', padding: '2em' }}>empty module</h2>
+        <h2 style={{ textAlign: 'center', padding: '2em' }}>no data</h2>
       </div>
     );
   }

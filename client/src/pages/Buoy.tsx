@@ -11,6 +11,7 @@ import {
   FaSave,
   FaArrowLeft,
   FaArrowRight,
+  FaHome,
 } from 'react-icons/fa';
 import { formatName } from '../utils';
 import Loading from '../components/Loading';
@@ -109,13 +110,50 @@ function BuoyPage() {
   if (!buoy) return <Loading />;
   return (
     <div className="pageContainer">
-      <Link to="/">Overview</Link>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        {!edit && (
+          <button onClick={() => navigate('/')}>
+            <FaHome />
+          </button>
+        )}
+        {edit && (
+          <div>
+            <span>Change preset: </span>
+            <select
+              value={currentPreset}
+              onChange={(e) => loadPreset(e.target.value)}
+            >
+              {presets.map((preset: string) => (
+                <option label={preset} key={preset}>
+                  {preset}
+                </option>
+              ))}
+            </select>
+            <button onClick={newPreset}>
+              <FaPlus /> Copy this preset
+            </button>
+          </div>
+        )}
+        <button onClick={toggleEdit} className={edit ? 'btn-green' : ''}>
+          {edit ? <FaEdit /> : <FaSave />}
+          {edit ? 'Save' : 'Edit'}
+        </button>
+      </div>
       <div
         style={{
           width: '70vw',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
+          visibility: edit ? 'hidden' : 'visible',
         }}
       >
         {!edit && (
@@ -140,38 +178,6 @@ function BuoyPage() {
           <button onClick={() => navigateBuoy(1)}>
             <FaArrowRight />
           </button>
-        )}
-      </div>
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'start',
-        }}
-      >
-        <button onClick={toggleEdit} className={edit ? 'btn-green' : ''}>
-          {edit ? <FaEdit /> : <FaSave />}
-          {edit ? 'Save' : 'Edit'}
-        </button>
-        {edit && (
-          <div>
-            <span>Change preset: </span>
-            <select
-              value={currentPreset}
-              onChange={(e) => loadPreset(e.target.value)}
-            >
-              {presets.map((preset: string) => (
-                <option label={preset} key={preset}>
-                  {preset}
-                </option>
-              ))}
-            </select>
-            <button onClick={newPreset}>
-              <FaPlus /> Copy this preset
-            </button>
-          </div>
         )}
       </div>
       <div className="col" ref={rowAnimate}>
