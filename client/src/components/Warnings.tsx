@@ -36,7 +36,8 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
               {buoy.warnings.map((warning, i) =>
                 warning.rows.length > 0 ||
                 warning.diffs.length > 0 ||
-                warning.threshold.length > 0 ? (
+                warning.threshold.length > 0 ||
+                warning.warning.length > 0 ? (
                   <li key={i}>{formatName(warning.name)}</li>
                 ) : (
                   ""

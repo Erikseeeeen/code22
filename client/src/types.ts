@@ -37,6 +37,7 @@ export type Warning = {
   rows: number[];
   diffs: number[];
   threshold: number[];
+  warning: number[];
 };
 
 export type BuoySimple = {
