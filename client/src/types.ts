@@ -25,8 +25,15 @@ export type Sensor = {
   name: string;
   threshold_low: number;
   threshold_high: number;
-  format: 'csv' | 'mp4';
+  format: "csv" | "mp4";
   timestamp: string;
+};
+
+export type Warning = {
+  name: string;
+  rows: number[];
+  diff: number[];
+  threshold: number[];
 };
 
 export type BuoySimple = {
@@ -46,6 +53,11 @@ export type Buoy = {
     lat: number;
     long: number;
   };
-  warnings: string[];
+  warnings: Warning[];
   sensors: Sensor[];
+};
+
+export type AppContextType = {
+  rows: { value: Row[]; set: any };
+  buoys: { value: BuoySimple[]; set: any };
 };
