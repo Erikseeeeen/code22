@@ -1,24 +1,22 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import ModuleContent from '../components/ModuleContent';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
 import { Row, Module, Buoy, ModuleType } from '../types';
 import './Buoy.css';
 import {
   FaPlus,
-  FaTrash,
   FaEdit,
   FaSave,
   FaArrowLeft,
   FaArrowRight,
-  FaArrowUp,
-  FaArrowDown,
 } from 'react-icons/fa';
 import { formatName } from '../utils';
 import Loading from '../components/Loading';
 import { ColoredCircle } from '../components/Warnings';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+import RowOfModules from '../components/RowOfModules';
 
 function BuoyPage() {
   const context = useContext(AppContext);
@@ -26,13 +24,10 @@ function BuoyPage() {
   const [buoy, setBuoy] = useState<Buoy | null>(null);
   const [presets, setPresets] = useState<string[]>([]);
   const [currentPreset, setCurrentPreset] = useState('default');
-  const forceUpdate = useForceUpdate();
   const params = useParams();
   const navigate = useNavigate();
-
-  const removeRow = (row: Row) => {
-    context.rows.set((rows: Row[]) => rows.filter((r) => r.id !== row.id));
-  };
+  const [rowAnimate] = useAutoAnimate<HTMLDivElement>();
+  const forceUpdate = useForceUpdate();
 
   const getNewId = (items: Row[] | Module[]) =>
     1 + Math.max(-1, ...items.map((row) => row.id));
@@ -57,11 +52,12 @@ function BuoyPage() {
       setup: context.rows.value,
     });
 
-  const loadPreset = (name: string) => {
+  const loadPreset = async (name: string) => {
     setCurrentPreset(name);
-    return axios
-      .get(import.meta.env.VITE_API_URL + '/presets/' + name)
-      .then((response) => context.rows.set(response.data['setup']));
+    const response = await axios.get(
+      import.meta.env.VITE_API_URL + '/presets/' + name
+    );
+    return context.rows.set(response.data['setup']);
   };
 
   const newPreset = async () => {
@@ -71,41 +67,6 @@ function BuoyPage() {
     await savePreset(name);
     await loadAllPresets();
     await loadPreset(name);
-  };
-
-  const addModule = (row: Row) => {
-    row.modules.push({
-      id: getNewId(row.modules),
-      type: ModuleType.None,
-    });
-    forceUpdate();
-  };
-
-  const removeModule = (row: Row, module: Module) => {
-    row.modules = row.modules.filter((m: Module) => m.id !== module.id);
-    if (row.modules.length == 0) {
-      removeRow(row);
-    }
-    forceUpdate();
-  };
-
-  const editModule = (row: Row, module: Module) => {};
-  const moveItem = (list: any[], item: any, offset: number) => {
-    const index = list.indexOf(item);
-    if (index !== -1) {
-      const otherIndex = (index + offset + list.length) % list.length;
-      [list[index], list[otherIndex]] = [list[otherIndex], list[index]];
-      forceUpdate();
-    }
-  };
-  const moveRow = (
-    rows: { value: Row[]; set: (list: any[]) => void },
-    item: any,
-    offset: number
-  ) => {
-    const list = rows.value;
-    moveItem(list, item, offset);
-    rows.set(list);
   };
 
   const toggleEdit = () => {
@@ -201,66 +162,19 @@ function BuoyPage() {
           </div>
         )}
       </div>
-      <div className="col">
+      <div className="col" ref={rowAnimate}>
         {context.rows.value.map((row: Row) => (
           // Row
-          <div className="row" key={row.id}>
-            {row.modules.map((module: Module) => (
-              // Module
-              <div className="module" key={module.id}>
-                {edit && (
-                  <div className="module-edit">
-                    <button
-                      onClick={() => removeModule(row, module)}
-                      style={{ position: 'absolute', right: 0 }}
-                    >
-                      <FaTrash /> Delete
-                    </button>
-                    <button
-                      onClick={() => editModule(row, module)}
-                      style={{ position: 'absolute', left: 0 }}
-                    >
-                      <FaEdit /> Edit
-                    </button>
-                    <button
-                      onClick={() => moveItem(row.modules, module, -1)}
-                      style={{ position: 'absolute', left: 0, bottom: 0 }}
-                    >
-                      <FaArrowLeft /> Move
-                    </button>
-                    <button
-                      onClick={() => moveItem(row.modules, module, 1)}
-                      style={{ position: 'absolute', right: 0, bottom: 0 }}
-                    >
-                      Move <FaArrowRight />
-                    </button>
-                  </div>
-                )}
-                <ModuleContent module={module} key={module.type} buoy={buoy} />
-              </div>
-            ))}
-            {edit && (
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <button onClick={() => addModule(row)}>
-                  {' '}
-                  <FaPlus />
-                  Module
-                </button>
-                <button onClick={() => removeRow(row)}>
-                  <FaTrash /> Row
-                </button>
-                <button onClick={() => moveRow(context.rows, row, -1)}>
-                  <FaArrowUp /> Move
-                </button>
-                <button onClick={() => moveRow(context.rows, row, 1)}>
-                  <FaArrowDown /> Move
-                </button>
-              </div>
-            )}
-          </div>
+          <RowOfModules
+            buoy={buoy}
+            row={row}
+            edit={edit}
+            forceUpdate={forceUpdate}
+            key={'row' + row.id}
+          />
         ))}
         {edit && (
-          <button onClick={addRow}>
+          <button onClick={addRow} key="addRowButton">
             <FaPlus /> Row
           </button>
         )}
