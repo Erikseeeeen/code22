@@ -5,7 +5,9 @@ import {
   Marker,
   Popup,
   ScaleControl,
+  Polyline,
 } from "react-leaflet";
+
 import { BuoyPosition } from "../types";
 import * as L from "leaflet";
 import { useEffect } from "react";
@@ -13,6 +15,10 @@ import { useEffect } from "react";
 function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
   const map = useMap();
 
+  const coordinatesList: L.LatLngExpression[] = [];
+  positions.forEach((pos) => {
+    coordinatesList.push([pos.coordinate.lat, pos.coordinate.long]);
+  });
   const markerHtmlStyles = () => `
     width: 2rem;
     height: 2rem;
@@ -65,6 +71,7 @@ function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
           </Popup>
         </Marker>
       ))}
+      <Polyline positions={coordinatesList} />
     </div>
   );
 }
