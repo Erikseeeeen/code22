@@ -25,7 +25,7 @@ export type Sensor = {
   name: string;
   threshold_low: number;
   threshold_high: number;
-  format: "csv" | "mp4";
+  format: 'csv' | 'mp4';
   timestamp: string;
 };
 
@@ -60,4 +60,17 @@ export type Buoy = {
 export type AppContextType = {
   rows: { value: Row[]; set: any };
   buoys: { value: BuoySimple[]; set: any };
+};
+
+export type Plot = {
+  x: number[];
+  y: number[];
+  headers: string[];
+};
+
+export type RgbColor = {
+  r: number;
+  g: number;
+  b: number;
+  a?: number;
 };
