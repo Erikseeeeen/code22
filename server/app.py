@@ -77,7 +77,7 @@ def process_update(name, csv, batch_id, file_name):
                 "name": sensor["name"],
                 "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
                 "diffs": science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
-                "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
+                "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["limit_low"], sensor["limit_high"])
             }
             if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
                 buoy["status"] = 2

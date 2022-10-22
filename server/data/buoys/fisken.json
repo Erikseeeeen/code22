@@ -9,8 +9,10 @@
     "sensors": [
         {
             "name": "fisken_fishes",
-            "threshold_low": 0,
-            "threshold_high": 17000,
+            "limit_low": 0,
+            "limit_high": 17000,
+            "recommended_low": 0,
+            "recommended_high": 14000,
             "format": "csv",
             "timestamp": "1666353336.4543922",
             "batch_id": 0

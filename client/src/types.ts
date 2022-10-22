@@ -24,9 +24,11 @@ export enum Status {
 
 export type Sensor = {
   name: string;
-  threshold_low: number;
-  threshold_high: number;
-  format: 'csv' | 'mp4' | 'metadata';
+  limit_low: number;
+  limit_high: number;
+  recommended_low: number;
+  recommended_high: number;
+  format: "csv" | "mp4" | "gps" | "metadata";
   timestamp: string;
 };
 
@@ -77,6 +79,11 @@ export type Plot = {
   x: number[];
   y: number[];
   headers: string[];
+  color: RgbColor;
+  limLow: number;
+  limHigh: number;
+  recommendedLow: number;
+  recommendedHigh: number;
 };
 
 export type RgbColor = {
