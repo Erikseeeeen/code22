@@ -1,13 +1,18 @@
-import { useEffect, useContext } from "react";
-import { AppContext } from "../context";
-import { BuoySimple, Status } from "../types";
-import { useNavigate } from "react-router-dom";
-import "./warnings.css";
-import { formatName } from "../utils";
+import { useEffect, useContext } from 'react';
+import { AppContext } from '../context';
+import { BuoySimple, Status } from '../types';
+import { useNavigate } from 'react-router-dom';
+import './warnings.css';
+import { formatName } from '../utils';
+
+export function ColoredCircle({ status }: { status: Status }) {
+  const color = ['green', 'orange', 'red'][status];
+
+  return <div className={'circle ' + color}></div>;
+}
 
 function WarningItem({ buoy }: { buoy: BuoySimple }) {
   const navigate = useNavigate();
-  const color = ["green", "orange", "red"][buoy.status];
 
   return (
     <div
@@ -15,9 +20,10 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
       onClick={() => navigate(`/buoy/${buoy.name}`)}
     >
       <div className="circle-container">
-        <div className={"circle " + color}></div>
+        <ColoredCircle status={buoy.status} />
       </div>
-      <div className={"warning-item"}>
+
+      <div className={'warning-item'}>
         <div>
           <strong>{formatName(buoy.name)}</strong>
         </div>
@@ -27,9 +33,15 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
               <strong>Warnings:</strong>
             </div>
             <ul>
-              {buoy.warnings.map((warning, i) => (
-                warning.rows.length > 0 || warning.diffs.length > 0 || warning.threshold.length > 0 ? <li key={i}>{formatName(warning.name)}</li> : ''
-              ))}
+              {buoy.warnings.map((warning, i) =>
+                warning.rows.length > 0 ||
+                warning.diffs.length > 0 ||
+                warning.threshold.length > 0 ? (
+                  <li key={i}>{formatName(warning.name)}</li>
+                ) : (
+                  ''
+                )
+              )}
             </ul>
           </div>
         )}

@@ -3,16 +3,16 @@ ul {
   list-style: none;
 }
 
-.orange {
-  background-color: orange;
+.green {
+  background-color: rgb(82, 186, 82);
 }
 
-.green {
-  background-color: green;
+.orange {
+  background-color: rgb(250, 163, 33);
 }
 
 .red {
-  background-color: red;
+  background-color: rgb(244, 70, 70);
 }
 
 body {
@@ -26,7 +26,7 @@ button {
   z-index: 100;
   background-color: orange;
   padding: 0.8em 1.2em;
-  border-radius: 0.5em;
+  border-radius: 0.4em;
   border: 0;
   cursor: pointer;
 }
@@ -44,6 +44,11 @@ button > svg {
   margin: 0;
   margin-right: 0.3em;
   transform: translateY(2px);
+}
+
+select {
+  padding: 0.4em;
+  border-radius: 0.4em;
 }
 
 .circle-container {

@@ -14,7 +14,7 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
     const newPlots: Plot[] = [];
     const promises: Promise<void>[] = [];
     for (const sensor of buoy.sensors) {
-      if (sensor.format != "csv") {
+      if (sensor.format != 'csv') {
         continue;
       }
       const promise = axios
@@ -58,7 +58,7 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
   }
   return (
     <div className="moduleContent">
-      <h1 style={{ padding: 10 }}>Module</h1>
+      <h2 style={{ padding: 10 }}>Empty module</h2>
     </div>
   );
 }

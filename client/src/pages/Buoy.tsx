@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import ModuleContent from '../components/ModuleContent';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
@@ -18,6 +18,7 @@ import {
 } from 'react-icons/fa';
 import { formatName } from '../utils';
 import Loading from '../components/Loading';
+import { ColoredCircle } from '../components/Warnings';
 
 function BuoyPage() {
   const context = useContext(AppContext);
@@ -26,6 +27,7 @@ function BuoyPage() {
   const [presets, setPresets] = useState<string[]>([]);
   const forceUpdate = useForceUpdate();
   const params = useParams();
+  const navigate = useNavigate();
 
   const removeRow = (row: Row) => {
     context.rows.set((rows: Row[]) => rows.filter((r) => r.id !== row.id));
@@ -39,18 +41,27 @@ function BuoyPage() {
       ...rows,
       {
         id: getNewId(rows),
-        modules: [],
+        modules: [
+          {
+            id: 0,
+            type: ModuleType.None,
+          },
+        ],
       },
     ]);
   };
 
   const savePreset = (name: string) => {
-    axios.post(import.meta.env.VITE_API_URL + '/presets/' + name, {setup: context.rows.value});
-  }
+    axios.post(import.meta.env.VITE_API_URL + '/presets/' + name, {
+      setup: context.rows.value,
+    });
+  };
 
   const loadPreset = (name: string) => {
-    axios.get(import.meta.env.VITE_API_URL + '/presets/' + name).then((response) => context.rows.set(response.data["setup"]));
-  }
+    axios
+      .get(import.meta.env.VITE_API_URL + '/presets/' + name)
+      .then((response) => context.rows.set(response.data['setup']));
+  };
 
   const addModule = (row: Row) => {
     row.modules.push({
@@ -62,6 +73,9 @@ function BuoyPage() {
 
   const removeModule = (row: Row, module: Module) => {
     row.modules = row.modules.filter((m: Module) => m.id !== module.id);
+    if (row.modules.length == 0) {
+      removeRow(row);
+    }
     forceUpdate();
   };
 
@@ -84,6 +98,23 @@ function BuoyPage() {
     rows.set(list);
   };
 
+  const toggleEdit = () => {
+    setEdit((edit) => !edit);
+    savePreset('name');
+  };
+
+  const navigateBuoy = (offset: number) => {
+    if (!buoy) return;
+    const index = context.buoys.value.findIndex((b) => b.name === buoy.name);
+    if (index == -1) return;
+    const nextIndex =
+      (index + offset + context.buoys.value.length) %
+      context.buoys.value.length;
+    console.log(index, nextIndex);
+    const nextBuoy = context.buoys.value[nextIndex];
+    navigate('/buoy/' + nextBuoy.name);
+  };
+
   useEffect(() => {
     if (!params.name) return;
     axios
@@ -94,26 +125,59 @@ function BuoyPage() {
   }, [params.name]);
 
   useEffect(() => {
-    axios.get(import.meta.env.VITE_API_URL + '/presets').then((response) => setPresets(response.data["presets"]));
-  }, [])
+    axios
+      .get(import.meta.env.VITE_API_URL + '/presets')
+      .then((response) => setPresets(response.data['presets']));
+  }, []);
 
   if (!buoy) return <Loading />;
   return (
     <div className="pageContainer">
       <Link to="/">Overview</Link>
-      <h1>Buoy: {buoy && formatName(buoy.name)}</h1>
-      <p>Status: {['Ok', 'Warning', 'Error'][buoy?.status ?? 0]}</p>
-      <p>Sensors: {buoy?.sensors.length}</p>
-      <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
-
-      <button className="button" onClick={() => setEdit((edit) => !edit)}>
-        {edit ? <FaEdit /> : <FaSave />}
-        {edit ? 'Save' : 'Edit'}
-      </button>
-      <button className="button" onClick={() => savePreset("name")}>Save preset</button>
-      <select onChange={(e) => loadPreset(e.target.value)}>
-        {presets.map((preset: string) => <option label={preset}>{preset}</option>)}
-      </select>
+      <div
+        style={{
+          margin: 'auto',
+          width: '50vw',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '1em',
+        }}
+      >
+        <button onClick={() => navigateBuoy(-1)}>
+          <FaArrowLeft />
+        </button>
+        <ColoredCircle status={buoy.status} />
+        <h1>{formatName(buoy.name)}</h1>
+        <button onClick={() => navigateBuoy(1)}>
+          <FaArrowRight />
+        </button>
+      </div>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'start',
+        }}
+      >
+        <button onClick={toggleEdit}>
+          {edit ? <FaEdit /> : <FaSave />}
+          {edit ? 'Save' : 'Edit'}
+        </button>
+        {edit && (
+          <div>
+            <span>Change preset: </span>
+            <select onChange={(e) => loadPreset(e.target.value)}>
+              {presets.map((preset: string) => (
+                <option label={preset}>{preset}</option>
+              ))}
+            </select>
+          </div>
+        )}
+      </div>
       <div className="col">
         {context.rows.value.map((row: Row) => (
           // Row
@@ -124,28 +188,24 @@ function BuoyPage() {
                 {edit && (
                   <div className="module-edit">
                     <button
-                      className="button"
                       onClick={() => removeModule(row, module)}
                       style={{ position: 'absolute', right: 0 }}
                     >
                       <FaTrash /> Delete
                     </button>
                     <button
-                      className="button"
                       onClick={() => editModule(row, module)}
                       style={{ position: 'absolute', left: 0 }}
                     >
                       <FaEdit /> Edit
                     </button>
                     <button
-                      className="button"
                       onClick={() => moveItem(row.modules, module, -1)}
                       style={{ position: 'absolute', left: 0, bottom: 0 }}
                     >
                       <FaArrowLeft /> Move
                     </button>
                     <button
-                      className="button"
                       onClick={() => moveItem(row.modules, module, 1)}
                       style={{ position: 'absolute', right: 0, bottom: 0 }}
                     >
@@ -177,7 +237,7 @@ function BuoyPage() {
           </div>
         ))}
         {edit && (
-          <button className="add-row" onClick={addRow}>
+          <button onClick={addRow}>
             <FaPlus /> Row
           </button>
         )}

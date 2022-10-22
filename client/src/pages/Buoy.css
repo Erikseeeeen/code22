@@ -41,9 +41,3 @@
 .module-edit:hover {
   opacity: 1;
 }
-
-.add-row {
-  height: 40vh;
-  width: 100%;
-  background-color: whitesmoke;
-}
