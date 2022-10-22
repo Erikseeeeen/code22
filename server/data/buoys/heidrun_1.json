@@ -33,8 +33,8 @@
       "timestamp": "1666353336.4543922"
     },
     {
-      "name": "heidrun_1_gps",
-      "format": "gps"
+      "name": "heidrun_1_metadata",
+      "format": "metadata"
     }
   ]
 }

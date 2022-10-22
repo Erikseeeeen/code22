@@ -82,7 +82,7 @@ def process_update(name, csv, batch_id, file_name):
             if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
                 buoy["status"] = 2
             buoy["warnings"].append(obj)
-        elif sensor["format"] == "gps":
+        elif sensor["format"] == "metadata":
             pass
         else: 
             continue

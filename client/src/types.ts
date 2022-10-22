@@ -26,7 +26,7 @@ export type Sensor = {
   name: string;
   threshold_low: number;
   threshold_high: number;
-  format: "csv" | "mp4" | "gps";
+  format: "csv" | "mp4" | "metadata";
   timestamp: string;
 };
 
