@@ -26,7 +26,7 @@ def get_all_buoys():
             "name": current_buoy["name"],
             "status": current_buoy["status"],
             "location": current_buoy["location"],
-            "warnings": str(current_buoy["warnings"])
+            "warnings": current_buoy["warnings"]
         }
         output.append(buoy_short)
     response = jsonify(output)

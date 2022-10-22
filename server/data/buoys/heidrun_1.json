@@ -1,7 +1,33 @@
 {
   "name": "heidrun_1",
-  "status": 0,
-  "warnings": {},
+  "status": 1,
+  "warnings": [
+    {
+      "diffs": [
+        113,
+        114
+      ],
+      "name": "heidrun_1_pressure",
+      "rows": [],
+      "threshold": []
+    },
+    {
+      "diffs": [
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "name": "heidrun_1_temperature",
+      "rows": [
+        108,
+        109,
+        110
+      ],
+      "threshold": []
+    }
+  ],
   "location": {
     "lat": 65.325833,
     "long": 7.3175
