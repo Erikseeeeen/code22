@@ -34,6 +34,14 @@ function BuoyPage() {
     ]);
   };
 
+  const savePreset = () => {
+    axios.post(import.meta.env.VITE_API_URL + '/presets/name', {setup: context.rows.value});
+  }
+
+  const loadPreset = () => {
+    axios.get(import.meta.env.VITE_API_URL + '/presets/name').then((response) => context.rows.set(response.data["setup"]))
+  }
+
   const addModule = (row: Row) => {
     row.modules.push({
       id: getNewId(row.modules),
@@ -48,12 +56,10 @@ function BuoyPage() {
   };
 
   useEffect(() => {
-    console.log(params.name);
     if (!params.name) return;
     axios
       .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
       .then((res) => {
-        console.log(res);
         setBuoy(res.data);
       });
   }, [params.name]);
@@ -71,6 +77,8 @@ function BuoyPage() {
         {edit ? <FaEdit /> : <FaSave />}
         {edit ? 'Save' : 'Edit'}
       </button>
+      <button className="button" onClick={savePreset}>Save preset</button>
+      <button className="button" onClick={loadPreset}>Load preset</button>
       <div className="col">
         {context.rows.value.map((row: Row) => (
           // Row

@@ -6,12 +6,15 @@ app = Flask(__name__)
 
 data_buoys_folder = "./data/buoys/"
 data_csv_folder = "./data/csv/"
+presets_folder = "./data/presets/"
 data_mp4_folder = "./data/video/"
 
 
 @app.after_request
 def add_response_headers(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+
     return response
 
 
@@ -85,3 +88,24 @@ def update_buoy(name):
         json.dump(buoy, file)
     csv.save(os.path.join(data_csv_folder, file_name))
     return "ok"
+
+@app.get("/presets/<name>")
+def get_preset(name):
+    preset_path = os.path.join(presets_folder, name + ".json")
+    if not os.path.isfile(preset_path):
+        return "ERROR: %s is not a file!" % name
+    with open(preset_path, "r") as file:
+        preset = json.load(file)
+        return jsonify(preset)
+
+@app.post("/presets/<name>")
+def save_preset(name):
+    data = request.get_json()
+    with open(os.path.join(presets_folder, name + ".json"), "w") as file:
+        json.dump(data, file)
+        return "ok"
+
+@app.get("/presets")
+def get_all_presets():
+    entries = os.scandir(presets_folder)
+    return jsonify([entry.name.removesuffix(".json") for entry in entries])
