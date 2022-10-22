@@ -6,7 +6,16 @@ import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
 import { Row, Module, Buoy, ModuleType } from '../types';
 import './Buoy.css';
-import { FaPlus, FaTrash, FaEdit, FaSave } from 'react-icons/fa';
+import {
+  FaPlus,
+  FaTrash,
+  FaEdit,
+  FaSave,
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowUp,
+  FaArrowDown,
+} from 'react-icons/fa';
 import { formatName } from '../utils';
 import Loading from '../components/Loading';
 
@@ -17,8 +26,8 @@ function BuoyPage() {
   const forceUpdate = useForceUpdate();
   const params = useParams();
 
-  const removeRow = (id: number) => {
-    context.rows.set((rows: Row[]) => rows.filter((row) => row.id !== id));
+  const removeRow = (row: Row) => {
+    context.rows.set((rows: Row[]) => rows.filter((r) => r.id !== row.id));
   };
 
   const getNewId = (items: Row[] | Module[]) =>
@@ -42,9 +51,28 @@ function BuoyPage() {
     forceUpdate();
   };
 
-  const removeModule = (row: Row, id: number) => {
-    row.modules = row.modules.filter((m: Module) => m.id !== id);
+  const removeModule = (row: Row, module: Module) => {
+    row.modules = row.modules.filter((m: Module) => m.id !== module.id);
     forceUpdate();
+  };
+
+  const editModule = (row: Row, module: Module) => {};
+  const moveItem = (list: any[], item: any, offset: number) => {
+    const index = list.indexOf(item);
+    if (index !== -1) {
+      const otherIndex = (index + offset + list.length) % list.length;
+      [list[index], list[otherIndex]] = [list[otherIndex], list[index]];
+      forceUpdate();
+    }
+  };
+  const moveRow = (
+    rows: { value: Row[]; set: (list: any[]) => void },
+    item: any,
+    offset: number
+  ) => {
+    const list = rows.value;
+    moveItem(list, item, offset);
+    rows.set(list);
   };
 
   useEffect(() => {
@@ -53,7 +81,6 @@ function BuoyPage() {
     axios
       .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
       .then((res) => {
-        console.log(res);
         setBuoy(res.data);
       });
   }, [params.name]);
@@ -75,15 +102,6 @@ function BuoyPage() {
         {context.rows.value.map((row: Row) => (
           // Row
           <div className="row" key={row.id}>
-            {edit && (
-              <button
-                className="button"
-                onClick={() => removeRow(row.id)}
-                style={{ position: 'absolute', zIndex: 1 }}
-              >
-                <FaTrash /> row
-              </button>
-            )}
             {row.modules.map((module: Module) => (
               // Module
               <div className="module" key={module.id}>
@@ -91,10 +109,31 @@ function BuoyPage() {
                   <div className="module-edit">
                     <button
                       className="button"
-                      onClick={() => removeModule(row, module.id)}
+                      onClick={() => removeModule(row, module)}
                       style={{ position: 'absolute', right: 0 }}
                     >
-                      <FaTrash /> module
+                      <FaTrash /> Delete
+                    </button>
+                    <button
+                      className="button"
+                      onClick={() => editModule(row, module)}
+                      style={{ position: 'absolute', left: 0 }}
+                    >
+                      <FaEdit /> Edit
+                    </button>
+                    <button
+                      className="button"
+                      onClick={() => moveItem(row.modules, module, -1)}
+                      style={{ position: 'absolute', left: 0, bottom: 0 }}
+                    >
+                      <FaArrowLeft /> Move
+                    </button>
+                    <button
+                      className="button"
+                      onClick={() => moveItem(row.modules, module, 1)}
+                      style={{ position: 'absolute', right: 0, bottom: 0 }}
+                    >
+                      Move <FaArrowRight />
                     </button>
                   </div>
                 )}
@@ -102,17 +141,28 @@ function BuoyPage() {
               </div>
             ))}
             {edit && (
-              <button onClick={() => addModule(row)}>
-                {' '}
-                <FaPlus />
-                module
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <button onClick={() => addModule(row)}>
+                  {' '}
+                  <FaPlus />
+                  Module
+                </button>
+                <button onClick={() => removeRow(row)}>
+                  <FaTrash /> Row
+                </button>
+                <button onClick={() => moveRow(context.rows, row, -1)}>
+                  <FaArrowUp /> Move
+                </button>
+                <button onClick={() => moveRow(context.rows, row, 1)}>
+                  <FaArrowDown /> Move
+                </button>
+              </div>
             )}
           </div>
         ))}
         {edit && (
           <button className="add-row" onClick={addRow}>
-            <FaPlus /> row
+            <FaPlus /> Row
           </button>
         )}
       </div>
