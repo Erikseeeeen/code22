@@ -56,6 +56,8 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
       </div>
     );
   }
+
+  if (module.type === ModuleType.Video)
   return (
     <div className="moduleContent">
       <h1 style={{ padding: 10 }}>Module</h1>

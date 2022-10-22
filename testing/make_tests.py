@@ -60,7 +60,7 @@ def generate_data(time_range, data_columns : list[DataColumn], resolution):
             if (x == -1):
                 print("End")
                 return data
-            data_row.append(x + random.randint(-100, 100) / 100 * (c.range[1] - c.range[0]) * 0.1)
+            data_row.append(x )#+ random.randint(-100, 100) / 100 * (c.range[1] - c.range[0]) * 0.1)
         data.append(data_row)
     return data
 def export_csv(filename, data):
@@ -124,3 +124,13 @@ export_csv("heidrun_2_temperature.csv", heidrun_2_temperature)
 export_csv("heidrun_2_pressure.csv", heidrun_2_pressure)
 export_csv("heidrun_1_pressure.csv", heidrun_1_pressure)
 export_csv("heidrun_1_temperature.csv", heidrun_1_temperature)
+
+
+fish_swam_past = (generate_data((time.time() - 4 * 3600, time.time()),
+    [
+        DataColumn('fish_swam_past', (0, 30000), 'increment', resolution),
+    ],
+    resolution
+))
+
+export_csv("fisken_fishes.csv", fish_swam_past)

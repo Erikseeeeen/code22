@@ -1,0 +1,11 @@
+{
+    "name": "platform_nord",
+    "status": 0,
+    "warnings": [],
+    "anchor": {
+        "lat": 68.235833,
+        "long": 7.575
+    },
+    "sensors": [
+    ]
+}

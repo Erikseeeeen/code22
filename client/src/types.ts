@@ -3,6 +3,7 @@ export enum ModuleType {
   Three,
   Chart,
   Map,
+  Video,
 }
 
 export type Module = {
