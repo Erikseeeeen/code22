@@ -102,9 +102,9 @@ def process_update(name, csv, batch_id, file_name):
                 "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["limit_low"], sensor["limit_high"]),
                 "warning": science.get_warning_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["recommended_low"], sensor["recommended_high"])
             }
-            if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
+            if  len(obj["threshold"]):
                 buoy["status"] = 2
-            elif len(obj["warning"]):
+            elif len(obj["rows"]) or len(obj["diffs"]) or len(obj["warning"]):
                 buoy["status"] = 1
             buoy["warnings"].append(obj)
         elif sensor["format"] == "metadata":
@@ -136,9 +136,9 @@ def update_all():
                     "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["limit_low"], sensor["limit_high"]),
                     "warning": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["recommended_low"], sensor["recommended_high"])
                 }
-                if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
+                if  len(obj["threshold"]):
                     buoy["status"] = 2
-                elif len(obj["warning"]):
+                elif len(obj["rows"]) or len(obj["diffs"]) or len(obj["warning"]):
                     buoy["status"] = 1
                 buoy["warnings"].append(obj)
             elif sensor["format"] == "metadata":
