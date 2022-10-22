@@ -18,8 +18,8 @@ function Links() {
   if (!context.buoys.value) return <Loading />;
   return (
     <div className="overview-container">
-      <h1>Overview</h1>
       <Map />
+      <h1>Overview</h1>
       <Warnings />
     </div>
   );

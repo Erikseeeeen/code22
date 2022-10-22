@@ -6,26 +6,33 @@ import "./warnings.css";
 import { formatName } from "../utils";
 
 function WarningItem({ buoy }: { buoy: BuoySimple }) {
-  const color = ["green", "orange", "red"][buoy.status];
   const navigate = useNavigate();
+  const color = ["green", "orange", "red"][buoy.status];
 
   return (
-    <div
-      className={"warning-item " + color}
-      onClick={() => navigate(`/buoy/${buoy.name}`)}
-    >
-      <div>
-        <strong>{formatName(buoy.name)}</strong>
+    <div className="warning-item-container">
+      <div className="circle-container">
+        <div className={"circle " + color}></div>
       </div>
-      <div className="sensor-warnings">
+      <div
+        className={"warning-item"}
+        onClick={() => navigate(`/buoy/${buoy.name}`)}
+      >
         <div>
-          <strong>Sensors:</strong>
+          <strong>{formatName(buoy.name)}</strong>
         </div>
-        <ul>
-          {buoy.warnings.map((warning, i) => (
-            <li key={i}>{formatName(warning.name)}</li>
-          ))}
-        </ul>
+        {buoy.warnings.length > 0 && (
+          <div className="sensor-warnings">
+            <div>
+              <strong>Warnings:</strong>
+            </div>
+            <ul>
+              {buoy.warnings.map((warning, i) => (
+                <li key={i}>{formatName(warning.name)}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -37,8 +44,7 @@ function Warnings() {
   return (
     <div className="warning-container">
       {context.buoys.value
-        .filter((buoy) => buoy.status !== 0)
-        .sort((a, b) => a.status - b.status)
+        .sort((a, b) => b.status - a.status)
         .map((buoy, i) => {
           return <WarningItem key={i} buoy={buoy} />;
         })}

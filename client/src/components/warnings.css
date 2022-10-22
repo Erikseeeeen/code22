@@ -1,25 +1,36 @@
 .warning-container {
   display: flex;
+  height: 35vh;
   flex-direction: column;
   gap: 1rem;
-  width: 80%;
+  width: 50%;
+  overflow-y: auto;
 }
 
 .warning-item {
   display: flex;
-  flex-grow: 1;
-  justify-content: space-around;
+  width: 90%;
+  justify-content: space-between;
   align-items: center;
-  padding: 1rem 0rem;
-  border-radius: 10px;
+  margin-left: 2em;
+  margin-right: 2rem;
 }
 
-.warning-item:hover {
+.warning-item-container:hover {
   cursor: pointer;
-  background-color: #ffc04a;
+  background-color: #f0f0f0;
 }
 
 .sensor-warnings {
   display: flex;
   align-items: center;
+}
+
+.warning-item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0rem;
+  border-radius: 10px;
+  background-color: #dddddd;
 }
