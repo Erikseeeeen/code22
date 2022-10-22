@@ -110,7 +110,7 @@ function BuoyPage() {
         {edit ? <FaEdit /> : <FaSave />}
         {edit ? 'Save' : 'Edit'}
       </button>
-      <button className="button" onClick={() => savePreset("name")}>Save preset</button>
+      <button className="button" onClick={() => savePreset(prompt())}>Save preset</button>
       <select onChange={(e) => loadPreset(e.target.value)}>
         {presets.map((preset: string) => <option label={preset}>{preset}</option>)}
       </select>

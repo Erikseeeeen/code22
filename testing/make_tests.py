@@ -2,6 +2,7 @@ import time
 import math
 import csv
 import matplotlib as plt 
+import random
 
 class DataColumn:
     # name: Name of data column, range: Tuple of range of values
@@ -33,7 +34,7 @@ class DataColumn:
         if self.value > self.length:
             return -1
         self.value += 1
-        return self.range[0] + (self.range[1] - self.range[0])/2 + (self.range[1] - self.range[0])/2  * math.sin(self.wave_offset + self.periods * (self.value-1)/self.length * 2 * math.pi)
+        return self.range[0] + (self.range[1] - self.range[0])/2 + (self.range[1] - self.range[0])/2  * math.sin(self.wave_offset + random.randint(-100, 100) / 1000 + self.periods * (self.value-1)/self.length * 2 * math.pi)
     
     def function(self):
         if self.value > self.length:
@@ -59,7 +60,7 @@ def generate_data(time_range, data_columns : list[DataColumn], resolution):
             if (x == -1):
                 print("End")
                 return data
-            data_row.append(x)
+            data_row.append(x + random.randint(-100, 100) / 100 * (c.range[1] - c.range[0]) * 0.1)
         data.append(data_row)
     return data
 def export_csv(filename, data):
