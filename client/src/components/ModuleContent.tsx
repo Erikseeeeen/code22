@@ -57,7 +57,15 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
     );
   }
 
-  if (module.type === ModuleType.Video)
+  if (module.type === ModuleType.Video) {
+    return (
+      <div className="moduleContent">
+        <video>
+          <source src="/heidrun_2_camera.mp4" type="video/mp4" />
+        </video>
+      </div>
+    )
+  }
   return (
     <div className="moduleContent">
       <h1 style={{ padding: 10 }}>Module</h1>
