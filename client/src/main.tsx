@@ -13,7 +13,7 @@ function App() {
     {
       id: 0,
       modules: [
-        { id: 0, type: ModuleType.None },
+        { id: 0, type: ModuleType.Chart },
         { id: 1, type: ModuleType.Three },
       ],
     },

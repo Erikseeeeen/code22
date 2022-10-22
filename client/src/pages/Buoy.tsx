@@ -85,7 +85,7 @@ function BuoyPage() {
                     X module
                   </button>
                 )}
-                <ModuleContent module={module} />
+                {buoy && <ModuleContent module={module} buoy={buoy} />}
               </div>
             ))}
             {edit && <button onClick={() => addModule(row)}>Add module</button>}

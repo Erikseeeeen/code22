@@ -1,6 +1,7 @@
 export enum ModuleType {
   None,
   Three,
+  Chart,
   Map,
 }
 
