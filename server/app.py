@@ -1,3 +1,6 @@
+from concurrent.futures import process
+import csv
+import io
 from flask import Flask, jsonify, request, send_file
 import os
 import json
@@ -59,13 +62,7 @@ def get_mp4_file(file):
         return "ERROR: %s is not a file!" % file
     return send_file(mp4_path, mimetype="video/mp4")
 
-
-@app.post("/buoy/update/<name>")
-def update_buoy(name):
-    data = request.form
-    csv = request.files["csv"]
-    batch_id = data["batch_id"]
-    file_name = data["file_name"]
+def process_update(name, csv, batch_id, file_name):
     with open(os.path.join(data_buoys_folder, name + ".json"), "r") as file:
         buoy = json.load(file)
     sensors = buoy["sensors"]
@@ -94,6 +91,22 @@ def update_buoy(name):
         json.dump(buoy, file)
     csv.save(os.path.join(data_csv_folder, file_name))
     return "ok"
+
+@app.post("/buoy/update_ar/<name>")
+def update_buoy_arduino(name):
+    data = request.form
+    _csv = csv.reader(io.StringIO(data["csv"]), ";")
+    batch_id = data["batch_id"]
+    file_name = data["file_name"]
+    return process_update(name, _csv, batch_id, file_name)
+
+@app.post("/buoy/update/<name>")
+def update_buoy(name):
+    data = request.form
+    csv = request.files["csv"]
+    batch_id = data["batch_id"]
+    file_name = data["file_name"]
+    return process_update(name, csv, batch_id, file_name)
 
 @app.get("/presets/<name>")
 def get_preset(name):

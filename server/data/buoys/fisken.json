@@ -14,6 +14,10 @@
             "format": "csv",
             "timestamp": "1666353336.4543922",
             "batch_id": 0
+        },
+        {
+            "name": "fisken_camera",
+            "format": "mp4"
         }
     ]
 }
