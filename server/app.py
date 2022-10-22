@@ -74,3 +74,13 @@ def update_buoy(name):
 
     response = jsonify(buoy)
     return response
+
+
+
+def get_yr(lat, lon, alt):
+    url = 'SOME URL'
+    headers = {
+        'User-Agent': 'My User Agent 1.0',
+        'From': 'youremail@domain.example'  # This is another valid field
+    }
+    response = requests.get(url, headers=headers)
