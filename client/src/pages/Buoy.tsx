@@ -1,12 +1,13 @@
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import ModuleContent from '../components/ModuleContent';
-import { AppContext } from '../context';
-import { useForceUpdate } from '../hooks/forceUpdate';
-import { Row, Module, Buoy, ModuleType } from '../types';
-import './Buoy.css';
-import { FaPlus, FaTrash, FaEdit, FaSave } from 'react-icons/fa';
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import ModuleContent from "../components/ModuleContent";
+import { AppContext } from "../context";
+import { useForceUpdate } from "../hooks/forceUpdate";
+import { Row, Module, Buoy, ModuleType } from "../types";
+import "./Buoy.css";
+import { FaPlus, FaTrash, FaEdit, FaSave } from "react-icons/fa";
+import { formatName } from "../utils";
 
 function BuoyPage() {
   const context = useContext(AppContext);
@@ -48,7 +49,7 @@ function BuoyPage() {
   useEffect(() => {
     if (!params.name) return;
     axios
-      .get(import.meta.env.VITE_API_URL + '/buoy/update/' + params.name)
+      .get(import.meta.env.VITE_API_URL + "/buoy/update/" + params.name)
       .then((res) => {
         setBuoy(res.data);
       });
@@ -57,14 +58,14 @@ function BuoyPage() {
   return (
     <div className="pageContainer">
       <Link to="/">Overview</Link>
-      <h1>Buoy: {buoy?.name}</h1>
-      <p>Status: {['Ok', 'Warning', 'Error'][buoy?.status ?? 0]}</p>
+      <h1>Buoy: {formatName(buoy!.name)}</h1>
+      <p>Status: {["Ok", "Warning", "Error"][buoy?.status ?? 0]}</p>
       <p>Sensors: {buoy?.sensors.length}</p>
       <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
 
       <button className="button" onClick={() => setEdit((edit) => !edit)}>
         {edit ? <FaEdit /> : <FaSave />}
-        {edit ? 'Save' : 'Edit'}
+        {edit ? "Save" : "Edit"}
       </button>
       <div className="col">
         {context.rows.value.map((row: Row) => (
@@ -74,7 +75,7 @@ function BuoyPage() {
               <button
                 className="button"
                 onClick={() => removeRow(row.id)}
-                style={{ position: 'absolute', zIndex: 1 }}
+                style={{ position: "absolute", zIndex: 1 }}
               >
                 <FaTrash /> row
               </button>
@@ -86,7 +87,7 @@ function BuoyPage() {
                   <button
                     className="button"
                     onClick={() => removeModule(row, module.id)}
-                    style={{ position: 'absolute', right: 0 }}
+                    style={{ position: "absolute", right: 0 }}
                   >
                     <FaTrash /> module
                   </button>
@@ -96,7 +97,7 @@ function BuoyPage() {
             ))}
             {edit && (
               <button onClick={() => addModule(row)}>
-                {' '}
+                {" "}
                 <FaPlus />
                 module
               </button>

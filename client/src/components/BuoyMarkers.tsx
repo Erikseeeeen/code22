@@ -1,15 +1,16 @@
-import { Marker, Popup, useMap } from 'react-leaflet';
-import { useContext, useEffect } from 'react';
-import { Status } from '../types';
-import * as L from 'leaflet';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context';
+import { Marker, Popup, useMap } from "react-leaflet";
+import { useContext, useEffect } from "react";
+import { Status } from "../types";
+import * as L from "leaflet";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context";
+import { formatName } from "../utils";
 
 function BuoyMarkers() {
   const context = useContext(AppContext);
   const map = useMap();
   const navigate = useNavigate();
-  const getStatusColor = (status: Status) => ['green', 'orange', 'red'][status];
+  const getStatusColor = (status: Status) => ["green", "orange", "red"][status];
 
   const markerHtmlStyles = (status: Status) => `
     background-color: ${getStatusColor(status)};
@@ -51,11 +52,14 @@ function BuoyMarkers() {
           key={buoy.name}
         >
           <Popup>
-            <h3>{buoy.name}</h3>
+            <h3>{formatName(buoy.name)}</h3>
             <p>
-              {buoy.location.lat}, {buoy.location.long}
+              Lat: {buoy.location.lat}
               <br />
-              Status: {['Ok', 'Warning', 'Error'][buoy.status]}
+              Long: {buoy.location.long}
+              <br />
+              <br />
+              Status: <strong>{["Ok", "Warning", "Error"][buoy.status]}</strong>
             </p>
             <button onClick={() => navigate(`/buoy/${buoy.name}`)}>View</button>
           </Popup>
