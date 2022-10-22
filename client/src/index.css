@@ -3,40 +3,65 @@ ul {
   list-style: none;
 }
 
-.orange {
-  background-color: orange;
+:root {
+  --green: rgb(82, 186, 82);
+  --green-light: rgb(121, 210, 89);
+  --green-dark: rgb(57, 149, 71);
+  --orange: rgb(250, 163, 33);
+  --red: rgb(244, 70, 70);
+  --blue: rgb(71, 92, 159);
+  --blue-light: rgb(90, 130, 198);
+  --blue-dark: rgb(38, 54, 115);
 }
 
 .green {
-  background-color: green;
+  background-color: var(--green);
+}
+
+.orange {
+  background-color: var(--orange);
 }
 
 .red {
-  background-color: red;
+  background-color: var(--red);
 }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding-bottom: 1rem;
+  background-color: white;
 }
 
 button {
   margin: 0.5em;
   z-index: 100;
-  background-color: orange;
+  color: white;
+  background-color: var(--blue);
   padding: 0.8em 1.2em;
-  border-radius: 0.5em;
+  border-radius: 0.4em;
   border: 0;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: rgb(255, 188, 64);
+  background-color: var(--blue-light);
 }
 
 button:active {
-  background-color: rgb(238, 145, 39);
+  background-color: var(--blue-dark);
+}
+
+.btn-green {
+  background-color: var(--green);
+}
+
+.btn-green:hover {
+  background-color: var(--green-light);
+}
+
+.btn-green:active {
+  background-color: var(--green-dark);
 }
 
 button > svg {
@@ -44,6 +69,11 @@ button > svg {
   margin: 0;
   margin-right: 0.3em;
   transform: translateY(2px);
+}
+
+select {
+  padding: 0.4em;
+  border-radius: 0.4em;
 }
 
 .circle-container {

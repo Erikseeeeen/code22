@@ -26,7 +26,7 @@ export type Sensor = {
   name: string;
   threshold_low: number;
   threshold_high: number;
-  format: 'csv' | 'mp4';
+  format: "csv" | "mp4" | "gps";
   timestamp: string;
 };
 
@@ -61,6 +61,16 @@ export type Buoy = {
 export type AppContextType = {
   rows: { value: Row[]; set: any };
   buoys: { value: BuoySimple[]; set: any };
+};
+
+export type LatLong = {
+  lat: number;
+  long: number;
+};
+
+export type BuoyPosition = {
+  timestamp: number;
+  coordinate: LatLong;
 };
 
 export type Plot = {
