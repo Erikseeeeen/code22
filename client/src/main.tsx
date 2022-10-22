@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
-import BuoyPage from "./pages/Buoy";
-import Overview from "./pages/Overview";
-import "./index.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Three from "./components/three/Three";
-import { AppContext } from "./context";
-import { BuoySimple, ModuleType, Row } from "./types";
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+import BuoyPage from './pages/Buoy';
+import Overview from './pages/Overview';
+import './index.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Three from './components/three/Three';
+import { AppContext } from './context';
+import { BuoySimple, ModuleType, Row } from './types';
 
 function App() {
   const [rows, setRows] = useState<Row[]>([
     {
       id: 0,
       modules: [
-        { id: 0, type: ModuleType.Chart },
+        { id: 0, type: ModuleType.None },
         { id: 1, type: ModuleType.Three },
       ],
     },
     {
       id: 1,
-      modules: [{ id: 0, type: ModuleType.None }],
+      modules: [{ id: 0, type: ModuleType.Chart }],
     },
   ]);
   const [buoys, setBuoys] = useState<BuoySimple[]>([]);
@@ -42,7 +42,7 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App></App>
   </React.StrictMode>
