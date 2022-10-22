@@ -84,6 +84,8 @@ export type Plot = {
   limHigh: number;
   recommendedLow: number;
   recommendedHigh: number;
+  from: Date;
+  to: Date;
 };
 
 export type RgbColor = {

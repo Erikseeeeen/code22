@@ -4,10 +4,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import { LinePlot } from "./Line";
+import { setQuaternionFromProperEuler } from "three/src/math/MathUtils";
 
 function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   const [plot, setPlot] = useState<Plot>();
   const [plotSensor, setPlotSensor] = useState<Sensor>();
+  const [from, setFrom] = useState<Date>(new Date());
+  const [to, setTo] = useState<Date>(new Date());
 
   useEffect(() => {
     if (buoy.sensors.length == 0) return;
@@ -37,19 +40,25 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           limHigh: plotSensor?.limit_high ?? 0,
           recommendedLow: plotSensor?.recommended_low ?? 0,
           recommendedHigh: plotSensor?.recommended_high ?? 0,
+          from: from,
+          to: to,
         };
 
         setPlot(plot);
       });
-  }, [plotSensor]);
+  }, [plotSensor, from, to]);
 
   useEffect(() => {
     setPlotSensor(buoy.sensors.find((sensor) => sensor.format == "csv"));
   }, [buoy.name]);
+  useEffect(() => {
+    setPlotSensor(buoy.sensors.find((sensor) => sensor.format == "csv"));
+  }, []);
 
   return (
     <div className="moduleContent">
       <select
+        style={{ margin: 12 }}
         value={plotSensor?.name}
         onChange={(e) =>
           setPlotSensor(buoy.sensors.find((s) => s.name == e.target.value))
@@ -62,6 +71,26 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
             <option>{sensor.name}</option>
           ))}
       </select>
+      <div className={"datePickers"}>
+        <div className={"datePicker"}>
+          From:{" "}
+          <input
+            type="datetime-local"
+            onChange={(e) => {
+              setFrom(e.target.valueAsDate ?? new Date());
+            }}
+          />
+        </div>
+        <div className={"datePicker"}>
+          To:{" "}
+          <input
+            type="datetime-local"
+            onChange={(e) => {
+              setTo(e.target.valueAsDate ?? new Date());
+            }}
+          />
+        </div>
+      </div>
       <LinePlot plot={plot} />
     </div>
   );

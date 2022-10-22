@@ -10,7 +10,7 @@ import {
 
 import { BuoyPosition } from "../types";
 import * as L from "leaflet";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
   const map = useMap();
@@ -46,8 +46,9 @@ function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
     });
     meanLat = meanLat / positions.length;
     meanLong = meanLong / positions.length;
+
     if (positions) {
-      map.setView([meanLat, meanLong], 18);
+      map.setView([meanLat, meanLong], 12);
     }
   }, [positions]);
 
@@ -79,10 +80,14 @@ function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
 function BuoyMap({ positions }: { positions: BuoyPosition[] }) {
   return (
     <MapContainer
-      center={[61.505, 0]}
-      zoom={8}
+      //center={[positions[0].coordinate.lat, positions[0].coordinate.long]}
+      zoom={12}
       scrollWheelZoom={true}
-      style={{ width: "100%", height: "100%", borderRadius: "0.5em" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        borderRadius: "0.5em",
+      }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
