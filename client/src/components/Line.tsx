@@ -16,6 +16,17 @@ export function LinePlot({ plots }: { plots: Plot[] }) {
         text: '',
       },
     },
+    scales: {
+      x: {
+        ticks: {
+          callback: (value: number, index: number, _ticks: number[]) => {
+            return index % 10 == 0
+              ? new Date(value * 1000).toLocaleTimeString()
+              : '';
+          },
+        },
+      },
+    },
   };
 
   const colors: RgbColor[] = [
@@ -37,5 +48,11 @@ export function LinePlot({ plots }: { plots: Plot[] }) {
     }),
   };
 
-  return <Line style={{ maxHeight: '100%' }} options={options} data={data} />;
+  return (
+    <div style={{ height: '100%', width: '100%' }}>
+      <b></b>
+      {/* @ts-ignore */}
+      <Line style={{ maxHeight: '100%' }} options={options} data={data} />
+    </div>
+  );
 }
