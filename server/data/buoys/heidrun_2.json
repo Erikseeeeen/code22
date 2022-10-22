@@ -1,0 +1,30 @@
+{
+  "name": "heidrun_2",
+  "status": 0,
+  "warnings": {},
+  "location": {
+    "lat": 65.335833,
+    "long": 7.3275
+  },
+  "sensors": [
+    {
+      "name": "heidrun_2_pressure",
+      "threshold_low": 1.8,
+      "threshold_high": 3.2,
+      "format": "csv",
+      "timestamp": "1666353336.4543922"
+    },
+    {
+      "name": "heidrun_2_temperature",
+      "threshold_low": 2.0,
+      "threshold_high": 5.0,
+      "format": "csv",
+      "timestamp": "1666353336.4543922"
+    },
+    {
+      "name": "heidrun_2_camera",
+      "format": "mp4",
+      "timestamp": "1666353336.4543922"
+    }
+  ]
+}
