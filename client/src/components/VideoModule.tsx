@@ -1,29 +1,26 @@
-import { Buoy, Module, ModuleType, Plot } from "../types";
-import "./ModuleContent.css";
-import Three from "./three/Three";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
-import { LinePlot } from "./Line";
-import Loading from "./Loading";
+import { Buoy, Module } from '../types';
+import './ModuleContent.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Loading from './Loading';
 
 function VideoModule({ module, buoy }: { module: Module; buoy: Buoy }) {
-  const [video, setVideo] = useState("");
+  const [video, setVideo] = useState('');
 
   useEffect(() => {
-    const video_sensor = buoy.sensors.find((s) => s.format == "mp4");
+    const video_sensor = buoy.sensors.find((s) => s.format == 'mp4');
     if (video_sensor) {
       axios
         .get<Blob>(
-          import.meta.env.VITE_API_URL + "/data/video/" + video_sensor.name,
-          { responseType: "blob" }
+          import.meta.env.VITE_API_URL + '/data/video/' + video_sensor.name,
+          { responseType: 'blob' }
         )
         .then((res) => {
           const b = new Blob([res.data]);
           setVideo(URL.createObjectURL(b));
         });
     } else {
-      setVideo("");
+      setVideo('');
     }
   }, [buoy.name]);
 

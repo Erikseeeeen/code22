@@ -84,7 +84,6 @@ function BuoyPage() {
     const nextIndex =
       (index + offset + context.buoys.value.length) %
       context.buoys.value.length;
-    console.log(index, nextIndex);
     const nextBuoy = context.buoys.value[nextIndex];
     navigate('/buoy/' + nextBuoy.name);
   };
@@ -121,7 +120,7 @@ function BuoyPage() {
       >
         {!edit && (
           <button onClick={() => navigate('/')}>
-            <FaHome />
+            <FaHome /> Overview
           </button>
         )}
         {edit && (

@@ -1,6 +1,6 @@
 import { Buoy, Module, ModuleType } from '../types';
 import './ModuleContent.css';
-import Three from './three/Three';
+import ThreeScene from './three/ThreeScene';
 import GraphModule from './GraphModule';
 import VideoModule from './VideoModule';
 import MapModule from './MapModule';
@@ -9,7 +9,7 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
   if (module.type === ModuleType.Three) {
     return (
       <div className="moduleContent">
-        <Three />
+        <ThreeScene buoy={buoy} />
       </div>
     );
   } else if (module.type === ModuleType.Chart && buoy.sensors.length > 0) {

@@ -26,7 +26,7 @@ export type Sensor = {
   name: string;
   threshold_low: number;
   threshold_high: number;
-  format: "csv" | "mp4" | "metadata";
+  format: 'csv' | 'mp4' | 'metadata';
   timestamp: string;
 };
 
@@ -84,4 +84,11 @@ export type RgbColor = {
   g: number;
   b: number;
   a?: number;
+};
+
+export type Metadata = {
+  timestamp: number;
+  lat: number;
+  long: number;
+  last_surface_time: number;
 };

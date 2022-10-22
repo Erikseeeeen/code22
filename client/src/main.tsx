@@ -1,17 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import BuoyPage from './pages/Buoy';
 import Overview from './pages/Overview';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Three from './components/three/Three';
 import { AppContext } from './context';
 import { BuoySimple, ModuleType, Row } from './types';
-import axios from 'axios';
 import Wrapper from './components/Wrapper';
 
 function App() {
-
   const [rows, setRows] = useState<Row[]>([
     {
       id: 0,
@@ -39,7 +36,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="buoy/:name" element={<BuoyPage />} />
-            <Route path="three" element={<Three />} />
           </Routes>
         </BrowserRouter>
       </Wrapper>
@@ -47,7 +43,7 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App></App>
   </React.StrictMode>
