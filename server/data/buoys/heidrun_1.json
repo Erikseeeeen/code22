@@ -1,1 +1,40 @@
-{"name": "heidrun_1", "status": 2, "warnings": [{"name": "heidrun_1_pressure", "rows": [50], "diffs": [50, 51], "threshold": [50]}, {"name": "heidrun_1_temperature", "rows": [], "diffs": [], "threshold": []}], "anchor": {"lat": 65.325833, "long": 7.3175}, "sensors": [{"name": "heidrun_1_pressure", "threshold_low": 2.0, "threshold_high": 3.0, "format": "csv", "timestamp": "1666353336.4543922", "batch_id": 0}, {"name": "heidrun_1_temperature", "threshold_low": 0.0, "threshold_high": 27.0, "format": "csv", "timestamp": "1666353336.4543922"}]}
+{
+  "name": "heidrun_1",
+  "status": 2,
+  "warnings": [
+    {
+      "name": "heidrun_1_pressure",
+      "rows": [42, 43, 44],
+      "diffs": [42, 43, 44, 45],
+      "threshold": [42, 43, 44]
+    },
+    {
+      "name": "heidrun_1_temperature",
+      "rows": [],
+      "diffs": [],
+      "threshold": []
+    }
+  ],
+  "anchor": { "lat": 65.325833, "long": 7.3175 },
+  "sensors": [
+    {
+      "name": "heidrun_1_pressure",
+      "threshold_low": 2.0,
+      "threshold_high": 3.0,
+      "format": "csv",
+      "timestamp": "1666353336.4543922",
+      "batch_id": 0
+    },
+    {
+      "name": "heidrun_1_temperature",
+      "threshold_low": 0.0,
+      "threshold_high": 27.0,
+      "format": "csv",
+      "timestamp": "1666353336.4543922"
+    },
+    {
+      "name": "heidrun_1_gps",
+      "format": "gps"
+    }
+  ]
+}

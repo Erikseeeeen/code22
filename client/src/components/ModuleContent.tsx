@@ -1,8 +1,9 @@
-import { Buoy, Module, ModuleType, Plot } from '../types';
-import './ModuleContent.css';
-import Three from './three/Three';
-import GraphModule from './GraphModule';
-import VideoModule from './VideoModule';
+import { Buoy, Module, ModuleType, Plot } from "../types";
+import "./ModuleContent.css";
+import Three from "./three/Three";
+import GraphModule from "./GraphModule";
+import VideoModule from "./VideoModule";
+import MapModule from "./MapModule";
 
 function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
   if (module.type === ModuleType.Three) {
@@ -15,6 +16,8 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
     return <GraphModule module={module} buoy={buoy} />;
   } else if (module.type === ModuleType.Video) {
     return <VideoModule module={module} buoy={buoy} />;
+  } else if (module.type === ModuleType.Map) {
+    return <MapModule buoy={buoy} />;
   } else {
     return (
       <div className="moduleContent">
