@@ -89,6 +89,7 @@ export type Plot = {
   recommendedHigh: number;
   from: Date;
   to: Date;
+  diffs?: number[];
 };
 
 export type RgbColor = {

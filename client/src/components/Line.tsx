@@ -6,7 +6,7 @@ Chart.register(annotationPlugin);
 Chart.register(...registerables);
 export function LinePlot({ plot }: { plot: Plot | undefined }) {
   if (!plot) return <div></div>;
-  const options = {
+  var options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -59,6 +59,19 @@ export function LinePlot({ plot }: { plot: Plot | undefined }) {
             yMax: plot.limHigh,
             backgroundColor: "rgba(255, 170, 0, 0.3)",
           },
+          ...plot.diffs?.map((diff) => {
+            const x = {
+              borderWidth: 0,
+              drawTime: "beforeDatasetsDraw",
+              type: "box",
+              xMin: diff - 2,
+              xMax: diff + 2,
+              yMin: plot.y[diff] - 1,
+              yMax: 1 + +plot.y[diff],
+              backgroundColor: "rgba(255, 0, 0, 1.0)",
+            };
+            return x;
+          }),
         },
       },
     },
@@ -104,6 +117,7 @@ export function LinePlot({ plot }: { plot: Plot | undefined }) {
       },
     },
   };
+
   const colors: RgbColor[] = [
     { r: 255, g: 99, b: 132 },
     { r: 99, g: 132, b: 255 },

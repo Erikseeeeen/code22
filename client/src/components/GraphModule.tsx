@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import { LinePlot } from "./Line";
 import { setQuaternionFromProperEuler } from "three/src/math/MathUtils";
+import { warning } from "@remix-run/router";
 
 function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   const [plot, setPlot] = useState<Plot>();
@@ -43,7 +44,10 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           from: from,
           to: to,
         };
-        for (var sensor of buoy.sensors) {
+        for (const warning of buoy.warnings) {
+          if (warning.name == plotSensor?.name && warning.diffs.length > 0) {
+            plot.diffs = warning.diffs;
+          }
         }
         setPlot(plot);
       });
