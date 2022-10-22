@@ -23,6 +23,7 @@ function BuoyPage() {
   const context = useContext(AppContext);
   const [edit, setEdit] = useState(false);
   const [buoy, setBuoy] = useState<Buoy | null>(null);
+  const [presets, setPresets] = useState<string[]>([]);
   const forceUpdate = useForceUpdate();
   const params = useParams();
 
@@ -42,6 +43,14 @@ function BuoyPage() {
       },
     ]);
   };
+
+  const savePreset = (name: string) => {
+    axios.post(import.meta.env.VITE_API_URL + '/presets/' + name, {setup: context.rows.value});
+  }
+
+  const loadPreset = (name: string) => {
+    axios.get(import.meta.env.VITE_API_URL + '/presets/' + name).then((response) => context.rows.set(response.data["setup"]));
+  }
 
   const addModule = (row: Row) => {
     row.modules.push({
@@ -76,7 +85,6 @@ function BuoyPage() {
   };
 
   useEffect(() => {
-    console.log(params.name);
     if (!params.name) return;
     axios
       .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
@@ -84,6 +92,10 @@ function BuoyPage() {
         setBuoy(res.data);
       });
   }, [params.name]);
+
+  useEffect(() => {
+    axios.get(import.meta.env.VITE_API_URL + '/presets').then((response) => setPresets(response.data["presets"]));
+  }, [])
 
   if (!buoy) return <Loading />;
   return (
@@ -98,6 +110,10 @@ function BuoyPage() {
         {edit ? <FaEdit /> : <FaSave />}
         {edit ? 'Save' : 'Edit'}
       </button>
+      <button className="button" onClick={() => savePreset("name")}>Save preset</button>
+      <select onChange={(e) => loadPreset(e.target.value)}>
+        {presets.map((preset: string) => <option label={preset}>{preset}</option>)}
+      </select>
       <div className="col">
         {context.rows.value.map((row: Row) => (
           // Row
