@@ -75,7 +75,7 @@ def oscillate_then_surprise(x):
     else:
         return 0.1 * math.sin(100*x) + 0.9 * math.sin(100*(x-0.9))
 
-resolution = 365
+resolution = 1200
 data = (generate_data((time.time() - 6 * 3600, time.time()),
     [
         DataColumn('pressure', (2.0, 3.0), 'increment', resolution),
@@ -120,3 +120,6 @@ heidrun_2_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
 ))
 
 export_csv("heidrun_2_temperature.csv", heidrun_2_temperature)
+export_csv("heidrun_2_pressure.csv", heidrun_2_pressure)
+export_csv("heidrun_1_pressure.csv", heidrun_1_pressure)
+export_csv("heidrun_1_temperature.csv", heidrun_1_temperature)
