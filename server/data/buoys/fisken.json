@@ -1,0 +1,19 @@
+{
+    "name": "fisken",
+    "status": 0,
+    "warnings": [],
+    "anchor": {
+        "lat": 62.7463948,
+        "long": 7.90215
+    },
+    "sensors": [
+        {
+            "name": "fisken_fishes",
+            "threshold_low": 0,
+            "threshold_high": 17000,
+            "format": "csv",
+            "timestamp": "1666353336.4543922",
+            "batch_id": 0
+        }
+    ]
+}

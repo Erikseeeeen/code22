@@ -100,7 +100,7 @@ function BuoyPage() {
 
   const toggleEdit = () => {
     setEdit((edit) => !edit);
-    savePreset('name');
+    savePreset(prompt() ?? 'name');
   };
 
   const navigateBuoy = (offset: number) => {
@@ -172,7 +172,9 @@ function BuoyPage() {
             <span>Change preset: </span>
             <select onChange={(e) => loadPreset(e.target.value)}>
               {presets.map((preset: string) => (
-                <option label={preset}>{preset}</option>
+                <option label={preset} key={preset}>
+                  {preset}
+                </option>
               ))}
             </select>
           </div>
@@ -213,7 +215,7 @@ function BuoyPage() {
                     </button>
                   </div>
                 )}
-                <ModuleContent module={module} buoy={buoy} />
+                <ModuleContent module={module} key={module.type} buoy={buoy} />
               </div>
             ))}
             {edit && (

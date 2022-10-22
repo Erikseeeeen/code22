@@ -1,0 +1,11 @@
+{
+    "name": "platform_l2",
+    "status": 0,
+    "warnings": [],
+    "anchor": {
+        "lat": 63.235833,
+        "long": 5.5275
+    },
+    "sensors": [
+    ]
+}
