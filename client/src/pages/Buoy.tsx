@@ -53,6 +53,7 @@ function BuoyPage() {
     axios
       .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
       .then((res) => {
+        console.log(res);
         setBuoy(res.data);
       });
   }, [params.name]);
@@ -61,10 +62,10 @@ function BuoyPage() {
   return (
     <div className="pageContainer">
       <Link to="/">Overview</Link>
-      <h1>Buoy: {formatName(buoy.name)}</h1>
-      <p>Status: {["Ok", "Warning", "Error"][buoy.status ?? 0]}</p>
-      <p>Sensors: {buoy.sensors.length}</p>
-      <p>Warnings: {JSON.stringify(buoy.warnings)}</p>
+      <h1>Buoy: {buoy && formatName(buoy.name)}</h1>
+      <p>Status: {["Ok", "Warning", "Error"][buoy?.status ?? 0]}</p>
+      <p>Sensors: {buoy?.sensors.length}</p>
+      <p>Warnings: {JSON.stringify(buoy?.warnings)}</p>
 
       <button className="button" onClick={() => setEdit((edit) => !edit)}>
         {edit ? <FaEdit /> : <FaSave />}
