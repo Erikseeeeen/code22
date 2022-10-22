@@ -66,9 +66,9 @@ export function LinePlot({ plot }: { plot: Plot | undefined }) {
               type: "box",
               xMin: diff - 2,
               xMax: diff + 2,
-              yMin: plot.y[diff] - 1,
-              yMax: 1 + +plot.y[diff],
-              backgroundColor: "rgba(255, 0, 0, 1.0)",
+              yMin: -Infinity,
+              yMax: Infinity,
+              backgroundColor: "rgba(255, 0, 0, 0.4)",
             };
             return x;
           }),
