@@ -1,7 +1,9 @@
 #include <SPI.h>
 #include <Ethernet.h>
+#include <Adafruit_MAX31856.h>
 
-
+Adafruit_MAX31856 thermo0 = Adafruit_MAX31856(5, 4, 3, 2);
+Adafruit_MAX31856 thermo1 = Adafruit_MAX31856(6, 4, 3, 2);
 byte mac[] = {
   0x2C, 0xF7, 0xF1, 0x08, 0x36, 0xDB
 };
@@ -10,10 +12,9 @@ IPAddress ip(192, 168, 1, 177);
 
 EthernetServer server(80);
 
-int t = 0;
-int diff = 0;
-int t0 = 0;
-
+unsigned int t = 0;
+unsigned int t_0 = 0;
+bool submerged = 0;
 void setup() {
 
   Serial.begin(9600);
@@ -21,7 +22,14 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
   Serial.println("Ethernet WebServer Example");
-
+  
+  thermo0.begin();
+  thermo1.begin();
+  thermo0.setThermocoupleType(MAX31856_TCTYPE_K);
+  thermo1.setThermocoupleType(MAX31856_TCTYPE_K);
+  thermo0.setConversionMode(MAX31856_CONTINUOUS);
+  thermo1.setConversionMode(MAX31856_CONTINUOUS);
+  
   // start the Ethernet connection and the server:
   Ethernet.begin(mac, ip);
 
@@ -44,22 +52,52 @@ void setup() {
 
 
 void loop() {
-  EthernetClient client = server.available();
-  for (int analogChannel = 0; analogChannel < 6; analogChannel++) {
-            int sensorReading = analogRead(analogChannel);
-            t = millis();
-            String s;
-            s=s+analogChannel;
-            s=s+sensorReading;
-            s=s+t;
-            client.println(s);
-          }
-  int deltaT = millis()-t0;
-  t0=millis();
-  Serial.print(" delta t = ");
-  Serial.println(deltaT);
-  if (Ethernet.linkStatus() == LinkOFF) {
-    Serial.println("Ethernet cable is not connected.");
+  while(submerged==1){
+    Serial.print("submerged");
+    Serial.println(thermo1.readThermocoupleTemperature());
+    if(thermo1.readThermocoupleTemperature()>20){
+      submerged = 0;
+    }
   }
-          
+  EthernetClient client = server.available();
+  ////////////////////////////////////////////////////////////
+  t_0 = millis()/10;
+  client.println("START");
+  client.println("BATTERY");
+  client.println(86);
+  ////////////////////////////////////////////////////////////
+  t_0 = millis()/10;
+  client.println("START");
+  client.println("POSITION");
+  client.print(63.430956);
+  client.print(';');
+  client.print(10.395863);
+  ////////////////////////////////////////////////////////////
+  t_0 = millis()/10;
+  client.println("START");
+  client.println("THERMO0");
+  for (int i = 0; i<100; i++){
+    float sensorReading = thermo0.readThermocoupleTemperature();
+    //float sensorReading = 2.1;
+    t = millis()/10-t_0;
+    String s;
+    s=s+t;
+    s=s+';';
+    s=s+thermo0.readThermocoupleTemperature();
+    s=s+'\n';
+    
+    client.print(s); 
+    if (Ethernet.linkStatus() == LinkOFF) {
+      Serial.println("Ethernet cable is not connected.");
+    }
+  }
+  client.println("DONE");
+  while(submerged==0){
+    Serial.print("over");
+    Serial.println(thermo1.readThermocoupleTemperature());
+    if(thermo1.readThermocoupleTemperature()<20){
+      submerged = 1;
+    }
+  }
+  
 }
