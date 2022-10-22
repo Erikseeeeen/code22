@@ -25,6 +25,7 @@ function BuoyPage() {
   const [edit, setEdit] = useState(false);
   const [buoy, setBuoy] = useState<Buoy | null>(null);
   const [presets, setPresets] = useState<string[]>([]);
+  const [currentPreset, setCurrentPreset] = useState('default');
   const forceUpdate = useForceUpdate();
   const params = useParams();
   const navigate = useNavigate();
@@ -51,16 +52,25 @@ function BuoyPage() {
     ]);
   };
 
-  const savePreset = (name: string) => {
+  const savePreset = (name: string) =>
     axios.post(import.meta.env.VITE_API_URL + '/presets/' + name, {
       setup: context.rows.value,
     });
-  };
 
   const loadPreset = (name: string) => {
-    axios
+    setCurrentPreset(name);
+    return axios
       .get(import.meta.env.VITE_API_URL + '/presets/' + name)
       .then((response) => context.rows.set(response.data['setup']));
+  };
+
+  const newPreset = async () => {
+    const name = prompt();
+    if (!name) return;
+    setCurrentPreset(name);
+    await savePreset(name);
+    await loadAllPresets();
+    await loadPreset(name);
   };
 
   const addModule = (row: Row) => {
@@ -99,8 +109,10 @@ function BuoyPage() {
   };
 
   const toggleEdit = () => {
+    if (edit) {
+      savePreset(currentPreset);
+    }
     setEdit((edit) => !edit);
-    savePreset(prompt() ?? 'name');
   };
 
   const navigateBuoy = (offset: number) => {
@@ -124,10 +136,13 @@ function BuoyPage() {
       });
   }, [params.name]);
 
-  useEffect(() => {
+  const loadAllPresets = () =>
     axios
       .get(import.meta.env.VITE_API_URL + '/presets')
       .then((response) => setPresets(response.data['presets']));
+
+  useEffect(() => {
+    loadAllPresets();
   }, []);
 
   if (!buoy) return <Loading />;
@@ -170,13 +185,19 @@ function BuoyPage() {
         {edit && (
           <div>
             <span>Change preset: </span>
-            <select onChange={(e) => loadPreset(e.target.value)}>
+            <select
+              value={currentPreset}
+              onChange={(e) => loadPreset(e.target.value)}
+            >
               {presets.map((preset: string) => (
                 <option label={preset} key={preset}>
                   {preset}
                 </option>
               ))}
             </select>
+            <button onClick={newPreset}>
+              <FaPlus /> Copy this preset
+            </button>
           </div>
         )}
       </div>
