@@ -76,7 +76,7 @@ def oscillate_then_surprise(x):
     else:
         return 0.1 * math.sin(100*x) + 0.9 * math.sin(100*(x-0.9))
 
-resolution = 1200
+resolution = 400
 data = (generate_data((time.time() - 6 * 3600, time.time()),
     [
         DataColumn('pressure', (2.0, 3.0), 'increment', resolution),
