@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, request, send_file
 import os
 import json
 import science
@@ -57,13 +57,22 @@ def get_mp4_file(file):
     return send_file(mp4_path, mimetype="video/mp4")
 
 
-@app.get("/buoy/update/<name>")
+@app.post("/buoy/update/<name>")
 def update_buoy(name):
-    with open(os.path.join(data_buoys_folder, name + ".json")) as file:
+    data = request.form
+    csv = request.files["csv"]
+    batch_id = data["batch_id"]
+    file_name = data["file_name"]
+    with open(os.path.join(data_buoys_folder, name + ".json"), "r") as file:
         buoy = json.load(file)
     sensors = buoy["sensors"]
+    [s for s in sensors if s["name"] == file_name.removesuffix(".csv")][0]["batch_id"] = int(batch_id)
     buoy["warnings"] = []
+    # update warnings according to new sensor data
+    # also do data processing
     for sensor in sensors:
+        if sensor["format"] != "csv":
+            continue
         obj = {
             "name": sensor["name"],
             "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
@@ -71,6 +80,8 @@ def update_buoy(name):
             "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
         }
         buoy["warnings"].append(obj)
-
-    response = jsonify(buoy)
-    return response
+    # save buoy with warnings
+    with open(os.path.join(data_buoys_folder, name + ".json"), "w") as file:
+        json.dump(buoy, file)
+    csv.save(os.path.join(data_csv_folder, file_name))
+    return "ok"

@@ -14,6 +14,9 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
     const newPlots: Plot[] = [];
     const promises: Promise<void>[] = [];
     for (const sensor of buoy.sensors) {
+      if (sensor.format != "csv") {
+        continue;
+      }
       const promise = axios
         .get(import.meta.env.VITE_API_URL + '/data/csv/' + sensor.name)
         .then((res) => {

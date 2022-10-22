@@ -49,7 +49,7 @@ function BuoyPage() {
   useEffect(() => {
     if (!params.name) return;
     axios
-      .get(import.meta.env.VITE_API_URL + "/buoy/update/" + params.name)
+      .get(import.meta.env.VITE_API_URL + '/buoy/' + params.name)
       .then((res) => {
         setBuoy(res.data);
       });
