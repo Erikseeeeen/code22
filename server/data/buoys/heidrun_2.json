@@ -1,41 +1,76 @@
 {
-  "name": "heidrun_2",
-  "status": 0,
-  "warnings": [
-    { "name": "heidrun_2_pressure", "rows": [], "diffs": [], "threshold": [] },
-    {
-      "name": "heidrun_2_temperature",
-      "rows": [],
-      "diffs": [],
-      "threshold": []
-    }
-  ],
-  "anchor": { "lat": 65.335833, "long": 7.3275 },
-  "sensors": [
-    {
-      "name": "heidrun_2_pressure",
-      "threshold_low": 1.0,
-      "threshold_high": 3.0,
-      "format": "csv",
-      "timestamp": "1666353336.4543922",
-      "batch_id": 0
+    "name": "heidrun_2",
+    "status": 2,
+    "warnings": [
+        {
+            "name": "heidrun_2_pressure",
+            "rows": [
+                13
+            ],
+            "diffs": [
+                13,
+                14
+            ],
+            "threshold": [
+                13
+            ]
+        },
+        {
+            "name": "heidrun_2_temperature",
+            "rows": [],
+            "diffs": [],
+            "threshold": []
+        },
+        {
+            "name": "heidrun_2_battery",
+            "rows": [],
+            "diffs": [],
+            "threshold": []
+        }
+    ],
+    "anchor": {
+        "lat": 65.335833,
+        "long": 7.3275
     },
-    {
-      "name": "heidrun_2_temperature",
-      "threshold_low": 1.0,
-      "threshold_high": 20.0,
-      "format": "csv",
-      "timestamp": "1666353336.4543922",
-      "batch_id": 0
-    },
-    {
-      "name": "heidrun_2_camera",
-      "format": "mp4",
-      "timestamp": "1666353336.4543922"
-    },
-    {
-      "name": "heidrun_2_metadata",
-      "format": "metadata"
-    }
-  ]
+    "sensors": [
+        {
+            "name": "heidrun_2_pressure",
+            "limit_low": 1,
+            "limit_high": 3,
+            "recommended_low": 1.5,
+            "recommended_high": 2.5,
+            "format": "csv",
+            "timestamp": "1666353336.4543922",
+            "batch_id": 0
+        },
+        {
+            "name": "heidrun_2_temperature",
+            "limit_low": 1,
+            "limit_high": 20,
+            "recommended_low": 3,
+            "recommended_high": 18,
+            "format": "csv",
+            "timestamp": "1666353336.4543922",
+            "batch_id": 0
+        },
+        {
+            "name": "heidrun_2_camera",
+            "format": "mp4",
+            "timestamp": "1666353336.4543922"
+        },
+        {
+            "name": "heidrun_2_gps",
+            "format": "gps"
+        },
+        {
+            "name": "heidrun_2_battery",
+            "limit_low": 0.1,
+            "limit_high": 1.01,
+            "recommended_low": 0.2,
+            "recommended_high": 0.9,
+            "format": "csv",
+            "timestamp": "1666353336.4543922",
+            "batch_id": 0
+        }
+    ]
 }

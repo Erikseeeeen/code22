@@ -1,14 +1,14 @@
-import { useEffect, useContext } from 'react';
-import { AppContext } from '../context';
-import { BuoySimple, Status } from '../types';
-import { useNavigate } from 'react-router-dom';
-import './warnings.css';
-import { formatName } from '../utils';
+import { useEffect, useContext } from "react";
+import { AppContext } from "../context";
+import { BuoySimple, Status } from "../types";
+import { useNavigate } from "react-router-dom";
+import "./warnings.css";
+import { formatName } from "../utils";
 
 export function ColoredCircle({ status }: { status: Status }) {
-  const color = ['green', 'orange', 'red'][status];
+  const color = ["green", "orange", "red"][status];
 
-  return <div className={'circle ' + color}></div>;
+  return <div className={"circle " + color}></div>;
 }
 
 function WarningItem({ buoy }: { buoy: BuoySimple }) {
@@ -23,7 +23,7 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
         <ColoredCircle status={buoy.status} />
       </div>
 
-      <div className={'warning-item'}>
+      <div className={"warning-item"}>
         <div>
           <strong>{formatName(buoy.name)}</strong>
         </div>
@@ -39,7 +39,7 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
                 warning.threshold.length > 0 ? (
                   <li key={i}>{formatName(warning.name)}</li>
                 ) : (
-                  ''
+                  ""
                 )
               )}
             </ul>
@@ -55,10 +55,9 @@ function Warnings() {
 
   return (
     <div className="warning-container">
-      {context.buoys.value
-        .map((buoy, i) => {
-          return <WarningItem key={i} buoy={buoy} />;
-        })}
+      {context.buoys.value.map((buoy, i) => {
+        return <WarningItem key={i} buoy={buoy} />;
+      })}
     </div>
   );
 }
