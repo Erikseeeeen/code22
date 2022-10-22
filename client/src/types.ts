@@ -4,6 +4,8 @@ export enum ModuleType {
   Chart,
   Map,
   Video,
+  Health,
+  Sonar,
 }
 
 export type Module = {

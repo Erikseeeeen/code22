@@ -6,9 +6,11 @@ import Papa from 'papaparse';
 import { LinePlot } from './Line';
 
 function HealthModule({ module, buoy }: { module: Module; buoy: Buoy; }) {
+  const [lastBatteryFraction, setLastBatteryFraction] = useState(1.0);
+  const [lastServiceTime, setLastServiceTime] = useState(0.0);
+  const [lastSurfaceTime, setLastSurfaceTime] = useState(0.0);
   useEffect(() => {
     const fetchMetaData = async () => {
-      const [battery, setBattery] = useState(1.0);
       for (const sensor of buoy.sensors) {
         if (sensor.format !== "metadata") continue;
         await axios
@@ -17,8 +19,12 @@ function HealthModule({ module, buoy }: { module: Module; buoy: Buoy; }) {
             const jsonData = Papa.parse(res.data, { header: true }).data;
 
             jsonData.forEach((datarow: any) => {
-              const batteryFraction: number = datarow['last_battery_fraction']
-              setBattery(batteryFraction);
+              const lastBatteryFraction: number = datarow['last_battery_fraction']
+              setLastBatteryFraction(lastBatteryFraction);
+              const lastSurfaceTime: number = datarow['last_surface_time']
+              setLastServiceTime(lastSurfaceTime);
+              const lastServiceTime: number = datarow['last_service_time']
+              setLastSurfaceTime(lastServiceTime);
             });
           });
       }
@@ -30,7 +36,11 @@ function HealthModule({ module, buoy }: { module: Module; buoy: Buoy; }) {
 
   return (
     <div className="moduleContent">
-      battery
+      <>
+      Last surface time: {new Date(lastSurfaceTime*1000)}
+      Buoy last serviced: {new Date(lastServiceTime*1000)}
+      Last known battery percentage: {lastBatteryFraction * 100}%
+      </>
     </div>
   );
 }
