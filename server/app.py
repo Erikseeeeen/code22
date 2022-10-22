@@ -108,4 +108,4 @@ def save_preset(name):
 @app.get("/presets")
 def get_all_presets():
     entries = os.scandir(presets_folder)
-    return jsonify([entry.name.removesuffix(".json") for entry in entries])
+    return jsonify({"presets": [entry.name.removesuffix(".json") for entry in entries]})
