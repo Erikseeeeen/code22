@@ -99,10 +99,13 @@ def process_update(name, csv, batch_id, file_name):
                 "name": sensor["name"],
                 "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
                 "diffs": science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
-                "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["limit_low"], sensor["limit_high"])
+                "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["limit_low"], sensor["limit_high"]),
+                "warning": science.get_warning_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["recommended_low"], sensor["recommended_high"])
             }
             if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
                 buoy["status"] = 2
+            elif len(obj["warning"]):
+                buoy["status"] = 1
             buoy["warnings"].append(obj)
         elif sensor["format"] == "metadata":
             pass
@@ -114,6 +117,37 @@ def process_update(name, csv, batch_id, file_name):
     csv.save(os.path.join(data_csv_folder, file_name))
     return "ok"
 
+@app.get("/buoy/update_all")
+def update_all():
+    entries = os.scandir(data_buoys_folder)
+    buoys = list()
+    for entry in entries:
+        with open(os.path.join(data_buoys_folder, entry.name), "r") as file:
+            current_buoy = json.load(file)
+        buoys.append(current_buoy)
+    for buoy in buoys:
+        buoy["warnings"] = []
+        for sensor in buoy["sensors"]:
+            if sensor["format"] == "csv":
+                obj = {
+                    "name": sensor["name"],
+                    "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
+                    "diffs": science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
+                    "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["limit_low"], sensor["limit_high"]),
+                    "warning": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["recommended_low"], sensor["recommended_high"])
+                }
+                if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
+                    buoy["status"] = 2
+                elif len(obj["warning"]):
+                    buoy["status"] = 1
+                buoy["warnings"].append(obj)
+            elif sensor["format"] == "metadata":
+                pass
+            else: 
+                continue
+        with open(os.path.join(data_buoys_folder, buoy["name"] + ".json"), "w") as file:
+            json.dump(buoy, file)
+    return "ok"
 
 @app.post("/buoy/update_ar/<name>")
 def update_buoy_arduino(name):

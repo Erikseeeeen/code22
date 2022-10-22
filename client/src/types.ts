@@ -37,6 +37,7 @@ export type Warning = {
   rows: number[];
   diffs: number[];
   threshold: number[];
+  warning: number[];
 };
 
 export type BuoySimple = {
@@ -86,6 +87,8 @@ export type Plot = {
   limHigh: number;
   recommendedLow: number;
   recommendedHigh: number;
+  from: Date;
+  to: Date;
 };
 
 export type RgbColor = {

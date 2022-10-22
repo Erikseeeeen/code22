@@ -67,10 +67,26 @@ export function LinePlot({ plot }: { plot: Plot | undefined }) {
         ticks: {
           callback: (value: number, index: number, _ticks: number[]) => {
             return index % 10 == 0
-              ? new Date(value * 1000).toLocaleTimeString()
+              ? new Date(plot.x[value] * 1000).toLocaleTimeString().slice(0, 5)
               : "";
           },
         },
+        min: (() => {
+          const indx = plot.x.findIndex(
+            (value) => value >= plot.from.valueOf() / 1000 - 3600 * 2 // for local time trondheim summer
+          );
+          console.log("from", indx, plot.from);
+          if (indx == -1) return 0;
+          return indx;
+        })(),
+        max: (() => {
+          const indx = plot.x.findIndex(
+            (value) => value >= plot.to.valueOf() / 1000 - 3600 * 2 // for local time trondheim summer
+          );
+          console.log("to", indx, plot.to);
+          if (indx == -1) return plot.x.length - 1;
+          return indx;
+        })(),
       },
       y: {
         min:
@@ -108,7 +124,7 @@ export function LinePlot({ plot }: { plot: Plot | undefined }) {
   };
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "90%", width: "95%", margin: "auto" }}>
       <b style={{ position: "absolute", margin: "1em" }}>
         {plot.x.map((value) => new Date(value * 1000).toDateString())[0]}
       </b>
