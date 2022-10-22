@@ -118,9 +118,11 @@ function BuoyPage() {
           alignItems: 'center',
         }}
       >
-        <button onClick={() => navigateBuoy(-1)}>
-          <FaArrowLeft />
-        </button>
+        {!edit && (
+          <button onClick={() => navigateBuoy(-1)}>
+            <FaArrowLeft />
+          </button>
+        )}
         <div
           style={{
             width: '100%',
@@ -134,9 +136,11 @@ function BuoyPage() {
           <ColoredCircle status={buoy.status} />
           <h1>{formatName(buoy.name)}</h1>
         </div>
-        <button onClick={() => navigateBuoy(1)}>
-          <FaArrowRight />
-        </button>
+        {!edit && (
+          <button onClick={() => navigateBuoy(1)}>
+            <FaArrowRight />
+          </button>
+        )}
       </div>
       <div
         style={{
@@ -147,7 +151,7 @@ function BuoyPage() {
           justifyContent: 'start',
         }}
       >
-        <button onClick={toggleEdit}>
+        <button onClick={toggleEdit} className={edit ? 'btn-green' : ''}>
           {edit ? <FaEdit /> : <FaSave />}
           {edit ? 'Save' : 'Edit'}
         </button>

@@ -3,16 +3,27 @@ ul {
   list-style: none;
 }
 
+:root {
+  --green: rgb(82, 186, 82);
+  --green-light: rgb(121, 210, 89);
+  --green-dark: rgb(57, 149, 71);
+  --orange: rgb(250, 163, 33);
+  --red: rgb(244, 70, 70);
+  --blue: rgb(71, 92, 159);
+  --blue-light: rgb(90, 130, 198);
+  --blue-dark: rgb(38, 54, 115);
+}
+
 .green {
-  background-color: rgb(82, 186, 82);
+  background-color: var(--green);
 }
 
 .orange {
-  background-color: rgb(250, 163, 33);
+  background-color: var(--orange);
 }
 
 .red {
-  background-color: rgb(244, 70, 70);
+  background-color: var(--red);
 }
 
 body {
@@ -26,7 +37,7 @@ button {
   margin: 0.5em;
   z-index: 100;
   color: white;
-  background-color: rgb(71, 92, 159);
+  background-color: var(--blue);
   padding: 0.8em 1.2em;
   border-radius: 0.4em;
   border: 0;
@@ -34,11 +45,23 @@ button {
 }
 
 button:hover {
-  background-color: rgb(90, 130, 198);
+  background-color: var(--blue-light);
 }
 
 button:active {
-  background-color: rgb(38, 54, 115);
+  background-color: var(--blue-dark);
+}
+
+.btn-green {
+  background-color: var(--green);
+}
+
+.btn-green:hover {
+  background-color: var(--green-light);
+}
+
+.btn-green:active {
+  background-color: var(--green-dark);
 }
 
 button > svg {
