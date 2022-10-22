@@ -21,19 +21,20 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy; }) {
         loader.load('/submarinenice.obj',
         (obj) => {
             // the request was successfull
-            let material = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.25 })
+            let material = new THREE.PointsMaterial({ color: 0xFFFFFF, sizeAttenuation: true, size: 0.015 })
             //@ts-ignore
             let mesh = new THREE.Points(obj.children[0].geometry, material)
-            mesh.position.y = -15 //this model is not exactly in the middle by default so I moved it myself
             
             let scene = new THREE.Scene();
 
             let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-            camera.position.z = 25
+            camera.position.x = 6
+            camera.position.y = 3.5
+            camera.position.z = -2
             camera.setRotationFromEuler(
               new Euler(
-                timeCounter,
                 0,
+                2,// + timeCounter
                 0,
               )
             );
@@ -57,7 +58,8 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy; }) {
         })
     }
     const doThing = () => {
-        setTimeCounter(timeCounter+0.001)
+        console.log("hehheei")
+        setTimeCounter((t) => t+1)
     }
     useEffect(() => {
         clearInterval(myInterval)
