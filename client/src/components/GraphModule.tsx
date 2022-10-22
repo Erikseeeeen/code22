@@ -43,7 +43,8 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           from: from,
           to: to,
         };
-
+        for (var sensor of buoy.sensors) {
+        }
         setPlot(plot);
       });
   }, [plotSensor, from, to]);
@@ -54,7 +55,6 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   useEffect(() => {
     setPlotSensor(buoy.sensors.find((sensor) => sensor.format == "csv"));
   }, []);
-
   return (
     <div className="moduleContent">
       <select
