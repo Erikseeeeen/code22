@@ -1,7 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import ModuleContent from './ModuleContent';
 import { AppContext } from '../context';
-import { useForceUpdate } from '../hooks/forceUpdate';
 import { Row, Module, Buoy, ModuleType } from '../types';
 import './RowOfModules.css';
 import {
@@ -15,6 +14,7 @@ import {
 } from 'react-icons/fa';
 import Loading from './Loading';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import EditModulePopup from './EditModulePopup';
 
 function RowOfModules({
   buoy,
@@ -29,6 +29,7 @@ function RowOfModules({
 }) {
   const context = useContext(AppContext);
   const [moduleAnimate] = useAutoAnimate<HTMLDivElement>();
+  const [moduleInEdit, setModuleInEdit] = useState<Module | null>(null);
 
   const removeRow = (row: Row) => {
     context.rows.set((rows: Row[]) => rows.filter((r) => r.id !== row.id));
@@ -38,10 +39,12 @@ function RowOfModules({
     1 + Math.max(-1, ...items.map((row) => row.id));
 
   const addModule = (row: Row) => {
-    row.modules.push({
+    const module = {
       id: getNewId(row.modules),
       type: ModuleType.None,
-    });
+    };
+    row.modules.push(module);
+    setModuleInEdit(module);
     forceUpdate();
   };
 
@@ -53,7 +56,6 @@ function RowOfModules({
     forceUpdate();
   };
 
-  const editModule = (row: Row, module: Module) => {};
   const moveItem = (list: any[], item: any, offset: number) => {
     const index = list.indexOf(item);
     if (index !== -1) {
@@ -88,7 +90,7 @@ function RowOfModules({
                 <FaTrash /> Delete
               </button>
               <button
-                onClick={() => editModule(row, module)}
+                onClick={() => setModuleInEdit(module)}
                 style={{ position: 'absolute', left: 0 }}
               >
                 <FaEdit /> Edit
@@ -127,6 +129,12 @@ function RowOfModules({
             <FaArrowDown /> Move
           </button>
         </div>
+      )}
+      {moduleInEdit && (
+        <EditModulePopup
+          module={moduleInEdit}
+          close={() => setModuleInEdit(null)}
+        />
       )}
     </div>
   );
