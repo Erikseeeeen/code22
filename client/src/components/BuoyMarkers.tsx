@@ -12,8 +12,7 @@ function BuoyMarkers() {
   const navigate = useNavigate();
   const getStatusColor = (status: Status) => ["green", "orange", "red"][status];
 
-  const markerHtmlStyles = (status: Status) => `
-    background-color: ${getStatusColor(status)};
+  const markerHtmlStyles = () => `
     width: 2rem;
     height: 2rem;
     display: block;
@@ -28,7 +27,9 @@ function BuoyMarkers() {
     L.divIcon({
       iconAnchor: [0, 24],
       popupAnchor: [3, -36],
-      html: `<span style="${markerHtmlStyles(status)}" />`,
+      html: `<span class="${getStatusColor(
+        status
+      )}" style="${markerHtmlStyles()}" />`,
     });
 
   useEffect(() => {
