@@ -112,20 +112,28 @@ function BuoyPage() {
       <Link to="/">Overview</Link>
       <div
         style={{
-          margin: 'auto',
-          width: '50vw',
+          width: '70vw',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: 'center',
-          gap: '1em',
         }}
       >
         <button onClick={() => navigateBuoy(-1)}>
           <FaArrowLeft />
         </button>
-        <ColoredCircle status={buoy.status} />
-        <h1 className="buoyName">{formatName(buoy.name)}</h1>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '1em',
+          }}
+        >
+          <ColoredCircle status={buoy.status} />
+          <h1>{formatName(buoy.name)}</h1>
+        </div>
         <button onClick={() => navigateBuoy(1)}>
           <FaArrowRight />
         </button>

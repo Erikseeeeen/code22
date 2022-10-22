@@ -19,12 +19,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding-bottom: 1rem;
+  background-color: white;
 }
 
 button {
   margin: 0.5em;
   z-index: 100;
-  background-color: orange;
+  color: white;
+  background-color: rgb(71, 92, 159);
   padding: 0.8em 1.2em;
   border-radius: 0.4em;
   border: 0;
@@ -32,11 +34,11 @@ button {
 }
 
 button:hover {
-  background-color: rgb(255, 188, 64);
+  background-color: rgb(90, 130, 198);
 }
 
 button:active {
-  background-color: rgb(238, 145, 39);
+  background-color: rgb(38, 54, 115);
 }
 
 button > svg {
