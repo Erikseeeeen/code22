@@ -32,14 +32,14 @@ export type Sensor = {
 export type Warning = {
   name: string;
   rows: number[];
-  diff: number[];
+  diffs: number[];
   threshold: number[];
 };
 
 export type BuoySimple = {
   name: string;
   status: Status;
-  location: {
+  anchor: {
     lat: number;
     long: number;
   };
@@ -49,7 +49,7 @@ export type BuoySimple = {
 export type Buoy = {
   name: string;
   status: Status;
-  location: {
+  anchor: {
     lat: number;
     long: number;
   };

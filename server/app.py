@@ -28,7 +28,7 @@ def get_all_buoys():
         buoy_short = {
             "name": current_buoy["name"],
             "status": current_buoy["status"],
-            "location": current_buoy["location"],
+            "anchor": current_buoy["anchor"],
             "warnings": current_buoy["warnings"]
         }
         output.append(buoy_short)
@@ -73,16 +73,22 @@ def update_buoy(name):
     buoy["warnings"] = []
     # update warnings according to new sensor data
     # also do data processing
+    buoy["status"] = 0
     for sensor in sensors:
-        if sensor["format"] != "csv":
+        if sensor["format"] == "csv":
+            obj = {
+                "name": sensor["name"],
+                "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
+                "diffs": science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
+                "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
+            }
+            if len(obj["rows"]) or len(obj["diffs"]) or len(obj["threshold"]):
+                buoy["status"] = 2
+            buoy["warnings"].append(obj)
+        elif sensor["format"] == "gps":
+            pass
+        else: 
             continue
-        obj = {
-            "name": sensor["name"],
-            "rows": science.get_suspicious_rows(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
-            "diffs": science.get_suspicious_changes(os.path.join(data_csv_folder, sensor["name"] + ".csv")),
-            "threshold": science.get_threshold_fails(os.path.join(data_csv_folder, sensor["name"] + ".csv"), sensor["threshold_low"], sensor["threshold_high"])
-        }
-        buoy["warnings"].append(obj)
     # save buoy with warnings
     with open(os.path.join(data_buoys_folder, name + ".json"), "w") as file:
         json.dump(buoy, file)

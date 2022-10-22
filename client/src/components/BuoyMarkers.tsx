@@ -36,8 +36,8 @@ function BuoyMarkers() {
     if (context.buoys.value.length > 0) {
       map.setView(
         [
-          context.buoys.value[0].location.lat,
-          context.buoys.value[0].location.long,
+          context.buoys.value[0].anchor.lat,
+          context.buoys.value[0].anchor.long,
         ],
         6
       );
@@ -49,15 +49,15 @@ function BuoyMarkers() {
       {context.buoys.value.map((buoy) => (
         <Marker
           icon={icon(buoy.status)}
-          position={[buoy.location.lat, buoy.location.long]}
+          position={[buoy.anchor.lat, buoy.anchor.long]}
           key={buoy.name}
         >
           <Popup>
             <h3>{formatName(buoy.name)}</h3>
             <p>
-              Lat: {buoy.location.lat}
+              Lat: {buoy.anchor.lat}
               <br />
-              Long: {buoy.location.long}
+              Long: {buoy.anchor.long}
               <br />
               <br />
               Status: <strong>{["Ok", "Warning", "Error"][buoy.status]}</strong>

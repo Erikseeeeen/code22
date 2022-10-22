@@ -21,14 +21,14 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
         <div>
           <strong>{formatName(buoy.name)}</strong>
         </div>
-        {buoy.warnings.length > 0 && (
+        {buoy.status > 0 && (
           <div className="sensor-warnings">
             <div>
               <strong>Warnings:</strong>
             </div>
             <ul>
               {buoy.warnings.map((warning, i) => (
-                <li key={i}>{formatName(warning.name)}</li>
+                warning.rows.length > 0 || warning.diffs.length > 0 || warning.threshold.length > 0 ? <li key={i}>{formatName(warning.name)}</li> : ''
               ))}
             </ul>
           </div>
