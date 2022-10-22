@@ -28,7 +28,7 @@ export type Sensor = {
   limit_high: number;
   recommended_low: number;
   recommended_high: number;
-  format: "csv" | "mp4" | "gps" | "metadata";
+  format: 'csv' | 'mp4' | 'gps' | 'metadata';
   timestamp: string;
 };
 
@@ -63,6 +63,8 @@ export type Buoy = {
 export type AppContextType = {
   rows: { value: Row[]; set: any };
   buoys: { value: BuoySimple[]; set: any };
+  projects: { value: Project[]; set: any };
+  project: { value: Project | null; set: any };
 };
 
 export type LatLong = {
@@ -97,5 +99,10 @@ export type Metadata = {
   timestamp: number;
   lat: number;
   long: number;
-  last_surface_time: number;
+  lastSurfaceTime: number;
+};
+
+export type Project = {
+  name: string;
+  buoyNames: string[];
 };

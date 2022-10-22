@@ -38,7 +38,7 @@ function ThreeScene({ buoy }: { buoy: Buoy }) {
           header: true,
         }).data as Metadata[];
         const lastSurfaceTime = Math.max(
-          ...jsonData.map((metadata) => metadata.last_surface_time)
+          ...jsonData.map((metadata) => metadata.lastSurfaceTime)
         );
 
         const lastSurfaceTimeDate = new Date(lastSurfaceTime * 1000);

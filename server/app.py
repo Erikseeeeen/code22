@@ -1,16 +1,17 @@
-from concurrent.futures import process
+from flask import Flask, jsonify, request, send_file
 import csv
 import io
-from flask import Flask, jsonify, request, send_file
 import os
 import json
 import science
+
 app = Flask(__name__)
 
 data_buoys_folder = "./data/buoys/"
 data_csv_folder = "./data/csv/"
-presets_folder = "./data/presets/"
+data_presets_folder = "./data/presets/"
 data_mp4_folder = "./data/video/"
+data_projects_folder = "./data/projects/"
 
 
 @app.after_request
@@ -24,7 +25,7 @@ def add_response_headers(response):
 @app.get("/buoys")
 def get_all_buoys():
     entries = os.scandir(data_buoys_folder)
-    output = list()
+    output = []
     for entry in entries:
         with open(os.path.join(data_buoys_folder, entry.name), "r") as file:
             current_buoy = json.load(file)
@@ -35,6 +36,27 @@ def get_all_buoys():
             "warnings": current_buoy["warnings"]
         }
         output.append(buoy_short)
+    response = jsonify(output)
+    return response
+
+@app.get("/buoys/<projectName>")
+def get_buoys_of_project(projectName):
+    with open(os.path.join(data_projects_folder, projectName + ".json"), "r") as file:
+        project = json.load(file)
+
+    entries = os.scandir(data_buoys_folder)
+    output = []
+    for entry in entries:
+        with open(os.path.join(data_buoys_folder, entry.name), "r") as file:
+            current_buoy = json.load(file)
+        buoy_short = {
+            "name": current_buoy["name"],
+            "status": current_buoy["status"],
+            "anchor": current_buoy["anchor"],
+            "warnings": current_buoy["warnings"]
+        }
+        if buoy_short["name"] in project["buoyNames"]:
+            output.append(buoy_short)
     response = jsonify(output)
     return response
 
@@ -92,6 +114,7 @@ def process_update(name, csv, batch_id, file_name):
     csv.save(os.path.join(data_csv_folder, file_name))
     return "ok"
 
+
 @app.post("/buoy/update_ar/<name>")
 def update_buoy_arduino(name):
     data = request.form
@@ -108,9 +131,10 @@ def update_buoy(name):
     file_name = data["file_name"]
     return process_update(name, csv, batch_id, file_name)
 
+
 @app.get("/presets/<name>")
 def get_preset(name):
-    preset_path = os.path.join(presets_folder, name + ".json")
+    preset_path = os.path.join(data_presets_folder, name + ".json")
     if not os.path.isfile(preset_path):
         return "ERROR: %s is not a file!" % name
     with open(preset_path, "r") as file:
@@ -120,11 +144,36 @@ def get_preset(name):
 @app.post("/presets/<name>")
 def save_preset(name):
     data = request.get_json()
-    with open(os.path.join(presets_folder, name + ".json"), "w") as file:
+    with open(os.path.join(data_presets_folder, name + ".json"), "w") as file:
         json.dump(data, file)
         return "ok"
 
 @app.get("/presets")
 def get_all_presets():
-    entries = os.scandir(presets_folder)
+    entries = os.scandir(data_presets_folder)
     return jsonify({"presets": [entry.name.removesuffix(".json") for entry in entries]})
+
+
+@app.get("/projects")
+def get_projects():
+    entries = os.scandir(data_projects_folder)
+    projects = []
+    for entry in entries:
+        with open(os.path.join(data_projects_folder, entry.name), "r") as file:
+            projects.append(json.load(file))
+    return jsonify(projects)
+
+@app.post("/projects/<name>")
+def add_project(name):
+    with open(os.path.join(data_projects_folder, name + ".json"), "w") as file:
+        json.dump({"name": name, "buoyNames": []}, file)
+        return "ok"
+
+@app.post("/projects/<name>/add/<buoyName>")
+def add_buoy_to_project(name, buoyName):
+    with open(os.path.join(data_projects_folder, name + ".json"), "r") as file:
+        project = json.load(file)
+    with open(os.path.join(data_projects_folder, name + ".json"), "w") as file:
+        project["buoyNames"].append(buoyName)
+        json.dump(project, file)
+        return "ok"

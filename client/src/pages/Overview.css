@@ -4,3 +4,14 @@
   align-items: center;
   gap: 0.5em;
 }
+
+.select-project {
+  padding: 0.6em;
+  background-color: whitesmoke;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+
+.selected-project {
+  background-color: #dddddd;
+}
