@@ -1,9 +1,9 @@
-import { useContext } from 'react';
-import ModuleContent from './ModuleContent';
-import { AppContext } from '../context';
-import { useForceUpdate } from '../hooks/forceUpdate';
-import { Row, Module, Buoy, ModuleType } from '../types';
-import './RowOfModules.css';
+import { useContext } from "react";
+import ModuleContent from "./ModuleContent";
+import { AppContext } from "../context";
+import { useForceUpdate } from "../hooks/forceUpdate";
+import { Row, Module, Buoy, ModuleType } from "../types";
+import "./RowOfModules.css";
 import {
   FaPlus,
   FaTrash,
@@ -12,9 +12,9 @@ import {
   FaArrowRight,
   FaArrowUp,
   FaArrowDown,
-} from 'react-icons/fa';
-import Loading from './Loading';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+} from "react-icons/fa";
+import Loading from "./Loading";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 function RowOfModules({
   buoy,
@@ -78,30 +78,30 @@ function RowOfModules({
     <div className="row" key={row.id} ref={moduleAnimate}>
       {row.modules.map((module: Module) => (
         // Module
-        <div className="module" key={'module' + module.id}>
+        <div className="module" key={"module" + module.id}>
           {edit && (
             <div className="module-edit">
               <button
                 onClick={() => removeModule(row, module)}
-                style={{ position: 'absolute', right: 0 }}
+                style={{ position: "absolute", right: 0 }}
               >
                 <FaTrash /> Delete
               </button>
               <button
                 onClick={() => editModule(row, module)}
-                style={{ position: 'absolute', left: 0 }}
+                style={{ position: "absolute", left: 0 }}
               >
                 <FaEdit /> Edit
               </button>
               <button
                 onClick={() => moveItem(row.modules, module, -1)}
-                style={{ position: 'absolute', left: 0, bottom: 0 }}
+                style={{ position: "absolute", left: 0, bottom: 0 }}
               >
                 <FaArrowLeft /> Move
               </button>
               <button
                 onClick={() => moveItem(row.modules, module, 1)}
-                style={{ position: 'absolute', right: 0, bottom: 0 }}
+                style={{ position: "absolute", right: 0, bottom: 0 }}
               >
                 Move <FaArrowRight />
               </button>
@@ -111,9 +111,9 @@ function RowOfModules({
         </div>
       ))}
       {edit && (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <button onClick={() => addModule(row)}>
-            {' '}
+            {" "}
             <FaPlus />
             Module
           </button>

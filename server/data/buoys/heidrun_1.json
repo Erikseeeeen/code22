@@ -103,18 +103,18 @@
             "timestamp": "1666353336.4543922"
         },
         {
-            "name": "heidrun_1_gps",
-            "format": "gps"
-        },
-        {
             "name": "heidrun_1_battery",
             "limit_low": 0.1,
-            "limit_high": 1.01,
+            "limit_high": 1.2,
             "recommended_low": 0.3,
-            "recommended_high": 0.9,
+            "recommended_high": 1.2,
             "format": "csv",
             "timestamp": "1666353336.4543922",
             "batch_id": 0
-        }
+        },
+        {
+            "name": "heidrun_1_metadata",
+            "format": "metadata"
+          }
     ]
 }

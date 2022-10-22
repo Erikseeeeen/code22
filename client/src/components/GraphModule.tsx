@@ -1,6 +1,5 @@
-import { Buoy, Module, ModuleType, Plot } from "../types";
+import { Buoy, Module, ModuleType, Plot, Sensor } from "../types";
 import "./ModuleContent.css";
-import Three from "./three/Three";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Papa from "papaparse";
