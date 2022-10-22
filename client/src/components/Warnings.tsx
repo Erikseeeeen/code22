@@ -10,14 +10,14 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
   const color = ["green", "orange", "red"][buoy.status];
 
   return (
-    <div className="warning-item-container">
+    <div
+      className="warning-item-container"
+      onClick={() => navigate(`/buoy/${buoy.name}`)}
+    >
       <div className="circle-container">
         <div className={"circle " + color}></div>
       </div>
-      <div
-        className={"warning-item"}
-        onClick={() => navigate(`/buoy/${buoy.name}`)}
-      >
+      <div className={"warning-item"}>
         <div>
           <strong>{formatName(buoy.name)}</strong>
         </div>
