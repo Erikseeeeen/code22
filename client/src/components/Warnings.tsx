@@ -3,6 +3,7 @@ import { AppContext } from "../context";
 import { BuoySimple, Status } from "../types";
 import { useNavigate } from "react-router-dom";
 import "./warnings.css";
+import { formatName } from "../utils";
 
 function WarningItem({ buoy }: { buoy: BuoySimple }) {
   const color = ["green", "orange", "red"][buoy.status];
@@ -13,12 +14,19 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
       className={"warning-item " + color}
       onClick={() => navigate(`/buoy/${buoy.name}`)}
     >
-      <div>{buoy.name.replace("_", " ")}</div>
-      <ul>
-        {buoy.warnings.map((warning, i) => (
-          <li key={i}>{warning.replaceAll("_", " ")}</li>
-        ))}
-      </ul>
+      <div>
+        <strong>{formatName(buoy.name)}</strong>
+      </div>
+      <div className="sensor-warnings">
+        <div>
+          <strong>Sensors:</strong>
+        </div>
+        <ul>
+          {buoy.warnings.map((warning, i) => (
+            <li key={i}>{formatName(warning.name)}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

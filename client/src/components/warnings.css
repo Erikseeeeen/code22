@@ -18,3 +18,8 @@
   cursor: pointer;
   background-color: #ffc04a;
 }
+
+.sensor-warnings {
+  display: flex;
+  align-items: center;
+}

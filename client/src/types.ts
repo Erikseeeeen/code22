@@ -43,7 +43,7 @@ export type BuoySimple = {
     lat: number;
     long: number;
   };
-  warnings: string[];
+  warnings: Warning[];
 };
 
 export type Buoy = {
