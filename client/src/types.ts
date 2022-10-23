@@ -110,7 +110,7 @@ export type Metadata = {
   timestamp: number;
   lat: number;
   long: number;
-  lastSurfaceTime: number;
+  last_surface_time: number;
 };
 
 export type Project = {

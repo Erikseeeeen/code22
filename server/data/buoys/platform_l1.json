@@ -1,1 +1,15 @@
-{"name": "platform_l1", "status": 0, "warnings": [], "anchor": {"lat": 63.235833, "long": 5.975}, "sensors": []}
+{
+    "name": "platform_l1",
+    "status": 0,
+    "warnings": [],
+    "anchor": {
+        "lat": 63.235833,
+        "long": 5.975
+    },
+    "sensors": [
+        {
+            "name": "platform_l1_metadata",
+            "type": "metadata"
+        }
+    ]
+}

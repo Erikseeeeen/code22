@@ -1,11 +1,11 @@
-import { Suspense, useEffect, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import BuoyModel from './BuoyModel';
-import Ocean from './Ocean';
-import { OrbitControls, Sky } from '@react-three/drei';
-import { Buoy, Metadata } from '../../types';
-import axios from 'axios';
-import Papa from 'papaparse';
+import { Suspense, useEffect, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import BuoyModel from "./BuoyModel";
+import Ocean from "./Ocean";
+import { OrbitControls, Sky } from "@react-three/drei";
+import { Buoy, Metadata } from "../../types";
+import axios from "axios";
+import Papa from "papaparse";
 
 function ThreeScene({ buoy }: { buoy: Buoy }) {
   const [submerged, setSubmerged] = useState(false);
@@ -29,17 +29,18 @@ function ThreeScene({ buoy }: { buoy: Buoy }) {
   };
 
   useEffect(() => {
-    const sensor = buoy.sensors.find((sensor) => sensor.format === 'metadata');
+    const sensor = buoy.sensors.find((sensor) => sensor.format === "metadata");
     if (!sensor) return;
     axios
-      .get(import.meta.env.VITE_API_URL + '/data/csv/' + sensor.name)
+      .get(import.meta.env.VITE_API_URL + "/data/csv/" + sensor.name)
       .then((res) => {
         const jsonData = Papa.parse(res.data, {
           header: true,
         }).data as Metadata[];
         const lastSurfaceTime = Math.max(
-          ...jsonData.map((metadata) => metadata.lastSurfaceTime)
+          ...jsonData.map((metadata) => metadata.last_surface_time)
         );
+        console.log(lastSurfaceTime);
 
         const lastSurfaceTimeDate = new Date(lastSurfaceTime * 1000);
         const diff = dateDiffInHours(lastSurfaceTimeDate, new Date());
@@ -53,31 +54,31 @@ function ThreeScene({ buoy }: { buoy: Buoy }) {
         <div
           style={{
             zIndex: 300,
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            pointerEvents: 'none',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
           }}
         >
           <img
-            style={{ opacity: 0.7, width: '100%', height: '100%' }}
-            src="/underwater.jpeg"
+            style={{ opacity: 0.7, width: "100%", height: "100%" }}
+            src='/underwater.jpeg'
           ></img>
         </div>
       ) : (
         <div
           style={{
             zIndex: 300,
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            pointerEvents: 'none',
-            backgroundColor: 'rgba(0,0,0,0.3)',
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            backgroundColor: "rgba(0,0,0,0.3)",
           }}
         ></div>
       )}
       <Canvas
-        style={{ height: '100%', borderRadius: '0.5em' }}
+        style={{ height: "100%", borderRadius: "0.5em" }}
         camera={{
           position: [0, cameraHeight(submerged), 10],
           fov: 55,

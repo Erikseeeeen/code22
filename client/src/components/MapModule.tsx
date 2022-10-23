@@ -14,7 +14,7 @@ function MapModule({ buoy }: { buoy: Buoy }) {
       const positions: BuoyPosition[] = [];
       for (const sensor of buoy.sensors) {
         if (sensor.format !== "metadata") continue;
-        console.log(sensor.name);
+        //console.log(sensor.name);
 
         await axios
           .get(import.meta.env.VITE_API_URL + "/data/csv/" + sensor.name)
@@ -34,7 +34,7 @@ function MapModule({ buoy }: { buoy: Buoy }) {
           });
       }
 
-      console.log(positions);
+      //console.log(positions);
 
       setBuoyPositions(positions);
     };
@@ -45,7 +45,7 @@ function MapModule({ buoy }: { buoy: Buoy }) {
     return <Loading />;
   }
   return (
-    <div className="moduleContent">
+    <div className='moduleContent'>
       <BuoyMap positions={buoyPositions} radar={false} />
     </div>
   );

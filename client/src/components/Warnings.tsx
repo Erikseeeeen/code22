@@ -1,15 +1,15 @@
-import { useEffect, useContext } from 'react';
-import { AppContext } from '../context';
-import { BuoySimple, Status } from '../types';
-import { useNavigate } from 'react-router-dom';
-import './warnings.css';
-import { formatName, formatWarningName } from '../utils';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { useEffect, useContext } from "react";
+import { AppContext } from "../context";
+import { BuoySimple, Status } from "../types";
+import { useNavigate } from "react-router-dom";
+import "./warnings.css";
+import { formatName, formatWarningName } from "../utils";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export function ColoredCircle({ status }: { status: Status }) {
-  const color = ['green', 'orange', 'red'][status];
+  const color = ["green", "orange", "red"][status];
 
-  return <div className={'circle ' + color}></div>;
+  return <div className={"circle " + color}></div>;
 }
 
 function WarningItem({ buoy }: { buoy: BuoySimple }) {
@@ -17,19 +17,19 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
 
   return (
     <div
-      className="warning-item-container"
+      className='warning-item-container'
       onClick={() => navigate(`/buoy/${buoy.name}`)}
     >
-      <div className="circle-container">
+      <div className='circle-container'>
         <ColoredCircle status={buoy.status} />
       </div>
 
-      <div className={'warning-item'}>
+      <div className={"warning-item"}>
         <div>
           <strong>{formatName(buoy.name)}</strong>
         </div>
         {buoy.status > 0 && (
-          <div className="sensor-warnings">
+          <div className='sensor-warnings'>
             <div>
               <strong>Warnings:</strong>
             </div>
@@ -41,7 +41,7 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
                 warning.warning.length > 0 ? (
                   <li key={i}>{formatWarningName(warning.name, buoy)}</li>
                 ) : (
-                  ''
+                  ""
                 )
               )}
             </ul>
@@ -57,7 +57,7 @@ function Warnings() {
   const [animate] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <div className="warning-container" ref={animate}>
+    <div className='warning-container' ref={animate}>
       {context.buoys.value.map((buoy, i) => {
         return <WarningItem key={i} buoy={buoy} />;
       })}

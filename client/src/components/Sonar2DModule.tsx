@@ -11,14 +11,15 @@ function Sonar2DModule({ buoy }: { buoy: Buoy }) {
 
   useEffect(() => {
     const fetchMetaData = async () => {
+      console.log("start");
       const positions: BuoyPosition[] = [];
       for (const sensor of buoy.sensors) {
+        console.log(sensor.format, sensor, sensor.name);
         if (sensor.format !== "gps") continue;
-        await axios
+        axios
           .get(import.meta.env.VITE_API_URL + "/data/csv/" + sensor.name)
           .then((res) => {
             const jsonData = Papa.parse(res.data, { header: true }).data;
-
             jsonData.forEach((coord: any) => {
               const buoyPos: BuoyPosition = {
                 timestamp: coord["timestamp"],
@@ -29,9 +30,9 @@ function Sonar2DModule({ buoy }: { buoy: Buoy }) {
               };
               positions.push(buoyPos);
             });
-          });
+          })
+          .then(() => setBuoyPositions(positions));
       }
-      setBuoyPositions(positions);
     };
     fetchMetaData();
   }, [buoy.name]);
@@ -40,7 +41,7 @@ function Sonar2DModule({ buoy }: { buoy: Buoy }) {
     return <Loading />;
   }
   return (
-    <div className="moduleContent">
+    <div className='moduleContent'>
       <BuoyMap positions={buoyPositions} anchor={buoy.anchor} radar={true} />
     </div>
   );

@@ -23,7 +23,7 @@ function BuoyMapMarkers({
   radar: boolean;
 }) {
   const map = useMap();
-  console.log(positions);
+  //console.log(positions);
 
   const coordinatesList: L.LatLngExpression[] = [];
   positions.forEach((pos) => {
@@ -61,7 +61,7 @@ function BuoyMapMarkers({
       lat = lat / positions.length;
       long = long / positions.length;
     }
-    console.log(lat, long);
+    //console.log(lat, long);
 
     if (positions) {
       map.setView([lat, long], radar ? 17 : 12);
@@ -129,7 +129,7 @@ function BuoyMap({
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
       <ScaleControl />
       <BuoyMapMarkers
