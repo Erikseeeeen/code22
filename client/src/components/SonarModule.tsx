@@ -11,11 +11,13 @@ import { Euler } from "three";
 
 function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   const element = useRef<HTMLDivElement>(null);
-  const interval = setInterval(() => {
+  /*const interval = setInterval(() => {
     drawPointCloud();
-  }, 2000);
-
+  }, 5000);*/
+  const [counter, setCounter] = useState(0);
   const drawPointCloud = () => {
+    setCounter((counter) => counter + 0.1);
+    console.log("whoop");
     const loader = new OBJLoader();
     loader.load(
       "/submarinenice.obj",
@@ -40,13 +42,7 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
         camera.position.x = 6;
         camera.position.y = 3.5;
         camera.position.z = -2;
-        camera.setRotationFromEuler(
-          new Euler(
-            0,
-            2, // + timeCounter
-            0
-          )
-        );
+        camera.setRotationFromEuler(new Euler(0, 2 + counter, 0));
 
         scene.add(mesh);
         const renderer = new THREE.WebGLRenderer();
@@ -62,7 +58,7 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
       },
       (xhr) => {
         // the request is in progress
-        console.log(xhr);
+        //console.log(xhr);
       },
       (err) => {
         // something went wrong
@@ -71,6 +67,7 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
     );
   };
   useEffect(() => {
+    drawPointCloud();
     return () => clearInterval(interval);
   }, []);
 
