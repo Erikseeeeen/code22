@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "setup": [
     {
@@ -18,3 +19,6 @@
     }
   ]
 }
+=======
+{"setup": [{"id": 0, "modules": [{"id": 0, "type": 3}, {"id": 1, "type": 1}, {"id": 2, "type": 5}]}, {"id": 1, "modules": [{"id": 0, "type": 2}, {"id": 4, "type": 2}, {"id": 2, "type": 4}, {"id": 3, "type": 6}]}]}
+>>>>>>> 1d31c81 (data)
