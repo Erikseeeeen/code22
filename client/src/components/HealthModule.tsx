@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import './HealthModule.css';
-import { formatName } from '../utils';
+import { formatWarningName } from '../utils';
 
 function HealthModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   const [lastBatteryFraction, setLastBatteryFraction] = useState<
@@ -71,7 +71,7 @@ function HealthModule({ module, buoy }: { module: Module; buoy: Buoy }) {
               <div>
                 <br />
                 <b style={{ color: isOk(w) ? 'var(--green)' : 'var(--red)' }}>
-                  {formatName(w.name)}
+                  {formatWarningName(w.name, buoy)}
                 </b>
                 <ul>
                   <li>

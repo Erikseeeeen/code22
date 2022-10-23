@@ -3,7 +3,7 @@ import { AppContext } from '../context';
 import { BuoySimple, Status } from '../types';
 import { useNavigate } from 'react-router-dom';
 import './warnings.css';
-import { formatName } from '../utils';
+import { formatName, formatWarningName } from '../utils';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export function ColoredCircle({ status }: { status: Status }) {
@@ -39,7 +39,7 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
                 warning.diffs.length > 0 ||
                 warning.threshold.length > 0 ||
                 warning.warning.length > 0 ? (
-                  <li key={i}>{formatName(warning.name)}</li>
+                  <li key={i}>{formatWarningName(warning.name, buoy)}</li>
                 ) : (
                   ''
                 )
