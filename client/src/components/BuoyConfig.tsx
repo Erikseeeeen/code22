@@ -54,7 +54,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
     });
     await axios.post(
       import.meta.env.VITE_API_URL +
-        `/projects/${context.project.value?.name}/add/${buoyName}`
+        `/project/${context.project.value?.name}/add/${buoyName}`
     );
     axios
       .post(
@@ -72,7 +72,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
           },
         }
       )
-      .then((res) => {
+      .then((_res) => {
         context.fetchRequest.set('buoys');
         if (toggleVisible) toggleVisible();
       })

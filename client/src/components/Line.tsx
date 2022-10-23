@@ -87,7 +87,7 @@ export function LinePlot({ plot }: { plot: Plot }) {
           const indx = plot.x.findIndex(
             (value) => value >= plot.from.valueOf() / 1000 - 3600 * 2 // for local time trondheim summer
           );
-          console.log('from', indx, plot.from);
+          // console.log('from', indx, plot.from);
           if (indx == -1) return 0;
           return indx;
         })(),
@@ -95,7 +95,7 @@ export function LinePlot({ plot }: { plot: Plot }) {
           const indx = plot.x.findIndex(
             (value) => value >= plot.to.valueOf() / 1000 - 3600 * 2 // for local time trondheim summer
           );
-          console.log('to', indx, plot.to);
+          // console.log('to', indx, plot.to);
           if (indx == -1) return plot.x.length - 1;
           return indx;
         })(),

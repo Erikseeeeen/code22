@@ -207,19 +207,28 @@ def get_projects():
     return jsonify(projects)
 
 
-@app.post("/projects/<name>")
+@app.post("/project/<name>")
 def add_project(name):
     with open(os.path.join(data_projects_folder, name + ".json"), "w") as file:
         json.dump({"name": name, "buoyNames": []}, file)
         return "ok"
 
 
-@app.post("/projects/<name>/add/<buoyName>")
+@app.post("/project/<name>/add/<buoyName>")
 def add_buoy_to_project(name, buoyName):
     with open(os.path.join(data_projects_folder, name + ".json"), "r") as file:
         project = json.load(file)
     with open(os.path.join(data_projects_folder, name + ".json"), "w") as file:
         project["buoyNames"].append(buoyName)
+        json.dump(project, file)
+        return "ok"
+
+@app.post("/project/<name>/preset/<presetName>")
+def set_project_preset(name, presetName):
+    with open(os.path.join(data_projects_folder, name + ".json"), "r") as file:
+        project = json.load(file)
+    with open(os.path.join(data_projects_folder, name + ".json"), "w") as file:
+        project["preset"] = presetName
         json.dump(project, file)
         return "ok"
 

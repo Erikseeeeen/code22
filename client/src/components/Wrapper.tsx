@@ -9,12 +9,24 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
   const fetchProjects = async () => {
     let projects: Project[] = [];
     await axios.get(import.meta.env.VITE_API_URL + '/projects').then((res) => {
+      for (const project of res.data) {
+        if (!project.preset) {
+          project.preset = 'default';
+        }
+      }
       projects = res.data;
     });
 
     if (projects.length == 0) return;
-    const project = projects[0];
-
+    let project: Project = projects[0];
+    const url = window.location.href;
+    if (url.includes('/buoy/')) {
+      const buoyName = url.split('/buoy/')[1];
+      const p = projects.find((p) => p.buoyNames.includes(buoyName));
+      if (p) {
+        project = p;
+      }
+    }
     context.projects.set(projects);
     context.project.set(project);
   };
@@ -32,12 +44,23 @@ const Wrapper = ({ children }: { children: JSX.Element }) => {
       });
   };
 
+  const loadPreset = async () => {
+    const response = await axios.get(
+      import.meta.env.VITE_API_URL + '/presets/' + context.project.value?.preset
+    );
+    if (response.data['setup']) {
+      context.rows.set(response.data['setup']);
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
   }, []);
 
   useEffect(() => {
+    if (!context.project.value) return;
     fetchBuoys();
+    loadPreset();
   }, [context.project.value]);
 
   useEffect(() => {

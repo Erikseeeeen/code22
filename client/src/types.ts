@@ -114,4 +114,5 @@ export type Metadata = {
 export type Project = {
   name: string;
   buoyNames: string[];
+  preset: string;
 };

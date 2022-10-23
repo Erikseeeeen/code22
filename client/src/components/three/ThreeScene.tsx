@@ -43,7 +43,6 @@ function ThreeScene({ buoy }: { buoy: Buoy }) {
 
         const lastSurfaceTimeDate = new Date(lastSurfaceTime * 1000);
         const diff = dateDiffInHours(lastSurfaceTimeDate, new Date());
-        console.log(diff);
         setSubmerged(diff > 3);
       });
   }, [buoy.name]);
