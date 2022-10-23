@@ -73,6 +73,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
         }
       )
       .then((res) => {
+        context.fetchRequest.set('buoys');
         if (toggleVisible) toggleVisible();
       })
       .catch((err) => {

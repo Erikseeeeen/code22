@@ -63,11 +63,14 @@ export type Buoy = {
   sensors: Sensor[];
 };
 
+export type FetchRequest = 'buoys' | '';
+
 export type AppContextType = {
   rows: { value: Row[]; set: any };
   buoys: { value: BuoySimple[]; set: any };
   projects: { value: Project[]; set: any };
   project: { value: Project | null; set: any };
+  fetchRequest: { value: FetchRequest; set: (fr: FetchRequest) => void };
 };
 
 export type LatLong = {

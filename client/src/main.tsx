@@ -5,7 +5,14 @@ import Overview from './pages/Overview';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppContext } from './context';
-import { AppContextType, BuoySimple, ModuleType, Project, Row } from './types';
+import {
+  AppContextType,
+  BuoySimple,
+  FetchRequest,
+  ModuleType,
+  Project,
+  Row,
+} from './types';
 import Wrapper from './components/Wrapper';
 
 function App() {
@@ -25,12 +32,14 @@ function App() {
   const [buoys, setBuoys] = useState<BuoySimple[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [project, setProject] = useState<Project | null>(null);
+  const [fetchRequest, setFetchRequest] = useState<FetchRequest>('');
 
   const defaultContext: AppContextType = {
     rows: { value: rows, set: setRows },
     buoys: { value: buoys, set: setBuoys },
     projects: { value: projects, set: setProjects },
     project: { value: project, set: setProject },
+    fetchRequest: { value: fetchRequest, set: setFetchRequest },
   };
 
   return (
