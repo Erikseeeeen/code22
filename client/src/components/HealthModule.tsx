@@ -25,7 +25,9 @@ function HealthModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           .then((res) => {
             const jsonData = Papa.parse(res.data, { header: true }).data;
             console.log(jsonData);
-            const datarow: any = jsonData[jsonData.length - 2];
+            const datarow: any = jsonData[jsonData.length - 1]
+              ? jsonData[jsonData.length - 1]
+              : jsonData[jsonData.length - 2];
             console.log(datarow);
             setLastBatteryFraction(datarow["last_battery_fraction"] / 100);
             setLastSurfaceTime(+datarow["last_surface_time"]);
