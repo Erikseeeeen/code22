@@ -28,9 +28,9 @@ function MerdeModule({ module, buoy }: { module: Module; buoy: Buoy }) {
             const datarow: any = jsonData[jsonData.length - 1]
               ? jsonData[jsonData.length - 1]
               : jsonData[jsonData.length - 2];
-            setPH(datarow['pH'] / 100);
-            setFishMass(+datarow['fish_mass']);
-            setLiceStatus(+datarow['lice_status']);
+            setPH(datarow['pH']);
+            setFishMass(datarow['fish_mass']);
+            setLiceStatus(datarow['lice_status']);
           });
       }
     };
@@ -45,10 +45,7 @@ function MerdeModule({ module, buoy }: { module: Module; buoy: Buoy }) {
             Fish status
           </h2>
           <p style={{ margin: 0, marginTop: '20pt' }}>
-            Average fish mass:{' '}
-            {fishMass
-              ? new Date(fishMass * 1000).toLocaleString()
-              : 'No data'}
+            Average fish mass: {fishMass}kg
           </p>
           <p style={{ margin: 0 }}>
             Current lice prevelance: {liceStatus}
