@@ -68,7 +68,7 @@ def generate_data(time_range, data_columns : list[DataColumn], resolution):
             if (x == -1):
                 print("End")
                 return data
-            data_row.append(x)
+            data_row.append(x + random.randrange(-10, 10)/100)
         data.append(data_row)
     return data
 def export_csv(filename, data):
@@ -147,7 +147,7 @@ battery = (generate_data((time.time() - 4 * 3600, time.time()),
     ],
     resolution
 ))
-export_csv("heidrun_1_battery.csv", battery)
+#export_csv("heidrun_1_battery.csv", battery)
 
 battery2 = (generate_data((time.time() - 4 * 3600, time.time()),
     [
@@ -156,7 +156,7 @@ battery2 = (generate_data((time.time() - 4 * 3600, time.time()),
     resolution
 ))
 
-export_csv("heidrun_2_battery.csv", battery2)
+#export_csv("heidrun_2_battery.csv", battery2)
 
 nord_temp = heidrun_2_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
     [
@@ -166,3 +166,12 @@ nord_temp = heidrun_2_temperature = (generate_data((time.time() - 6 * 3600, time
 ))
 
 #export_csv("nord_temp.csv", nord_temp)
+
+salinity = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('salinity', (90, 110), 'oscillate', resolution, periods=2),
+    ],
+    resolution
+))
+
+export_csv("nord_temp_salinity.csv", salinity)
