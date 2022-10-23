@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 {
   "setup": [
     { "id": 0, "modules": [{ "id": 0, "type": 4 }] },
     { "id": 1, "modules": [{ "id": 0, "type": 2 }] }
   ]
 }
+=======
+{"setup": [{"id": 0, "modules": [{"id": 1, "type": 5}, {"id": 0, "type": 4}]}, {"id": 1, "modules": [{"id": 0, "type": 2}]}]}
+>>>>>>> a626370 (Health)
