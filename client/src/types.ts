@@ -7,6 +7,7 @@ export enum ModuleType {
   Health,
   Merde,
   Sonar,
+  Sonar2D,
 }
 
 export type Module = {
@@ -31,7 +32,7 @@ export type Sensor = {
   limit_high: number;
   recommended_low: number;
   recommended_high: number;
-  format: 'csv' | 'mp4' | 'gps' | 'metadata' | 'merde';
+  format: "csv" | "mp4" | "gps" | "metadata" | "merde";
   timestamp: string;
 };
 
@@ -64,7 +65,7 @@ export type Buoy = {
   sensors: Sensor[];
 };
 
-export type FetchRequest = 'buoys' | '';
+export type FetchRequest = "buoys" | "";
 
 export type AppContextType = {
   rows: { value: Row[]; set: any };

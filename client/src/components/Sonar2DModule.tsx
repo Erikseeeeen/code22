@@ -6,16 +6,14 @@ import Papa from "papaparse";
 import BuoyMap from "./BuoyMap";
 import Loading from "./Loading";
 
-function MapModule({ buoy }: { buoy: Buoy }) {
+function Sonar2DModule({ buoy }: { buoy: Buoy }) {
   const [buoyPositions, setBuoyPositions] = useState<BuoyPosition[]>([]);
 
   useEffect(() => {
     const fetchMetaData = async () => {
       const positions: BuoyPosition[] = [];
       for (const sensor of buoy.sensors) {
-        if (sensor.format !== "metadata") continue;
-        console.log(sensor.name);
-
+        if (sensor.format !== "gps") continue;
         await axios
           .get(import.meta.env.VITE_API_URL + "/data/csv/" + sensor.name)
           .then((res) => {
@@ -33,9 +31,6 @@ function MapModule({ buoy }: { buoy: Buoy }) {
             });
           });
       }
-
-      console.log(positions);
-
       setBuoyPositions(positions);
     };
     fetchMetaData();
@@ -46,9 +41,9 @@ function MapModule({ buoy }: { buoy: Buoy }) {
   }
   return (
     <div className="moduleContent">
-      <BuoyMap positions={buoyPositions} radar={false} />
+      <BuoyMap positions={buoyPositions} anchor={buoy.anchor} radar={true} />
     </div>
   );
 }
 
-export default MapModule;
+export default Sonar2DModule;

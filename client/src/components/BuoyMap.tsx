@@ -6,14 +6,24 @@ import {
   Popup,
   ScaleControl,
   Polyline,
+  Circle,
 } from "react-leaflet";
 
-import { BuoyPosition } from "../types";
+import { BuoyPosition, LatLong } from "../types";
 import * as L from "leaflet";
 import { useEffect, useState } from "react";
 
-function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
+function BuoyMapMarkers({
+  positions,
+  anchor,
+  radar,
+}: {
+  positions: BuoyPosition[];
+  anchor?: LatLong;
+  radar: boolean;
+}) {
   const map = useMap();
+  console.log(positions);
 
   const coordinatesList: L.LatLngExpression[] = [];
   positions.forEach((pos) => {
@@ -38,17 +48,23 @@ function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
     });
 
   useEffect(() => {
-    let meanLat: number = 0;
-    let meanLong: number = 0;
-    positions.forEach((pos) => {
-      meanLat += Number(pos.coordinate.lat);
-      meanLong += Number(pos.coordinate.long);
-    });
-    meanLat = meanLat / positions.length;
-    meanLong = meanLong / positions.length;
+    let lat: number = 0;
+    let long: number = 0;
+    if (radar) {
+      lat = anchor!.lat;
+      long = anchor!.long;
+    } else {
+      positions.forEach((pos) => {
+        lat += Number(pos.coordinate.lat);
+        long += Number(pos.coordinate.long);
+      });
+      lat = lat / positions.length;
+      long = long / positions.length;
+    }
+    console.log(lat, long);
 
     if (positions) {
-      map.setView([meanLat, meanLong], 12);
+      map.setView([lat, long], radar ? 17 : 12);
     }
   }, [positions]);
 
@@ -73,11 +89,33 @@ function BuoyMapMarkers({ positions }: { positions: BuoyPosition[] }) {
         </Marker>
       ))}
       <Polyline positions={coordinatesList} />
+      {radar && (
+        <>
+          {[1, 2, 3, 4].map((i) => {
+            return (
+              <Circle
+                key={i}
+                center={[anchor!.lat, anchor!.long]}
+                radius={i * 25}
+                color={i % 2 === 0 ? "blue" : "red"}
+              />
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }
 
-function BuoyMap({ positions }: { positions: BuoyPosition[] }) {
+function BuoyMap({
+  positions,
+  anchor,
+  radar,
+}: {
+  positions: BuoyPosition[];
+  anchor?: LatLong;
+  radar: boolean;
+}) {
   return (
     <MapContainer
       //center={[positions[0].coordinate.lat, positions[0].coordinate.long]}
@@ -96,6 +134,8 @@ function BuoyMap({ positions }: { positions: BuoyPosition[] }) {
       <ScaleControl />
       <BuoyMapMarkers
         positions={positions.reverse().slice(0, Math.min(10, positions.length))}
+        anchor={anchor ? anchor : undefined}
+        radar={radar}
       />
     </MapContainer>
   );
