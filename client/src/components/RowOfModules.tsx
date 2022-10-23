@@ -80,7 +80,7 @@ function RowOfModules({
     <div className="row" key={row.id} ref={moduleAnimate}>
       {row.modules.map((module: Module) => (
         // Module
-        <div className="module" key={'module' + module.id}>
+        <div className="module" key={'row' + row.id + 'module' + module.id}>
           {edit && (
             <div className="module-edit">
               <button
