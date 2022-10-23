@@ -13,6 +13,8 @@ Requires python and npm.
 
 In server folder:
 
+`python3 -m venv venv && source venv/bin/activate`
+
 `pip install Flask pandas numpy scipy geopy`
 
 `./run.sh`
