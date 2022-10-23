@@ -5,6 +5,7 @@ export enum ModuleType {
   Map,
   Video,
   Health,
+  Merde,
   Sonar,
 }
 
@@ -30,7 +31,7 @@ export type Sensor = {
   limit_high: number;
   recommended_low: number;
   recommended_high: number;
-  format: 'csv' | 'mp4' | 'gps' | 'metadata';
+  format: 'csv' | 'mp4' | 'gps' | 'metadata' | 'merde';
   timestamp: string;
 };
 

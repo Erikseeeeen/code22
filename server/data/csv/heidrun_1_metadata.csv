@@ -1,4 +1,4 @@
-timestamp;lat;long;last_surface_time;last_battery_fraction;last_serviced_time
+timestamp;last_surface_time;last_battery_fraction;last_serviced_time
 1660479682;65.325737;7.3174;1660415937;81;1590232516
 1661084482;65.325800;7.3171;1660934337;81;1590232516
 1661689282;65.325960;7.3170;1661539137;83;1590232516

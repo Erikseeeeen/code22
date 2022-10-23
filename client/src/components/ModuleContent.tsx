@@ -5,6 +5,7 @@ import GraphModule from './GraphModule';
 import VideoModule from './VideoModule';
 import MapModule from './MapModule';
 import HealthModule from './HealthModule';
+import MerdeModule from './MerdeModule';
 import SonarModule from './SonarModule';
 
 function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
@@ -22,6 +23,8 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
     return <MapModule buoy={buoy} />;
   } else if (module.type === ModuleType.Health) {
     return <HealthModule module={module} buoy={buoy} />;
+  } else if (module.type === ModuleType.Merde) {
+    return <MerdeModule module={module} buoy={buoy} />;
   } else if (module.type === ModuleType.Sonar) {
     return <SonarModule module={module} buoy={buoy} />;
   } else {
