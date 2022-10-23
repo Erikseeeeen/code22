@@ -1,11 +1,10 @@
-import { Buoy, Module, ModuleType, Plot, Sensor } from "../types";
-import "./ModuleContent.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import Papa from "papaparse";
-import { LinePlot } from "./Line";
-import { setQuaternionFromProperEuler } from "three/src/math/MathUtils";
-import { warning } from "@remix-run/router";
+import { Buoy, Module, Plot, Sensor } from '../types';
+import './ModuleContent.css';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Papa from 'papaparse';
+import { LinePlot } from './Line';
+import Loading from './Loading';
 
 function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   const [plot, setPlot] = useState<Plot>();
@@ -16,7 +15,7 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   useEffect(() => {
     if (buoy.sensors.length == 0) return;
     axios
-      .get(import.meta.env.VITE_API_URL + "/data/csv/" + plotSensor?.name)
+      .get(import.meta.env.VITE_API_URL + '/data/csv/' + plotSensor?.name)
       .then((res) => {
         const headers: string[] = [];
         const jsonData = Papa.parse(res.data, {
@@ -26,14 +25,12 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
             return `${index}`;
           },
         }).data;
-        const data: number[][] = jsonData as number[][];
-
         const plot: Plot = {
           x: jsonData
-            .map((p: any) => p["0"] as number)
+            .map((p: any) => p['0'] as number)
             .filter((p) => p != undefined),
           y: jsonData
-            .map((p: any) => p["1"] as number)
+            .map((p: any) => p['1'] as number)
             .filter((p) => p != undefined),
           headers: headers,
           color: { r: 25, g: 100, b: 200 },
@@ -54,12 +51,12 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   }, [plotSensor, from, to]);
 
   useEffect(() => {
-    setPlotSensor(buoy.sensors.find((sensor) => sensor.format == "csv"));
+    setPlotSensor(buoy.sensors.find((sensor) => sensor.format == 'csv'));
   }, [buoy.name]);
   useEffect(() => {
-    setPlotSensor(buoy.sensors.find((sensor) => sensor.format == "csv"));
+    setPlotSensor(buoy.sensors.find((sensor) => sensor.format == 'csv'));
   }, []);
-  return (
+  return plot ? (
     <div className="moduleContent">
       <select
         style={{ margin: 12 }}
@@ -68,16 +65,16 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           setPlotSensor(buoy.sensors.find((s) => s.name == e.target.value))
         }
       >
-        {" "}
+        {' '}
         {buoy.sensors
-          .filter((sensor) => sensor.format == "csv") // csv outputs can be chosen
+          .filter((sensor) => sensor.format == 'csv') // csv outputs can be chosen
           .map((sensor) => (
             <option>{sensor.name}</option>
           ))}
       </select>
-      <div className={"datePickers"}>
-        <div className={"datePicker"}>
-          From:{" "}
+      <div className={'datePickers'}>
+        <div className={'datePicker'}>
+          From:{' '}
           <input
             type="datetime-local"
             onChange={(e) => {
@@ -85,8 +82,8 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
             }}
           />
         </div>
-        <div className={"datePicker"}>
-          To:{" "}
+        <div className={'datePicker'}>
+          To:{' '}
           <input
             type="datetime-local"
             onChange={(e) => {
@@ -97,6 +94,8 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
       </div>
       <LinePlot plot={plot} />
     </div>
+  ) : (
+    <Loading />
   );
 }
 
