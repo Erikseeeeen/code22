@@ -1,11 +1,13 @@
 import { Chart, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { RgbColor, Plot } from '../types';
+import { Plot } from '../types';
 import annotationPlugin from 'chartjs-plugin-annotation';
+
 Chart.register(annotationPlugin);
 Chart.register(...registerables);
+
 export function LinePlot({ plot }: { plot: Plot }) {
-  var options = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -58,19 +60,16 @@ export function LinePlot({ plot }: { plot: Plot }) {
             yMax: plot.limHigh,
             backgroundColor: 'rgba(255, 170, 0, 0.3)',
           },
-          ...plot.diffs?.map((diff) => {
-            const x = {
-              borderWidth: 0,
-              drawTime: 'beforeDatasetsDraw',
-              type: 'box',
-              xMin: diff - 2,
-              xMax: diff + 2,
-              yMin: -Infinity,
-              yMax: Infinity,
-              backgroundColor: 'rgba(255, 0, 0, 0.4)',
-            };
-            return x;
-          }),
+          ...plot.diffs?.map((diff) => ({
+            borderWidth: 0,
+            drawTime: 'beforeDatasetsDraw',
+            type: 'box',
+            xMin: diff - 2,
+            xMax: diff + 2,
+            yMin: -Infinity,
+            yMax: Infinity,
+            backgroundColor: 'rgba(255, 0, 0, 0.4)',
+          })),
         },
       },
     },

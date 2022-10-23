@@ -13,7 +13,7 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   const [to, setTo] = useState<Date>(new Date());
 
   useEffect(() => {
-    if (buoy.sensors.length == 0) return;
+    if (!plotSensor || buoy.sensors.length == 0) return;
     axios
       .get(import.meta.env.VITE_API_URL + '/data/csv/' + plotSensor?.name)
       .then((res) => {
@@ -25,7 +25,7 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
             return `${index}`;
           },
         }).data;
-        const plot: Plot = {
+        const newPlot: Plot = {
           x: jsonData
             .map((p: any) => p['0'] as number)
             .filter((p) => p != undefined),
@@ -43,10 +43,10 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
         };
         for (const warning of buoy.warnings) {
           if (warning.name == plotSensor?.name && warning.diffs.length > 0) {
-            plot.diffs = warning.diffs;
+            newPlot.diffs = warning.diffs;
           }
         }
-        setPlot(plot);
+        setPlot(newPlot);
       });
   }, [plotSensor, from, to]);
 
@@ -56,6 +56,7 @@ function GraphModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   useEffect(() => {
     setPlotSensor(buoy.sensors.find((sensor) => sensor.format == 'csv'));
   }, []);
+
   return plot ? (
     <div className="moduleContent">
       <select

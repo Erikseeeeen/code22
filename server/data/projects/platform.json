@@ -1,4 +1,1 @@
-{
-  "name": "platform",
-  "buoyNames": ["platform_l1", "platform_l2", "platform_l3", "platform_l4"]
-}
+{"name": "platform", "buoyNames": ["platform_l1", "platform_l2", "platform_l3", "platform_l4"], "preset": "graph_and_3d"}
