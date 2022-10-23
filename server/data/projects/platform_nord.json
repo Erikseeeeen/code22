@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"name": "platform_nord", "buoyNames": ["platform_nord", "test"]}
+=======
+{"name": "platform_nord", "buoyNames": ["platform_nord"], "preset": "default"}
+>>>>>>> a626370 (Health)
