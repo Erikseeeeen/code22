@@ -1,8 +1,7 @@
-import { useContext, useState } from 'react';
-import { LatLong } from '../types';
-import './buoyConfig.css';
-import axios from 'axios';
-import { AppContext } from '../context';
+import { useContext, useState } from "react";
+import "./buoyConfig.css";
+import axios from "axios";
+import { AppContext } from "../context";
 
 type SensorForm = {
   name: string;
@@ -22,17 +21,17 @@ type Props = {
 
 const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
   const initSensor: SensorForm = {
-    name: '',
-    format: 'csv',
+    name: "",
+    format: "csv",
     threshold_high: 0,
     threshold_low: 0,
   };
   const initLatLong: LatLongForm = {
-    lat: '0.0',
-    long: '0.0',
+    lat: "0.0",
+    long: "0.0",
   };
-  const latLongRe = new RegExp('^[0-9]+.{0,1}[0-9]*$');
-  const [buoyName, setBuoyName] = useState('');
+  const latLongRe = new RegExp("^[0-9]+.{0,1}[0-9]*$");
+  const [buoyName, setBuoyName] = useState("");
   const [anchor, setAnchor] = useState<LatLongForm>(initLatLong);
   const [sensors, setSensors] = useState<SensorForm[]>([]);
   const [currentSensor, setCurrentSensor] = useState<SensorForm>(initSensor);
@@ -42,23 +41,28 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (sensors.length === 0) {
-      addError('There is no sensors!');
+      addError("There is no sensors!");
       return;
     }
-    if (buoyName === '') {
-      addError('The sensor needs a name!');
+    if (buoyName === "") {
+      addError("The sensor needs a name!");
     }
     const sensorsPre = sensors;
     sensorsPre.forEach((sensor) => {
-      sensor.name = buoyName + '_' + sensor.name;
+      sensor.name = buoyName + "_" + sensor.name;
     });
     await axios.post(
       import.meta.env.VITE_API_URL +
         `/project/${context.project.value?.name}/add/${buoyName}`
     );
+    if (context.project.value?.name !== "all") {
+      await axios.post(
+        import.meta.env.VITE_API_URL + `/project/all/add/${buoyName}`
+      );
+    }
     axios
       .post(
-        import.meta.env.VITE_API_URL + '/new_buoy',
+        import.meta.env.VITE_API_URL + "/new_buoy",
         {
           name: buoyName,
           status: 0,
@@ -68,12 +72,12 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       )
       .then((_res) => {
-        context.fetchRequest.set('buoys');
+        context.fetchRequest.set("buoys");
         if (toggleVisible) toggleVisible();
       })
       .catch((err) => {
@@ -108,16 +112,16 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
       setErrors([]);
       cleanCurrentSensor();
     } else {
-      addError('Sensor are missing fields!');
+      addError("Sensor are missing fields!");
     }
   };
 
   const updateBuoyName = (target: string) => {
-    setBuoyName(target.replace(' ', '_').toLowerCase());
+    setBuoyName(target.replace(" ", "_").toLowerCase());
   };
 
   const updateAnchorLat = (target: string) => {
-    if (latLongRe.test(target) || target === '') {
+    if (latLongRe.test(target) || target === "") {
       setAnchor((current) => {
         return {
           ...current,
@@ -140,7 +144,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
     setCurrentSensor((last) => {
       return {
         ...last,
-        name: target.replace(' ', '_').toLowerCase(),
+        name: target.replace(" ", "_").toLowerCase(),
       };
     });
   };
@@ -222,13 +226,13 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
         </div>
         {sensors.length !== 0 && (
           <>
-            <h3 style={{ margin: '0' }}>Current Sensors</h3>
+            <h3 style={{ margin: "0" }}>Current Sensors</h3>
             <div className="current-sensors w-100">
               {sensors &&
                 sensors.map((sensor, i) => {
                   return (
                     <div
-                      className={'sensor-item' + (i > 1 ? ' mt-5' : '')}
+                      className={"sensor-item" + (i > 1 ? " mt-5" : "")}
                       key={i}
                       onClick={(e) => handleDeleteSensor(e, sensor.name)}
                     >
@@ -250,7 +254,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
               className="input input-text w-45"
             />
             <select
-              value={currentSensor.format || 'csv'}
+              value={currentSensor.format || "csv"}
               onChange={(e) => updateSensorFormat(e.target.value)}
               className="input input-select w-45"
             >
@@ -265,7 +269,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
               value={
                 currentSensor.threshold_low !== 0
                   ? currentSensor.threshold_low
-                  : ''
+                  : ""
               }
               placeholder="Threshold Low"
               onChange={(e) => updateSensorThresholdLow(Number(e.target.value))}
@@ -276,7 +280,7 @@ const BuoyConfig: React.FC<Props> = ({ toggleVisible }) => {
               value={
                 currentSensor.threshold_high !== 0
                   ? currentSensor.threshold_high
-                  : ''
+                  : ""
               }
               placeholder="Threshold High"
               onChange={(e) =>

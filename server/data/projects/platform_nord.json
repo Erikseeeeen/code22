@@ -1,4 +1,1 @@
-{
-  "name": "platform_nord",
-  "buoyNames": ["platform_nord"]
-}
+{"name": "platform_nord", "buoyNames": ["platform_nord", "test"]}
