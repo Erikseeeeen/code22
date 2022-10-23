@@ -14,8 +14,10 @@ EthernetServer server(80);
 
 unsigned int t = 0;
 unsigned int t_0 = 0;
-bool submerged = 0;
+bool submerged = 1;
+int yes;
 void setup() {
+
 
   Serial.begin(9600);
   while (!Serial) {
@@ -48,14 +50,15 @@ void setup() {
   server.begin();
   Serial.print("server is at ");
   Serial.println(Ethernet.localIP());
+  delay(100);
 }
 
 
 void loop() {
-  while(submerged==1){
-    Serial.print("submerged");
-    Serial.println(thermo1.readThermocoupleTemperature());
-    if(thermo1.readThermocoupleTemperature()>20){
+  while(submerged){
+    Serial.println("submerged");
+    yes = Serial.read();
+    if(yes!=-1){
       submerged = 0;
     }
   }
@@ -91,11 +94,29 @@ void loop() {
       Serial.println("Ethernet cable is not connected.");
     }
   }
+  ////////////////////////////////////////////////////////////
+  t_0 = millis()/10;
+  client.println("START");
+  client.println("THERMO1");
+  for (int i = 0; i<100; i++){
+    float sensorReading = thermo1.readThermocoupleTemperature();
+    t = millis()/10-t_0;
+    String s;
+    s=s+t;
+    s=s+';';
+    s=s+thermo0.readThermocoupleTemperature();
+    s=s+'\n';
+    
+    client.print(s); 
+    if (Ethernet.linkStatus() == LinkOFF) {
+      Serial.println("Ethernet cable is not connected.");
+    }
+  }
   client.println("DONE");
   while(submerged==0){
-    Serial.print("over");
-    Serial.println(thermo1.readThermocoupleTemperature());
-    if(thermo1.readThermocoupleTemperature()<20){
+    Serial.println("be floatin");
+    yes = Serial.read();
+    if(yes!=-1){
       submerged = 1;
     }
   }

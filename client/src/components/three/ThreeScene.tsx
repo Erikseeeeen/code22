@@ -13,7 +13,7 @@ function ThreeScene({ buoy }: { buoy: Buoy }) {
   const submergedCameraHeight = 0;
   const submergedBuoyHeight = -2;
   const surfacedCameraHeight = 2;
-  const surfacedBuoyHeight = -0.025;
+  const surfacedBuoyHeight = -0.135;
 
   const cameraHeight = (submerged: boolean) =>
     submerged ? submergedCameraHeight : surfacedCameraHeight;
