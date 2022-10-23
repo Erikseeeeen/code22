@@ -187,4 +187,16 @@ pressure = (generate_data((time.time() - 6 * 3600, time.time()),
     ],
     resolution
 ))
-export_csv("nord_pressure.csv", pressure)
+#export_csv("nord_pressure.csv", pressure)
+
+def fisk(x):
+    return abs((1+(math.sin(50*x + random.randint(-1, 1) *6/100) + 0.31*math.sin(6*x + random.randint(-1, 1) * 6 / 100))+ 0.1*math.sin(2*x + random.randint(-1, 1) * 6 / 100))/2)
+
+fisk = (generate_data((time.time() - 100 * 24 * 3600, time.time()),
+    [
+        DataColumn('antall_fisk', (600, 100000), 'function', resolution, func=fisk),
+    ],
+    resolution
+))
+
+export_csv("fisken_fishes.csv", fisk)
