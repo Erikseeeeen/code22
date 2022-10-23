@@ -11,6 +11,7 @@ ul {
   --red: rgb(244, 70, 70);
   --blue: rgb(71, 92, 159);
   --blue-light: rgb(90, 130, 198);
+  --blue-light-light: rgb(177, 197, 231);
   --blue-dark: rgb(38, 54, 115);
 }
 
@@ -52,6 +53,22 @@ button:active {
   background-color: var(--blue-dark);
 }
 
+.btn-outline {
+  /* border: 1px solid var(--blue); */
+  background-color: white;
+  color: var(--blue);
+}
+
+.btn-outline:hover {
+  outline: 1px solid var(--blue);
+  background-color: white;
+}
+
+.btn-outline:active {
+  outline: 1px solid var(--blue);
+  background-color: var(--blue-light-light);
+}
+
 .btn-green {
   background-color: var(--green);
 }
@@ -89,6 +106,13 @@ select {
   margin-left: 2rem;
 }
 
-.leaflet-control { z-index: 0 !important}
-.leaflet-pane { z-index: 0 !important}
-.leaflet-top, .leaflet-bottom {z-index: 0 !important}
+.leaflet-control {
+  z-index: 0 !important;
+}
+.leaflet-pane {
+  z-index: 0 !important;
+}
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 0 !important;
+}

@@ -17,7 +17,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -47,7 +47,7 @@ input[type=number] {
 }
 
 .buoy-form-error {
-  color: red;
+  color: var(--red);
 }
 
 .input {
@@ -55,7 +55,7 @@ input[type=number] {
   font-family: inherit;
   padding: 0.25em 0.5em;
   background-color: #fff;
-  border: 2px solid var(--blue);
+  border: 1.5px solid var(--blue);
   border-radius: 4px;
 }
 
@@ -69,20 +69,32 @@ input[type=number] {
 }
 
 .input:focus {
-  border-color: hsl(var(--input-focus-h), var(--input-focus-s), var(--input-focus-l));
-  box-shadow: 0 0 0 3px hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) +
-          40%), 0.8);
+  border-color: hsl(
+    var(--input-focus-h),
+    var(--input-focus-s),
+    var(--input-focus-l)
+  );
+  box-shadow: 0 0 0 3px
+    hsla(
+      var(--input-focus-h),
+      var(--input-focus-s),
+      calc(var(--input-focus-l) + 40%),
+      0.8
+    );
   transition: 180ms box-shadow ease-in-out;
   outline: 3px solid transparent;
 }
 
-.flex-group, .anchor-input-group, .name-input {
+.flex-group,
+.anchor-input-group,
+.name-input {
   display: flex;
   justify-content: space-between;
 }
 
-.flex-group, .anchor-input-group {
-  gap: 10%
+.flex-group,
+.anchor-input-group {
+  gap: 10%;
 }
 
 .sensor-input-group {
@@ -124,7 +136,7 @@ input[type=number] {
 }
 
 .mt-5 {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 .w-100 {
   width: 100%;
