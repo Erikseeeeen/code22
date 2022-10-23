@@ -1,1 +1,5 @@
-{"setup": [{"id": 0, "modules": [{"id": 0, "type": 4}, {"id": 1, "type": 1}]}, {"id": 1, "modules": [{"id": 0, "type": 2}]}]}
+<<<<<<< HEAD
+{"setup": [{"id": 0, "modules": [{"id": 0, "type": 4}]}, {"id": 1, "modules": [{"id": 0, "type": 2}]}]}
+=======
+{"setup": [{"id": 0, "modules": [{"id": 0, "type": 5}, {"id": 1, "type": 1}]}, {"id": 1, "modules": [{"id": 0, "type": 2}]}]}
+>>>>>>> d700f4b (fix)

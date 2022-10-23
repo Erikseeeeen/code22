@@ -1,15 +1,17 @@
 import { Buoy, Module, ModuleType } from '../types';
 import './ModuleContent.css';
-import Three from './three/Three';
+import ThreeScene from './three/ThreeScene';
 import GraphModule from './GraphModule';
 import VideoModule from './VideoModule';
 import MapModule from './MapModule';
+import HealthModule from './HealthModule';
+import SonarModule from './SonarModule';
 
 function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
   if (module.type === ModuleType.Three) {
     return (
       <div className="moduleContent">
-        <Three />
+        <ThreeScene buoy={buoy} />
       </div>
     );
   } else if (module.type === ModuleType.Chart && buoy.sensors.length > 0) {
@@ -18,10 +20,14 @@ function ModuleContent({ module, buoy }: { module: Module; buoy: Buoy }) {
     return <VideoModule module={module} buoy={buoy} />;
   } else if (module.type === ModuleType.Map) {
     return <MapModule buoy={buoy} />;
+  } else if (module.type === ModuleType.Health) {
+    return <HealthModule module={module} buoy={buoy} />;
+  } else if (module.type === ModuleType.Sonar) {
+    return <SonarModule module={module} buoy={buoy} />;
   } else {
     return (
       <div className="moduleContent">
-        <h2 style={{ textAlign: 'center', padding: '2em' }}>no data</h2>
+        <h2 style={{ textAlign: "center", padding: "2em" }}>no data</h2>
       </div>
     );
   }

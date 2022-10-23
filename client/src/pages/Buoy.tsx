@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../context';
 import { useForceUpdate } from '../hooks/forceUpdate';
 import { Row, Module, Buoy, ModuleType } from '../types';
@@ -24,7 +24,6 @@ function BuoyPage() {
   const [edit, setEdit] = useState(false);
   const [buoy, setBuoy] = useState<Buoy | null>(null);
   const [presets, setPresets] = useState<string[]>([]);
-  const [currentPreset, setCurrentPreset] = useState('default');
   const params = useParams();
   const navigate = useNavigate();
   const [rowAnimate] = useAutoAnimate<HTMLDivElement>();
@@ -48,31 +47,47 @@ function BuoyPage() {
     ]);
   };
 
-  const savePreset = (name: string) =>
-    axios.post(import.meta.env.VITE_API_URL + '/presets/' + name, {
+  const copyPreset = async (name: string) => {
+    await axios.post(import.meta.env.VITE_API_URL + '/presets/' + name, {
       setup: context.rows.value,
     });
+    setPreset(name);
+  };
 
   const loadPreset = async (name: string) => {
-    setCurrentPreset(name);
     const response = await axios.get(
       import.meta.env.VITE_API_URL + '/presets/' + name
     );
-    return context.rows.set(response.data['setup']);
+    if (response.data['setup']) {
+      context.rows.set(response.data['setup']);
+    }
+  };
+
+  const loadAllPresets = () =>
+    axios
+      .get(import.meta.env.VITE_API_URL + '/presets')
+      .then((response) => setPresets(response.data['presets']));
+
+  const setPreset = async (name: string) => {
+    if (!context.project.value || name.length == 0) return;
+    context.project.value.preset = name;
+    await axios.post(
+      import.meta.env.VITE_API_URL +
+        `/project/${context.project.value?.name}/preset/${name}`
+    );
+    await loadAllPresets();
+    await loadPreset(name);
   };
 
   const newPreset = async () => {
     const name = prompt();
     if (!name) return;
-    setCurrentPreset(name);
-    await savePreset(name);
-    await loadAllPresets();
-    await loadPreset(name);
+    setPreset(name);
   };
 
   const toggleEdit = () => {
-    if (edit) {
-      savePreset(currentPreset);
+    if (edit && context.project.value) {
+      copyPreset(context.project.value.preset);
     }
     setEdit((edit) => !edit);
   };
@@ -84,7 +99,6 @@ function BuoyPage() {
     const nextIndex =
       (index + offset + context.buoys.value.length) %
       context.buoys.value.length;
-    console.log(index, nextIndex);
     const nextBuoy = context.buoys.value[nextIndex];
     navigate('/buoy/' + nextBuoy.name);
   };
@@ -98,16 +112,11 @@ function BuoyPage() {
       });
   }, [params.name]);
 
-  const loadAllPresets = () =>
-    axios
-      .get(import.meta.env.VITE_API_URL + '/presets')
-      .then((response) => setPresets(response.data['presets']));
-
   useEffect(() => {
     loadAllPresets();
   }, []);
 
-  if (!buoy) return <Loading />;
+  if (!buoy || !context.project.value) return <Loading />;
   return (
     <div className="pageContainer">
       <div
@@ -121,15 +130,15 @@ function BuoyPage() {
       >
         {!edit && (
           <button onClick={() => navigate('/')}>
-            <FaHome />
+            <FaHome /> Overview
           </button>
         )}
         {edit && (
           <div>
             <span>Change preset: </span>
             <select
-              value={currentPreset}
-              onChange={(e) => loadPreset(e.target.value)}
+              value={context.project.value.preset}
+              onChange={(e) => setPreset(e.target.value)}
             >
               {presets.map((preset: string) => (
                 <option label={preset} key={preset}>

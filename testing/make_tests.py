@@ -23,12 +23,20 @@ class DataColumn:
             return self.oscillate()
         if self.variant == 'function':
             return self.function()
+        if self.variant == 'decrement':
+            return self.decrement()
 
     def increment(self):
         if self.value > self.length:
             return -1
         self.value += 1
-        return self.range[0] + ((self.value-1) / self.length) * (self.range[1]-self.range[0])
+        return self.range[0] + ((self.value-1) / self.length) * (self.range[1]-self.range[0]) - random.randint(0, 100) * 1 / (self.length*100)
+
+    def decrement(self):
+        if self.value > self.length:
+            return -1
+        self.value += 1
+        return self.range[0] + ((self.length - self.value+1) / self.length) * (self.range[1]-self.range[0])
 
     def oscillate(self):
         if self.value > self.length:
@@ -60,7 +68,7 @@ def generate_data(time_range, data_columns : list[DataColumn], resolution):
             if (x == -1):
                 print("End")
                 return data
-            data_row.append(x )#+ random.randint(-100, 100) / 100 * (c.range[1] - c.range[0]) * 0.1)
+            data_row.append(x)
         data.append(data_row)
     return data
 def export_csv(filename, data):
@@ -120,10 +128,10 @@ heidrun_2_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
     resolution
 ))
 
-export_csv("heidrun_2_temperature.csv", heidrun_2_temperature)
-export_csv("heidrun_2_pressure.csv", heidrun_2_pressure)
-export_csv("heidrun_1_pressure.csv", heidrun_1_pressure)
-export_csv("heidrun_1_temperature.csv", heidrun_1_temperature)
+#export_csv("heidrun_2_temperature.csv", heidrun_2_temperature)
+#export_csv("heidrun_2_pressure.csv", heidrun_2_pressure)
+#export_csv("heidrun_1_pressure.csv", heidrun_1_pressure)
+#export_csv("heidrun_1_temperature.csv", heidrun_1_temperature)
 
 
 fish_swam_past = (generate_data((time.time() - 4 * 3600, time.time()),
@@ -133,4 +141,28 @@ fish_swam_past = (generate_data((time.time() - 4 * 3600, time.time()),
     resolution
 ))
 
-export_csv("fisken_fishes.csv", fish_swam_past)
+battery = (generate_data((time.time() - 4 * 3600, time.time()),
+    [
+        DataColumn('battery', (1.0, 0.2), 'increment', resolution),
+    ],
+    resolution
+))
+export_csv("heidrun_1_battery.csv", battery)
+
+battery2 = (generate_data((time.time() - 4 * 3600, time.time()),
+    [
+        DataColumn('battery', (1.0, 0.5), 'increment', resolution),
+    ],
+    resolution
+))
+
+export_csv("heidrun_2_battery.csv", battery2)
+
+nord_temp = heidrun_2_temperature = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('temperature', (3, 5), 'oscillate', resolution, periods=3),
+    ],
+    resolution
+))
+
+#export_csv("nord_temp.csv", nord_temp)

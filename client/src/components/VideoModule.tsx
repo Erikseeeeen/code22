@@ -1,10 +1,7 @@
-import { Buoy, Module, ModuleType, Plot } from "../types";
+import { Buoy, Module } from "../types";
 import "./ModuleContent.css";
-import Three from "./three/Three";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Papa from "papaparse";
-import { LinePlot } from "./Line";
 import Loading from "./Loading";
 
 function VideoModule({ module, buoy }: { module: Module; buoy: Buoy }) {
@@ -28,7 +25,7 @@ function VideoModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   }, [buoy.name]);
 
   return video ? (
-    <div className="moduleContent">
+    <div className="moduleContent" style={{ backgroundColor: "black" }}>
       <video width="100%" height="100%" autoPlay loop key={video}>
         <source src={video} />
       </video>

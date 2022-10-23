@@ -10,10 +10,10 @@ function MapModule({ buoy }: { buoy: Buoy }) {
   const [buoyPositions, setBuoyPositions] = useState<BuoyPosition[]>([]);
 
   useEffect(() => {
-    const fetchGpsData = async () => {
+    const fetchMetaData = async () => {
       const positions: BuoyPosition[] = [];
       for (const sensor of buoy.sensors) {
-        if (sensor.format !== "gps") continue;
+        if (sensor.format !== "metadata") continue;
         await axios
           .get(import.meta.env.VITE_API_URL + "/data/csv/" + sensor.name)
           .then((res) => {
@@ -33,7 +33,7 @@ function MapModule({ buoy }: { buoy: Buoy }) {
       }
       setBuoyPositions(positions);
     };
-    fetchGpsData();
+    fetchMetaData();
   }, [buoy.name]);
 
   if (buoyPositions.length === 0) {

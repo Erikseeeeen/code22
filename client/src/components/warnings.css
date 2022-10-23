@@ -1,6 +1,6 @@
 .warning-container {
   display: flex;
-  height: 35vh;
+  max-height: 35vh;
   flex-direction: column;
   gap: 1rem;
   width: 50%;

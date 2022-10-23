@@ -4,6 +4,8 @@ export enum ModuleType {
   Chart,
   Map,
   Video,
+  Health,
+  Sonar,
 }
 
 export type Module = {
@@ -24,9 +26,11 @@ export enum Status {
 
 export type Sensor = {
   name: string;
-  threshold_low: number;
-  threshold_high: number;
-  format: "csv" | "mp4" | "gps";
+  limit_low: number;
+  limit_high: number;
+  recommended_low: number;
+  recommended_high: number;
+  format: 'csv' | 'mp4' | 'gps' | 'metadata';
   timestamp: string;
 };
 
@@ -35,6 +39,7 @@ export type Warning = {
   rows: number[];
   diffs: number[];
   threshold: number[];
+  warning: number[];
 };
 
 export type BuoySimple = {
@@ -58,9 +63,14 @@ export type Buoy = {
   sensors: Sensor[];
 };
 
+export type FetchRequest = 'buoys' | '';
+
 export type AppContextType = {
   rows: { value: Row[]; set: any };
   buoys: { value: BuoySimple[]; set: any };
+  projects: { value: Project[]; set: any };
+  project: { value: Project | null; set: any };
+  fetchRequest: { value: FetchRequest; set: (fr: FetchRequest) => void };
 };
 
 export type LatLong = {
@@ -77,6 +87,14 @@ export type Plot = {
   x: number[];
   y: number[];
   headers: string[];
+  color: RgbColor;
+  limLow: number;
+  limHigh: number;
+  recommendedLow: number;
+  recommendedHigh: number;
+  from: Date;
+  to: Date;
+  diffs?: number[];
 };
 
 export type RgbColor = {
@@ -84,4 +102,17 @@ export type RgbColor = {
   g: number;
   b: number;
   a?: number;
+};
+
+export type Metadata = {
+  timestamp: number;
+  lat: number;
+  long: number;
+  lastSurfaceTime: number;
+};
+
+export type Project = {
+  name: string;
+  buoyNames: string[];
+  preset: string;
 };

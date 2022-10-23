@@ -1,17 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import BuoyPage from './pages/Buoy';
 import Overview from './pages/Overview';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Three from './components/three/Three';
 import { AppContext } from './context';
-import { BuoySimple, ModuleType, Row } from './types';
-import axios from 'axios';
+import {
+  AppContextType,
+  BuoySimple,
+  FetchRequest,
+  ModuleType,
+  Project,
+  Row,
+} from './types';
 import Wrapper from './components/Wrapper';
 
 function App() {
-
   const [rows, setRows] = useState<Row[]>([
     {
       id: 0,
@@ -26,10 +30,16 @@ function App() {
     },
   ]);
   const [buoys, setBuoys] = useState<BuoySimple[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [project, setProject] = useState<Project | null>(null);
+  const [fetchRequest, setFetchRequest] = useState<FetchRequest>('');
 
-  const defaultContext = {
+  const defaultContext: AppContextType = {
     rows: { value: rows, set: setRows },
     buoys: { value: buoys, set: setBuoys },
+    projects: { value: projects, set: setProjects },
+    project: { value: project, set: setProject },
+    fetchRequest: { value: fetchRequest, set: setFetchRequest },
   };
 
   return (
@@ -39,7 +49,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="buoy/:name" element={<BuoyPage />} />
-            <Route path="three" element={<Three />} />
           </Routes>
         </BrowserRouter>
       </Wrapper>
@@ -47,7 +56,7 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App></App>
   </React.StrictMode>

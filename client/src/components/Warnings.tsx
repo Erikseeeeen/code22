@@ -4,6 +4,7 @@ import { BuoySimple, Status } from '../types';
 import { useNavigate } from 'react-router-dom';
 import './warnings.css';
 import { formatName } from '../utils';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export function ColoredCircle({ status }: { status: Status }) {
   const color = ['green', 'orange', 'red'][status];
@@ -36,7 +37,8 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
               {buoy.warnings.map((warning, i) =>
                 warning.rows.length > 0 ||
                 warning.diffs.length > 0 ||
-                warning.threshold.length > 0 ? (
+                warning.threshold.length > 0 ||
+                warning.warning.length > 0 ? (
                   <li key={i}>{formatName(warning.name)}</li>
                 ) : (
                   ''
@@ -52,13 +54,13 @@ function WarningItem({ buoy }: { buoy: BuoySimple }) {
 
 function Warnings() {
   const context = useContext(AppContext);
+  const [animate] = useAutoAnimate<HTMLDivElement>();
 
   return (
-    <div className="warning-container">
-      {context.buoys.value
-        .map((buoy, i) => {
-          return <WarningItem key={i} buoy={buoy} />;
-        })}
+    <div className="warning-container" ref={animate}>
+      {context.buoys.value.map((buoy, i) => {
+        return <WarningItem key={i} buoy={buoy} />;
+      })}
     </div>
   );
 }
