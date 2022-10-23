@@ -174,4 +174,17 @@ salinity = (generate_data((time.time() - 6 * 3600, time.time()),
     resolution
 ))
 
-export_csv("nord_temp_salinity.csv", salinity)
+#export_csv("nord_temp_salinity.csv", salinity)
+
+def fucked(x):
+    if x < 0.6:
+        return 0.5 + (math.sin(x)+1)/3
+    return 0.4 * (math.sin(x)+1)/2
+
+pressure = (generate_data((time.time() - 6 * 3600, time.time()),
+    [
+        DataColumn('pressure', (0, 2), 'function', resolution, func=fucked),
+    ],
+    resolution
+))
+export_csv("nord_pressure.csv", pressure)

@@ -25,8 +25,8 @@ function VideoModule({ module, buoy }: { module: Module; buoy: Buoy }) {
   }, [buoy.name]);
 
   return video ? (
-    <div className="moduleContent" style={{ backgroundColor: "black" }}>
-      <video width="100%" height="100%" autoPlay loop key={video}>
+    <div className='moduleContent' style={{ backgroundColor: "black" }}>
+      <video width='100%' height='100%' autoPlay loop key={video} controls>
         <source src={video} />
       </video>
     </div>
