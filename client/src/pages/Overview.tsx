@@ -17,7 +17,6 @@ function Overview() {
     <div className="overview-container">
       <OverviewMap />
       <h1>{formatName(context.project.value?.name ?? 'Loading..')}</h1>
-      <h2>{context.project.value?.preset}</h2>
       <Warnings />
       <div style={{ position: 'fixed', top: '50vh', left: 0 }}>
         <div

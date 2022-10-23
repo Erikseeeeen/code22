@@ -119,7 +119,6 @@ function BuoyPage() {
   if (!buoy || !context.project.value) return <Loading />;
   return (
     <div className="pageContainer">
-      <h1>{context.project.value.name}</h1>
       <div
         style={{
           width: '100%',
