@@ -1,5 +1,7 @@
 # Code22: Start NTNU Hackathon with Ocean Access
 
+[Powerpoint-presentasjon](https://studntnu-my.sharepoint.com/:p:/g/personal/stianals_ntnu_no/EUqBxL91ckhMh_6PSv8vDBIBfUgNiCd8uH8tE1OPMtczWQ?e=D4bLNV)
+
 Task: Design a service for data storage and presentation
 
 The goal of the application is to create a user-friendly interface that helps researchers and managers visualize and analyze data. The application is fully modular for easy customizing of data, and features an easy method for creation of new modules.
