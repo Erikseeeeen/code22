@@ -72,9 +72,11 @@ void loop() {
   t_0 = millis()/10;
   client.println("START");
   client.println("POSITION");
-  client.print(63.430956);
-  client.print(';');
-  client.print(10.395863);
+  String s;
+  s = s+63.430956;
+  s = s+';';
+  s = s+10.395863;
+  client.println(s);
   ////////////////////////////////////////////////////////////
   t_0 = millis()/10;
   client.println("START");
@@ -89,7 +91,8 @@ void loop() {
     s=s+thermo0.readThermocoupleTemperature();
     s=s+'\n';
     
-    client.print(s); 
+    client.println(s);
+    delay(100); 
     if (Ethernet.linkStatus() == LinkOFF) {
       Serial.println("Ethernet cable is not connected.");
     }
@@ -104,10 +107,11 @@ void loop() {
     String s;
     s=s+t;
     s=s+';';
-    s=s+thermo0.readThermocoupleTemperature();
+    s=s+thermo1.readThermocoupleTemperature();
     s=s+'\n';
     
-    client.print(s); 
+    client.println(s); 
+    delay(100);
     if (Ethernet.linkStatus() == LinkOFF) {
       Serial.println("Ethernet cable is not connected.");
     }

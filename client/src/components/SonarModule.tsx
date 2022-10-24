@@ -34,10 +34,6 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           0.1,
           1000
         );
-        camera.position.x = 6;
-        camera.position.y = 3.5;
-        camera.position.z = -2;
-        camera.setRotationFromEuler(new Euler(0, 2, 0));
 
         scene.add(mesh);
         const renderer = new THREE.WebGLRenderer();
@@ -46,7 +42,20 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
           element.current?.clientHeight ?? 100
         );
         //renderer.setSize(400, 400);
-        renderer.render(scene, camera);
+        // renderer.render(scene, camera);
+        // console.log("dean")
+        var spinnnin=2
+        function animate() {
+          requestAnimationFrame( animate );
+          camera.position.x = 6;
+          camera.position.y = 3.5;
+          camera.position.z = -2;
+          spinnnin+=0.1
+          camera.setRotationFromEuler(new Euler(0, spinnnin, 0));
+          renderer.render( scene, camera );
+        }
+        animate();
+
         if (element.current?.firstElementChild != null)
           element.current?.removeChild(element.current?.firstElementChild);
         element.current?.appendChild(renderer.domElement);
@@ -61,6 +70,8 @@ function SonarModule({ module, buoy }: { module: Module; buoy: Buoy }) {
       }
     );
   };
+
+  
   useEffect(() => {
     drawPointCloud();
   }, []);
